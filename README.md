@@ -1,6 +1,6 @@
 # GEKO — учебный каркас
 
-Сайт школы [GEKO Education](https://gekoeducation.com). Ученики собирают проект сами. Здесь уже есть **модели**, **пустая структура**, **гайды** и **backup** старого сайта.
+Сайт школы [GEKO Education](https://gekoeducation.com). Ученики собирают проект сами. Здесь уже есть **пустая структура**, **гайды**, **backup** и TODO под модели (ученики пишут сами).
 
 **RU / EN / HY** — читай гайды на том языке, который удобен. Код и имена API — на английском, как в backup.
 
@@ -58,9 +58,9 @@ npm run dev
 
 ## Что уже готово / что писать вам
 
-Готово: модели, роли User, `Comment`, `UIBlock`, команды terminal, пустые папки, пример `Header` (3 файла), медиа из backup в `frontend/public/`.
+Готово: каркас Django/React, TODO в `models.py`, backup, пример `Header` (3 файла), медиа в `frontend/public/`.
 
-Вам: сериализаторы, viewsets, Swagger, JWT, Unfold-админка, страницы React, почта, CI.
+Вам: **модели** (см. [TASK.md](TASK.md)), миграции, admin, API, JWT, Swagger, страницы React, почта, CI.
 
 ## Правила (коротко)
 

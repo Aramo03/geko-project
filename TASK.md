@@ -1,88 +1,85 @@
-# Task wave 1 — знакомство с каркасом
+# Task wave 2 — модели Django
 
-10 человек. Один человек — одна зона. Срок: **1 день**.
+10 человек. Одна зона = свои модели. Срок: **1 день**.
 
 Ветка от `dev`: `feat/<имя>-<зона>`. PR только в `dev`. См. [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Прочитай [docs/frontend.md](docs/frontend.md), [docs/backend.md](docs/backend.md), [backup/README.md](backup/README.md). Код из backup не копируй папками.
+**Спека полей:** [backup/prod-geko-back-main/main/models.py](backup/prod-geko-back-main/main/models.py) — смотри, не копируй файл целиком.  
+**Новое:** `Comment`, `UIBlock`, кастомный `User` — [docs/backend.md](docs/backend.md).
+
+Имена классов **как в backup**. Не переименовывать `PopularCourse`, `ContactMessage`.
 
 ---
 
 ## 1. Lead
 
-Репозиторий, ветки, кто куда пушит.
+Порядок мержа в `dev`, конфликты, ревью.
 
-**Сделать:** проверить, что у всех есть `dev` и своя `feat/...`; собрать таблицу «кто какую зону взял»; в README ничего не ломать.
+**Сделать:** договориться о порядке: **User → Language → Category → … → UIBlock**; таблица «кто что мержит и когда»; никто не пушит в `main`.
 
-**DoD:** все 9 работают от `dev`, ни у кого нет push в `main`.
+**DoD:** все PR идут в `dev`; после полного мержа команда запускает `makemigrations` + `migrate` (зона 10 помогает).
 
-## 2. Backend models
+## 2. User (`accounts`)
 
-Модели уже в репо. Твоя зона — понять схему.
+**Сделать:** [`backend/apps/accounts/models.py`](backend/apps/accounts/models.py) + [`managers.py`](backend/apps/accounts/managers.py) — кастомный `User`, email-логин, роли `user` / `admin` / `superuser`; `save()` согласует `is_staff` / `is_superuser` с role.
 
-**Сделать:** нарисовать на бумаге/в issue связи Category → PopularCourse → Comment; прогнать `migrate` локально; завести вопрос Lead, если поле непонятно. Код моделей не переименовывать.
+**DoD:** `python manage.py makemigrations accounts` без ошибок; PR в `dev` **первым** среди моделей.
 
-**DoD:** миграции проходят, superuser создаётся, в issue есть схема связей.
+## 3. Language
 
-## 3. Backend API
+**Сделать:** модель `Language` (`code`, `name`) в `apps/main/models.py`.
 
-Пока viewsets пустые (`# TODO`).
+**DoD:** миграция `main`; в комментарии PR — seed позже: `am`, `en`, `ru`.
 
-**Сделать:** выписать в issue список URL из [docs/backend.md](docs/backend.md) и backup; не писать сериализаторы в этой волне, только контракт.
+## 4. Category
 
-**DoD:** таблица «метод + путь + кто пользуется» в PR/issue.
+**Сделать:** `Category` + `CategoryTranslation` (FK на Language, `unique_together`).
 
-## 4. Admin / CMS
+**DoD:** миграция; связь Category ↔ Translation в PR-описании.
 
-Unfold ещё не настроен тобой — каркас готов.
+## 5. Courses
 
-**Сделать:** зайти в `/api/admin/` после `createsuperuser`; открыть модели; описать, что редактор будет наполнять без кода.
+**Сделать:** `PopularCourse` + `PopularCourseTranslation` (FK Category).
 
-**DoD:** скрин или список моделей в админке + заметка про `UIBlock` (Add только у superuser).
+**DoD:** миграция; имена **PopularCourse**, не Course.
 
-## 5. Frontend shell
+## 6. Events
 
-**Сделать:** `npm install` + `npm run dev`; открыть пример `src/components/Header/` (3 файла); в своей ветке **не** собирать весь сайт — только убедиться, что правило понятно.
+**Сделать:** `Event` (`status`: upcoming / happening / completed) + `EventTranslation` + `EventGallery`.
 
-**DoD:** скрин пустого приложения и короткий комментарий в PR: зачем три файла.
+**DoD:** миграция; три статуса как в backup.
 
-## 6. Home + About
+## 7. Content
 
-**Сделать:** пройти в backup маршруты `/` и `/about-us`; выписать секции по порядку (как в backup README). Код страниц не писать.
+**Сделать:** `Review`; `LessonInfo` + `LessonInfoTranslation`.
 
-**DoD:** чеклист секций Home (7) и About в issue.
+**DoD:** миграция; ordering по `order` где нужно (см. backup).
 
-## 7. Courses
+## 8. Team
 
-**Сделать:** в backup открыть `/course-category`, `/course-category/:id`, `/courses/:id`. Понять, куда повесите комментарии в следующей волне.
+**Сделать:** `Team` + `TeamTranslation`.
 
-**DoD:** схема трёх маршрутов + пометка «здесь comments».
+**DoD:** миграция.
 
-## 8. Events
+## 9. Leads + Comments
 
-**Сделать:** вкладки `happening` / `upcoming` / `completed` в backup. Статус с бэка, не с фронта.
+**Сделать:** `ContactMessage` (форма пробного урока); `Comment` — гость без логина: `full_name`, `email`, `whatsapp` (blank ok), `text`; FK **либо** `category` **либо** `popular_course`; `parent` для ответа admin; `is_approved`.
 
-**DoD:** таблица вкладка → поле `status`.
+**DoD:** миграция; validation «ровно одна цель» (category xor course).
 
-## 9. Contacts + form
+## 10. UI / QA
 
-**Сделать:** выписать поля формы из backup (`full_name`, `email`, `whatsapp`, `country`, `category`, `message`). Форму не кодить. Посмотреть `ContactMessage` в моделях.
+**Сделать:** `UIBlock` (`key`, `section`, `payload`, `order`, `is_visible`); после мержа всех зон в `dev` — общий `makemigrations` + `migrate`; восстановить логику [`init_ui`](backend/apps/main/management/commands/init_ui.py) (пока заглушка).
 
-**DoD:** список полей = модели, расхождений нет.
-
-## 10. Design + QA
-
-**Сделать:** флаги `am` / `en` / `ru` в `frontend/public/images/flags/`; проверить, что в `public/` нет чужих картинок; завести чеклист «пусто / ошибка / 404».
-
-**DoD:** чеклист QA + подтверждение «медиа только из backup».
+**DoD:** `migrate` на чистой БД проходит; `init_ui` создаёт языки и 4 блока; чеклист: все модели из списка в `main/models.py` TODO есть в коде.
 
 ---
 
 ## Общие правила волны
 
-- Ветка от свежего `dev`, PR в `dev`
-- Медиа только из `backup/` / `frontend/public/`
-- Компонент = `Component.jsx` + `component.css` + `component.js`
-- Эту волну **не** реализуем API и страницы — только запуск, чтение, схема
+- Один PR = одна зона моделей
+- Не трогать сериализаторы / views / React в этой волне
+- Конфликты в `main/models.py` — Lead решает, не перезаписывать чужие классы
+- После волны: [`create_admin`](backend/apps/accounts/management/commands/create_admin.py) и admin-регистрация — следующая волна
 
-Когда преподаватель скажет «обнови task» — этот файл перепишут под волну 2.
+Когда преподаватель скажет «обнови task» — этот файл перепишут под волну 3.
