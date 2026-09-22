@@ -1,6 +1,6 @@
 # Backend
 
-Django API + админка. Модели уже написаны. Логика и имена ресурсов — как в [backup/prod-geko-back-main](../backup/prod-geko-back-main).
+Django API + админка. **Модели пишете вы** (см. [TASK.md](../TASK.md) и TODO в `apps/accounts/models.py`, `apps/main/models.py`). Логика и имена ресурсов — как в [backup/prod-geko-back-main](../backup/prod-geko-back-main).
 
 ## Стек (обязательно)
 
@@ -61,17 +61,17 @@ python manage.py init_ui            # слоты header / hero / footer / contac
 
 `admin` и `superuser` создаются **только** из terminal. `init_ui` можно вызывать повторно — не дублирует `key`.
 
-## Модели
+## Модели (ваша работа)
 
-Готовы в `apps/accounts` и `apps/main`:
+Реализуйте в `apps/accounts` и `apps/main` (поля — в backup):
 
 - User: `user` / `admin` / `superuser`
 - Language, Category + Translation, PopularCourse + Translation
 - Event + Translation + EventGallery
 - Review, LessonInfo, Team + translations
 - ContactMessage
-- **Comment** (новое): категория или курс, гость, `parent` для ответа admin
-- **UIBlock** (новое): JSON-слоты UI
+- **Comment**: категория или курс, гость, `parent` для ответа admin
+- **UIBlock**: JSON-слоты UI
 
 Не переименовывай `PopularCourse` и `ContactMessage`.
 
@@ -83,8 +83,8 @@ python manage.py init_ui            # слоты header / hero / footer / contac
 
 ## English
 
-Implement DRF routers, Swagger, JWT for staff, Unfold admin, contact email. Models are done. Guest comments need no token. UI slots come from `init_ui`.
+Implement models first (TASK.md), then DRF routers, Swagger, JWT, Unfold admin, contact email. Guest comments need no token. UI slots come from `init_ui`.
 
 ## Հայերեն
 
-Մոդելները պատրաստ են։ Դու գրում ես API, Swagger, JWT, Unfold, նամակ։ Admin/superuser և UI-ն՝ միայն terminal-ից։
+Սկզբում մոդելները (TASK.md), հետո API, Swagger, JWT, Unfold, նամակ։ Admin/superuser և UI-ն՝ միայն terminal-ից։
