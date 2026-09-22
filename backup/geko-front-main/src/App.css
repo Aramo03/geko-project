@@ -1,0 +1,214 @@
+/* Course */
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/roboto-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  /*user-select: none;*/
+}
+
+
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh
+}
+
+.inner-img {
+  transition: 0.3s;
+}
+
+.inner-img:hover {
+  transform: scale(1.1);
+}
+
+.img-wrapper {
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.absoluteP {
+  transform: translate(-50%, -50%);
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+.opacityPopularCourse {
+  transition: all 1s ease;
+}
+
+/* Pagination.css */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 5px;
+}
+
+.pagination__previous,
+.pagination__next {
+  color: #666666;
+  text-decoration: none;
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+  user-select: none;
+}
+
+.disabled {
+  display: none;
+}
+
+.pagination__item {
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.pagination__link {
+  color: #666666;
+  text-decoration: none;
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.pagination__previous:hover,
+.pagination__next:hover,
+.pagination__link:hover {
+  transition: color 0.2s ease;
+  background-color: #FFB606;
+  color: #FFFFFF;
+}
+
+.pagination__link--active {
+  background-color: #FFB606;
+  color: #FFFFFF;
+}
+
+.textHover:hover {
+  color: #FFB606;
+  transition: color 0.2s ease;
+}
+
+
+.popular {
+  width: 1300px;
+  gap: 20px;
+}
+
+
+@media (max-width: 1300px) {
+  .popular {
+    width: 100%;
+  }
+
+  .popularDiv {
+    width: 90%;
+    padding: 40px 0;
+  }
+}
+
+@media (max-width: 992px) {
+  .popular {
+    gap: 20px;
+  }
+
+  .popularDiv {
+    width: 90%;
+    padding: 40px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .popular {
+    display: grid;
+  }
+
+  .popularDiv {
+    width: 90%;
+    padding: 40px 0;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1c2f38;
+  /* Use a darker shade or different color for the scrollbar handle */
+  border-radius: 6px;
+}
+
+.bgColorArticle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /*height: 25%;*/
+  background-color: #333333;
+  z-index: -1;
+  /* Ensure it doesn't cover the content */
+}
+
+.like::after {
+  content: "";
+  height: 1px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 35px;
+  background: #000;
+}
+
+/* slider */
+.hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+  /* Добавляем плавный переход для фильтров */
+}
+
+/* Эффект при наведении */
+.hover-effect:hover {
+  transform: scale(1.1);
+  /* Увеличение изображения */
+  box-shadow: 0 10px 14px 7px #FFB606;
+  /* Добавление тени */
+  /*filter: hue-rotate(180deg); !* Изменение оттенка изображения *!*/
+}
+
+.fade-enter,
+.fade-exit {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.fade-enter-active {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+}
+
+/* styles.css */
+.facebook-box .fb-page-container {
+  width: 100%;
+  margin: 0 auto;
+  /* Center the box */
+}

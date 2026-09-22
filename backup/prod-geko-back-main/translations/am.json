@@ -1,0 +1,617 @@
+{
+  "part1": "Hayeren Text",
+  "HOME": "Գլխավոր էջ",
+  "ABOUT_US": "Մեր մասին",
+  "BLOG": "Բլոգ",
+  "CONTACTS": "Կապ մեզ հետ",
+  "COURSES": "Կուրսեր",
+  "EVENTS": "Միջոցառումներ",
+  "TERMINATES": "Terminates",
+  "learn_with_passion": "Learn with passion to live with purpose.",
+  "What_Make_Us_Spcecial": "Ի՞նչն է մեզ առանձնահատուկ դարձնում:",
+  "team": "Մեր թիմը",
+  "What_we_do": "Ի՞նչ ենք անում",
+  "Who_we_are": "Ովքե՞ր ենք մենք",
+  "How_it_work": "Ինչպե՞ս է դա աշխատում",
+  "Certified_Teachers": "Սերտիֆիկացված ուսուցիչներ",
+  "Students_Enrolled": "Սաներ գրանցված են",
+  "Classes_Complete": "Դասերը ավարտված են",
+  "Foreign_Followers": "Օտարերկրյա հետևորդներ",
+  "Categories": "Կատեգորիաներ",
+  "Filter": "Ֆիլտր",
+  "ALL_COURSES": "Բոլոր Դասընթացները",
+  "PROGRAMMING": "ԾՐԱԳՐԱՎՈՐՈւՄ",
+  "Chess": "Շախմատ",
+  "Math": "ՄԱԹԵՄԱՏԻԿԱ",
+  "FOREIGN_LANGUAGES": "ՕՏԱՐ ԼԵԶՈւՆԵՐ",
+  "HISTORY": "պատմություն",
+  "Oratory": "ԲԵՄԱԿԱՆ ԽՈՍՔ",
+  "Speech": "Ելույթ",
+  "KPOP": "KPOP",
+  "Learners": "Ուսանողներ",
+  "Graduates": "Շրջանավարտներ",
+  "Countries_Reached": "երկրներ",
+  "Courses_Published": "Հրատարակված Դասընթացներ",
+  "Inter_level_education": "Միջ-մակարդակի կրթություն",
+  "happening": "տեղի ունեցող",
+  "upcoming": "առաջիկայում",
+  "completed": "հին",
+  "The_best_time_for": "Լավագույն ժամանակը ",
+  "education": "Սովորելու այսօր է…",
+  "Limitless_learning_more_possibilities": "Անսահմանափակ ուսուցում, ավելի շատ հնարավորություններ",
+  "View_All": "Տեսնել ավելին",
+  "popular_cours": "ՊԱՀԱՆՋՎԱԾ ԿՈՒՐՍԵՐ ",
+  "Upcoming_Education_Events_to_feed_your_brain": "Մոտեցող կրթական միջոցառումներ ձեր միտքը սնուցելու համար:",
+  "What_People_Say": "Ի՞նչ են ասում մարդիկ",
+  "How_real_people_said_about_Education_WordPress_Theme": "Ինչպե՞ս իրական մարդիկ խոսեցին Education WordPress թեմայի մասին",
+  "January": "Հունվար",
+  "February": "Փետրվար",
+  "March": "Մարտ",
+  "April": "Ապրիլ",
+  "May": "Մայիս",
+  "June": "Հունիս",
+  "July": "Հուլիս",
+  "August": "Օգոստոս",
+  "September": "Սեպտեմբեր",
+  "October": "Հոկտեմբեր",
+  "November": "Նոյեմբեր",
+  "December": "Դեկտեմբեր",
+  "You_May_Like": "Դուք կարող եք հավանել",
+    "coursesArray" : [
+  {
+    "id": 1,
+    "image": "https://eduma.thimpress.com/wp-content/uploads/2022/07/thumnail-cate-7-170x170.png",
+    "text": "PROGRAMMING"
+  },
+  {
+    "id": 2,
+    "image": "https://eduma.thimpress.com/wp-content/uploads/2022/07/thumnail-cate-6-170x170.png",
+    "text": "Math"
+  },
+  {
+    "id": 7,
+    "image": "https://eduma.thimpress.com/wp-content/uploads/2022/07/thumnail-cate-2-170x170.png",
+    "text": "IT ԱՆԳԼԵՐԵՆ"
+  },
+  {
+    "id": 3,
+    "image": "https://eduma.thimpress.com/wp-content/uploads/2022/07/thumnail-cate-3-170x170.png",
+    "text": "Chess"
+  },
+  {
+    "id": 4,
+    "image": "https://eduma.thimpress.com/wp-content/uploads/2022/07/thumnail-cate-8-170x170.png",
+    "text": "FOREIGN_LANGUAGES"
+  },
+  {
+    "id": 5,
+    "image": "https://eduma.thimpress.com/wp-content/uploads/2022/07/thumnail-cate-1-170x170.png",
+    "text": "HISTORY"
+  },
+  {
+    "id": 6,
+    "image": "https://eduma.thimpress.com/wp-content/uploads/2022/07/thumnail-cate-2-170x170.png",
+    "text": "Oratory"
+  }
+],
+  "popularCoursesArray": [
+    {
+      "id": 1,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-14-400x300.jpg",
+      "title": "Վեբ ծրագրավորման դասընթաց մեծահասակների համար\n",
+      "category": "1",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id": 2,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Վեբ ծրագրավորման դասընթաց պատանիների համար ",
+      "category": "1",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id": 3,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Վեբ ծրագրավորման դասընթաց երեխաների համար",
+      "category": "2",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id": 4,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Մաթեմատիկա (միջազգային դպրոցների ծրագրեր)",
+      "category": "2",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id": 5,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Շախմատ",
+      "category": "3",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id": 6,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Բեմական խոսք և դերասանի  վարպետություն",
+      "category": "3",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id": 7,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Հայրենագիտություն",
+      "category": "3",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id": 8,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "IT ԱՆԳԼԵՐԵՆ",
+      "category": "3",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "all Levels",
+        "lang": "English",
+        "students": 8,
+        "assessments": "Yes"
+      },
+      "desc": "In this course, We’ll learn how to create websites by structuring and styling your pages with HTML and CSS.",
+      "certification": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+      "outcomed": [
+        "Over 37 lectures and 55.5 hours of content!",
+        "LIVE PROJECT End to End Software Testing Training Included.",
+        "Learn Software Testing and Automation basics from a professional trainer from your own desk.",
+        "Information packed practical training starting from basics to advanced testing techniques.",
+        "Best suitable for beginners to advanced level users and who learn faster when demonstrated.",
+        "Course content designed by considering current software testing technology and the job market.",
+        "Practical assignments at the end of every session.",
+        "Practical learning experience with live project work and examples."
+      ]
+    }
+  ],
+  "popularCoursesArrayHome": [
+    {
+      "id": 1,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-14-400x300.jpg",
+      "title": "Վեբ ծրագրավորման դասընթաց մեծահասակների համար",
+      "category": "1",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id": 2,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Վեբ ծրագրավորման դասընթաց պատանիների համար ",
+      "category": "1",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id": 3,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Վեբ ծրագրավորման դասընթաց երեխաների համար",
+      "category": "2",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+      {
+      "id": 4,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "IT ԱՆԳԼԵՐԵՆ",
+      "category": "3",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "all Levels",
+        "lang": "English",
+        "students": 8,
+        "assessments": "Yes"
+      },
+      "desc": "In this course, We’ll learn how to create websites by structuring and styling your pages with HTML and CSS.",
+      "certification": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+      "outcomed": [
+        "Over 37 lectures and 55.5 hours of content!",
+        "LIVE PROJECT End to End Software Testing Training Included.",
+        "Learn Software Testing and Automation basics from a professional trainer from your own desk.",
+        "Information packed practical training starting from basics to advanced testing techniques.",
+        "Best suitable for beginners to advanced level users and who learn faster when demonstrated.",
+        "Course content designed by considering current software testing technology and the job market.",
+        "Practical assignments at the end of every session.",
+        "Practical learning experience with live project work and examples."
+      ]
+    },
+    {
+      "id":5,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Մաթեմատիկա (միջազգային դպրոցների ծրագրեր)",
+      "category": "2",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id":6,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Շախմատ",
+      "category": "3",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id": 7,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Բեմական խոսք և դերասանի  վարպետություն",
+      "category": "3",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    },
+    {
+      "id": 8,
+      "image": "https://eduma.thimpress.com/wp-content/uploads/2022/06/course-16-400x300.jpg",
+      "title": "Հայրենագիտություն",
+      "category": "3",
+      "features": {
+        "lectures": 7,
+        "quizzes": 0,
+        "duration": "12",
+        "skillLevel": "փորձարկում",
+        "lang": "փորձարկում",
+        "students": 8,
+        "assessments": "փորձարկում"
+      },
+      "desc": "փորձարկում",
+      "certification": "փորձարկում",
+      "outcomed": [
+        "փորձարկում",
+        "փորձարկում",
+        "փորձարկում"
+      ]
+    }
+  ],
+  "eventsArray": [
+    {
+      "id": 1,
+      "day": 30,
+      "month": "September",
+      "title": "Autumn Science Lectures",
+      "hour": "08:00 - 17:00",
+      "place": "London,UK",
+      "eventDescription": "Lorem Ipsum-ը տպագրության և տպագրության ոլորտի ուղղակի կեղծ տեքստ է: Lorem Ipsum-ը եղել է արդյունաբերության ստանդարտ կեղծ տեքստը դեռևս 1500-ականներից, երբ անհայտ տպիչը վերցրեց տիպի ճաշարան և խառնեց այն, որպեսզի ստեղծի տիպային գիրք: Այն գոյատևել է ոչ միայն հինգ դար, այլև ցատկ դեպի էլեկտրոնային տպագրություն՝ ըստ էության մնալով անփոփոխ։",
+      "description": "փորձարկում",
+      "image": ["https://eduma.thimpress.com/wp-content/uploads/2015/11/event-7-450x233.jpg","https://eduma.thimpress.com/wp-content/uploads/2015/11/event-7-450x233.jpg"],
+      "status": "happening",
+      "outcomed": [
+        "Ավելի քան 37 դասախոսություն և 55,5 ժամ բովանդակություն:",
+        "ՈՒՂԻՂ ՆԱԽԱԳԻԾ Ծրագրերի ավարտից մինչև վերջ ծրագրային ապահովման փորձարկման ուսուցում ներառված է:",
+        "Սովորեք ծրագրային ապահովման փորձարկման և ավտոմատացման հիմունքները ձեր սեփական գրասեղանից պրոֆեսիոնալ մարզիչից:",
+        "Տեղեկատվական փաթեթավորված գործնական ուսուցում` սկսած հիմունքներից մինչև թեստավորման առաջադեմ տեխնիկա:",
+        "Լավագույնը հարմար է սկսնակների և առաջադեմ մակարդակի օգտատերերի համար և ովքեր ավելի արագ են սովորում, երբ ցուցադրվում են:",
+        "Դասընթացի բովանդակությունը նախագծված է՝ հաշվի առնելով ընթացիկ ծրագրային ապահովման փորձարկման տեխնոլոգիան և աշխատանքի շուկան:",
+        "Գործնական առաջադրանքներ յուրաքանչյուր նիստի վերջում:",
+        "Պրակտիկ ուսուցման փորձ կենդանի նախագծային աշխատանքով և օրինակներով:"
+      ],
+      "totalSlots": 110,
+      "bookedSlots": 5,
+      "cost": 0
+    },{
+      "id": 5,
+      "day": 30,
+      "month": "September",
+      "title": "Autumn Science Lectures",
+      "hour": "08:00 - 17:00",
+      "place": "London,UK",
+      "description": "Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris itae erat conuat",
+      "image": ["https://eduma.thimpress.com/wp-content/uploads/2015/11/event-7-450x233.jpg"],
+      "status": "happening",
+      "outcomed": [
+        "Over 37 lectures and 55.5 hours of content!",
+        "LIVE PROJECT End to End Software Testing Training Included.",
+        "Learn Software Testing and Automation basics from a professional trainer from your own desk.",
+        "Information packed practical training starting from basics to advanced testing techniques.",
+        "Best suitable for beginners to advanced level users and who learn faster when demonstrated.",
+        "Course content designed by considering current software testing technology and the job market.",
+        "Practical assignments at the end of every session.",
+        "Practical learning experience with live project work and examples."
+      ],
+      "totalSlots": 110,
+      "bookedSlots": 5,
+      "cost": 0
+    },{
+      "id": 4,
+      "day": 30,
+      "month": "September",
+      "title": "Autumn Science Lectures",
+      "hour": "08:00 - 17:00",
+      "place": "London,UK",
+      "description": "Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non mauris itae erat conuat",
+      "image": ["https://eduma.thimpress.com/wp-content/uploads/2015/11/event-7-450x233.jpg"],
+      "status": "happening",
+      "outcomed": [
+        "Over 37 lectures and 55.5 hours of content!",
+        "LIVE PROJECT End to End Software Testing Training Included.",
+        "Learn Software Testing and Automation basics from a professional trainer from your own desk.",
+        "Information packed practical training starting from basics to advanced testing techniques.",
+        "Best suitable for beginners to advanced level users and who learn faster when demonstrated.",
+        "Course content designed by considering current software testing technology and the job market.",
+        "Practical assignments at the end of every session.",
+        "Practical learning experience with live project work and examples."
+      ],
+      "totalSlots": 110,
+      "bookedSlots": 5,
+      "cost": 0
+    },
+    {
+      "id": 2,
+      "day": 15,
+      "month": "November",
+      "title": "Positive Psychology",
+      "hour": "07:00 - 06:00",
+      "place": "London,UK",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the",
+      "image": ["https://eduma.thimpress.com/wp-content/uploads/2015/11/event-1-450x233.jpg"],
+      "status": "upcoming",
+      "totalSlots": 110,
+      "bookedSlots": 5,
+      "cost": 0
+    },
+    {
+      "id": 3,
+      "day": 13,
+      "month": "April",
+      "title": "Նազենի Հովհաննիսյանի «Բեմական խոսք և դերասանի վարպետության դասը» Գեկոյի աշակերտների համար",
+      "hour": "00:00 - 17:00",
+      "place": "Birmingham,UK",
+      "description": "Մեր սիրելի աշակերտները՝ «Բեմական խոսք և դերասանի վարպետություն» դասընթացի շրջանակում, հնարավորություն ունեցան մասնակցելու Նազենի Հովհաննիսյանի մատուցմամբ վարպետության դասին։",
+      "image": ["https://eduma.thimpress.com/wp-content/uploads/2015/11/event-7-450x233.jpg","https://eduma.thimpress.com/wp-content/uploads/2015/11/event-7-450x233.jpg","https://eduma.thimpress.com/wp-content/uploads/2015/11/event-7-450x233.jpg","https://eduma.thimpress.com/wp-content/uploads/2015/12/event-3-450x233.jpg"],
+      "status": "completed",
+      "totalSlots": 110,
+      "bookedSlots": 5,
+      "cost": 0
+    }
+  ],
+  "reviewsArray" : [
+    {
+        "id": 1,
+        "image": "https://eduma.thimpress.com/wp-content/uploads/2015/11/team-1.jpg",
+        "name": "Susan Jackson",
+        "desc":"I came to Eduma ten years ago",
+        "comment":
+            "Wow, I'm truly impressed by your creativity! Your attention to detail and the depth of your analysis are remarkable. It's clear that you've put a lot of thought and effort into this project. Keep up the amazing work!"
+    },
+    {
+        "id": 2,
+        "image": "https://eduma.thimpress.com/wp-content/uploads/2015/11/team-3.jpg",
+        "name": "Ashot",
+        "developer": "Designer",
+        "desc":"After working as a software developer and...",
+        "comment":
+            "Incredible content! I've learned so much from this. Your ability to explain complex concepts in a clear and concise manner is commendable. This has been incredibly insightful and has provided me with valuable knowledge that I can apply in my own work. Thank you for sharing your expertise!"
+    },
+    {
+        "id": 3,
+        "image": "https://eduma.thimpress.com/wp-content/uploads/2015/11/team-5.jpg",
+        "name": "John Doe",
+        "developer": "Front-end Developer",
+        "desc":"After working as a software developer and...",
+        "comment": " Beg WP Theme is a comprehensive LMS solution for WordPress Theme. This beautiful theme based on LearnPress - the best WordPress LMS plugin. Education WP theme will bring you the best LMS experience ever with super friendly UX and complete eLearning features. "
+    },
+
+    {
+        "id": 4,
+        "image": "https://eduma.thimpress.com/wp-content/uploads/2015/11/team-7.jpg",
+        "name": "Elsie",
+        "developer": "Copyrighter",
+        "desc":"After working as a software developer and...",
+        "comment": " Arm WP Theme is a comprehensive LMS solution for WordPress Theme. This beautiful theme based on LearnPress - the best WordPress LMS plugin. Education WP theme will bring you the best LMS experience ever with super friendly UX and complete eLearning features. "
+    },
+    {
+        "id": 5,
+        "image": "https://eduma.thimpress.com/wp-content/uploads/2015/11/team-6.jpg",
+        "name": "Anthony",
+        "developer": "CEO",
+        "desc":"I came to Eduma ten years ago",
+        "comment": "I can't believe how insightful this is. Mind blown!"
+    },
+    {
+        "id": 6,
+        "image": "https://eduma.thimpress.com/wp-content/uploads/2015/11/team-1.jpg",
+        "name": "Susan Jackson",
+        "developer": "WordPress Developer",
+        "desc":"After working as a software developer and...",
+        "comment":
+            "Wow, I'm truly impressed by your creativity! Your attention to detail and the depth of your analysis are remarkable. It's clear that you've put a lot of thought and effort into this project. Keep up the amazing work!"
+    }
+  ]
+}
