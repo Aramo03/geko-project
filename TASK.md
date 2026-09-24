@@ -19,49 +19,50 @@
 
 **DoD:** все PR идут в `dev`; после полного мержа команда запускает `makemigrations` + `migrate` (зона 10 помогает).
 
-## 2. User (`accounts`)
+## 2. User (`accounts`)Daniel
 
 **Сделать:** [`backend/apps/accounts/models.py`](backend/apps/accounts/models.py) + [`managers.py`](backend/apps/accounts/managers.py) — кастомный `User`, email-логин, роли `user` / `admin` / `superuser`; `save()` согласует `is_staff` / `is_superuser` с role.
 
 **DoD:** `python manage.py makemigrations accounts` без ошибок; PR в `dev` **первым** среди моделей.
 
-## 3. Language
+## 3. Language - Sv
+
 
 **Сделать:** модель `Language` (`code`, `name`) в `apps/main/models.py`.
 
 **DoD:** миграция `main`; в комментарии PR — seed позже: `am`, `en`, `ru`.
 
-## 4. Category
+## 4. Category - Karen
 
 **Сделать:** `Category` + `CategoryTranslation` (FK на Language, `unique_together`).
 
 **DoD:** миграция; связь Category ↔ Translation в PR-описании.
 
-## 5. Courses
+## 5. Courses - Vach
 
 **Сделать:** `PopularCourse` + `PopularCourseTranslation` (FK Category).
 
 **DoD:** миграция; имена **PopularCourse**, не Course.
 
-## 6. Events
+## 6. Events - Ashot
 
 **Сделать:** `Event` (`status`: upcoming / happening / completed) + `EventTranslation` + `EventGallery`.
 
 **DoD:** миграция; три статуса как в backup.
 
-## 7. Content
+## 7. Content - Hayk
 
 **Сделать:** `Review`; `LessonInfo` + `LessonInfoTranslation`.
 
 **DoD:** миграция; ordering по `order` где нужно (см. backup).
 
-## 8. Team
+## 8. Team - Suren
 
 **Сделать:** `Team` + `TeamTranslation`.
 
 **DoD:** миграция.
 
-## 9. Leads + Comments
+## 9. Leads + Comments - Mariam
 
 **Сделать:** `ContactMessage` (форма пробного урока); `Comment` — гость без логина: `full_name`, `email`, `whatsapp` (blank ok), `text`; FK **либо** `category` **либо** `popular_course`; `parent` для ответа admin; `is_approved`.
 
