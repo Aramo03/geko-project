@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import get_language
 
 class Language(models.Model):
     code = models.CharField(max_length=10, unique=True)
@@ -26,8 +27,6 @@ New for this project:
   - Comment (guest: full_name, email, whatsapp; category OR popular_course; parent/reply)
   - UIBlock (key, section, payload JSON, order, is_visible — slots from init_ui)
 """
-from django.db import models
-from django.utils.translation import get_language
 
 
 class Language(models.Model):
