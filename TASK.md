@@ -19,6 +19,22 @@
 
 **DoD:** все PR идут в `dev`; после полного мержа команда запускает `makemigrations` + `migrate` (зона 10 помогает).
 
+Порядок мержа в `dev` (следующий PR только после предыдущего). В `main` не пушить.
+
+| Когда | Кто | Зона | Что мержить |
+|-------|-----|------|-------------|
+| 1 | Daniel | User | `accounts`: `User` + `managers.py` |
+| 2 | Sv | Language | `Language` |
+| 3 | Karen | Category | `Category` + `CategoryTranslation` |
+| 4 | Vach | Courses | `PopularCourse` + `PopularCourseTranslation` |
+| 5 | Ashot | Events | `Event` + `EventTranslation` + `EventGallery` |
+| 6 | Hayk | Content | `Review`, `LessonInfo` + `LessonInfoTranslation` |
+| 7 | Suren | Team | `Team` + `TeamTranslation` |
+| 8 | Mariam | Leads + Comments | `ContactMessage`, `Comment` |
+| 9 | UI / QA | UIBlock | `UIBlock`, общий `makemigrations` + `migrate`, `init_ui` |
+
+Конфликт в `main/models.py` или в миграции `main` закрывает Lead: чужие классы не переписывать.
+
 ## 2. User (`accounts`)Daniel
 
 **Сделать:** [`backend/apps/accounts/models.py`](backend/apps/accounts/models.py) + [`managers.py`](backend/apps/accounts/managers.py) — кастомный `User`, email-логин, роли `user` / `admin` / `superuser`; `save()` согласует `is_staff` / `is_superuser` с role.
