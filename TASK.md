@@ -55,7 +55,7 @@
 
 **DoD:** миграция; ordering по `order` где нужно (см. backup).
 
-H
+
 ## 8. Team
 
 **Сделать:** `Team` + `TeamTranslation`.
