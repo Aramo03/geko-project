@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.db import models
 from django.utils.translation import get_language
 
@@ -309,6 +308,3 @@ class UIBlock(models.Model):
     def __str__(self):
         return f"{self.section} - {self.key}"
 
-rmbulik
-=======
->>>>>>> 14abcd002c4b8588c2d03b4fc47d4055aaa8eb2f
