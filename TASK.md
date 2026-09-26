@@ -72,7 +72,9 @@
 
 **DoD:** миграция; ordering по `order` где нужно (см. backup).
 
-## 8. Team - Suren
+
+## 8. Team
+
 
 **Сделать:** `Team` + `TeamTranslation`.
 
