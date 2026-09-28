@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import get_language
 
@@ -264,7 +265,18 @@ class Comment(models.Model):
     )
     
     text = models.TextField()
+    is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+        if bool(self.category_id) == bool(self.popular_course_id):
+            raise ValidationError(
+                "Comment must have either category or popular_course, but not both."
+            )
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Comment by {self.full_name}"
