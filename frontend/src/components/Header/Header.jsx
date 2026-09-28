@@ -24,6 +24,7 @@ export default function Header() {
             <img src={lang.flag} alt={lang.code} width="24" height="16" />
           </button>
         ))}
+        
       </div>
     </header>
   )

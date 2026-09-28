@@ -9,6 +9,8 @@ import Contacts from "./pages/Contacts/Contacts.jsx"
 import NotFound from "./pages/NotFound/NotFound.jsx"
 
 export default function App() {
+
+
   return (
     <>
       <Header />
