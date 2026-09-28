@@ -3,6 +3,12 @@ from django.db import models
 
 from apps.model_helpers import first_translation, image_url_or_file
 
+EVENT_STATUS_CHOICES = (
+    ("upcoming", "Upcoming"),
+    ("happening", "Happening"),
+    ("completed", "Completed"),
+)
+
 
 class Language(models.Model):
     code = models.CharField(max_length=10, unique=True)
@@ -74,6 +80,11 @@ class Event(models.Model):
         null=True
     )
     date = models.DateTimeField(blank=True, null=True)
+    status = models.CharField(
+        max_length=20,
+        choices=EVENT_STATUS_CHOICES,
+        default="upcoming",
+    )
 
     def get_image(self):
         return image_url_or_file(self)
