@@ -15,7 +15,7 @@ if env_file.exists():
 
 SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])  # type: ignore[arg-type]
 
 INSTALLED_APPS = [
     "unfold",
@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "apps.accounts",
     "apps.main",
+    "apps.content",
     "apps.team",
 ]
 
@@ -65,19 +66,21 @@ TEMPLATES = [
     }
 ]
 
-db_engine = env("DB_ENGINE", default="django.db.backends.sqlite3")
+db_engine = env.str("DB_ENGINE", default="django.db.backends.sqlite3")
+db_name = env.str("DB_NAME", default="db.sqlite3")
+assert db_engine is not None
 if db_engine.endswith("sqlite3"):
     DATABASES = {
         "default": {
             "ENGINE": db_engine,
-            "NAME": BASE_DIR / env("DB_NAME", default="db.sqlite3"),
+            "NAME": BASE_DIR / db_name,
         }
     }
 else:
     DATABASES = {
         "default": {
             "ENGINE": db_engine,
-            "NAME": env("DB_NAME"),
+            "NAME": db_name,
             "USER": env("DB_USER"),
             "PASSWORD": env("DB_PASSWORD"),
             "HOST": env("DB_HOST"),
@@ -134,13 +137,13 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
 }
 
-EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
-EMAIL_HOST = env("EMAIL_HOST", default="smtp.example.com")
+EMAIL_BACKEND = env.str("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
+EMAIL_HOST = env.str("EMAIL_HOST", default="smtp.example.com")
 EMAIL_PORT = env.int("EMAIL_PORT", default=587)
 EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
-EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="GEKO <noreply@example.com>")
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL", default="GEKO <noreply@example.com>")
 
 UNFOLD = {
     "SITE_TITLE": "GEKO Admin",
