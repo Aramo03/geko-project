@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils.translation import get_language
+
+from apps.model_helpers import first_translation, image_url_or_file
 
 
 class Language(models.Model):
@@ -31,18 +32,10 @@ class Category(models.Model):
         ordering = ['order']
 
     def get_image(self):
-        if self.local_image:
-            return self.local_image.url
-        return self.image_url
+        return image_url_or_file(self)
 
     def get_translation(self, language_code=None):
-        if not language_code:
-            language_code = get_language()
-        
-        translation = self.translations.filter(language__code=language_code).first()
-        if not translation:
-            translation = self.translations.first()
-        return translation
+        return first_translation(self, language_code)
 
     def __str__(self):
         translation = self.get_translation()
@@ -83,18 +76,10 @@ class Event(models.Model):
     date = models.DateTimeField(blank=True, null=True)
 
     def get_image(self):
-        if self.local_image:
-            return self.local_image.url
-        return self.image_url
+        return image_url_or_file(self)
 
     def get_translation(self, language_code=None):
-        if not language_code:
-            language_code = get_language()
-        
-        translation = self.translations.filter(language__code=language_code).first()
-        if not translation:
-            translation = self.translations.first()
-        return translation
+        return first_translation(self, language_code)
 
     def __str__(self):
         translation = self.get_translation()
@@ -187,7 +172,7 @@ class Comment(models.Model):
         null=True
     )
     popular_course = models.ForeignKey(
-        PopularCourse,
+        "courses.PopularCourse",
         on_delete=models.CASCADE,
         related_name='comments',
         blank=True,
