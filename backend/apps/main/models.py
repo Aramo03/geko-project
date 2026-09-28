@@ -223,31 +223,6 @@ class LessonInfoTranslation(models.Model):
         unique_together = ('lesson_info', 'language')
 
 
-class Team(models.Model):
-    image = models.ImageField(upload_to='team/', blank=True, null=True)
-    order = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ['order']
-
-
-class TeamTranslation(models.Model):
-    team = models.ForeignKey(
-        Team,
-        on_delete=models.CASCADE,
-        related_name='translations'
-    )
-    language = models.ForeignKey(
-        Language,
-        on_delete=models.CASCADE
-    )
-    name = models.CharField(max_length=255)
-    role = models.CharField(max_length=255)
-
-    class Meta:
-        unique_together = ('team', 'language')
-
-
 class ContactMessage(models.Model):
     full_name = models.CharField(max_length=255)
     email = models.EmailField()
