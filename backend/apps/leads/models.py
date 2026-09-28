@@ -2,8 +2,8 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from apps.categories.models import Category
-from apps.courses.models import PopularCourse
+from apps.main.models import Category
+from apps.main.models import PopularCourse
 
 
 class ContactMessage(models.Model):
@@ -73,4 +73,5 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.full_name
+    
     
