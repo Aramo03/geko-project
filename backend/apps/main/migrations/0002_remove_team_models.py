@@ -26,6 +26,13 @@ class Migration(migrations.Migration):
                     name="desc",
                     field=models.TextField(default="Default desc"),
                 ),
+                migrations.AlterField(
+                    model_name="team",
+                    name="order",
+                    field=models.PositiveIntegerField(
+                        blank=True, default=0, null=True
+                    ),
+                ),
             ],
             state_operations=[
                 migrations.DeleteModel(name="TeamTranslation"),
