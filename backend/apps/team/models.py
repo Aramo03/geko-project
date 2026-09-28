@@ -1,5 +1,7 @@
 from django.db import models
 
+from apps.model_helpers import first_translation, image_url_or_file
+
 
 class Team(models.Model):
     local_image = models.ImageField(
@@ -15,14 +17,10 @@ class Team(models.Model):
         ordering = ["order"]
 
     def get_image(self):
-        if self.local_image:
-            return self.local_image.url
-        return self.image_url or "No image available"
+        return image_url_or_file(self) or "No image available"
 
     def get_translation(self, language_code):
-        translation = self.translations.filter(
-            language__code=language_code
-        ).first()
+        translation = first_translation(self, language_code, fallback=False)
         return translation.name if translation else "No translation available"
 
     def __str__(self):

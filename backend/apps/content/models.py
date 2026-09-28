@@ -1,5 +1,7 @@
 from django.db import models
 
+from apps.model_helpers import first_translation, image_url_or_file
+
 
 class Language(models.Model):
     code = models.CharField(max_length=10, unique=True)
@@ -15,9 +17,7 @@ class Review(models.Model):
     image_url = models.URLField(blank=True, null=True)
 
     def get_image(self):
-        if self.local_image:
-            return self.local_image.url
-        return self.image_url
+        return image_url_or_file(self)
 
     def __str__(self):
         return self.name
@@ -31,11 +31,12 @@ class LessonInfo(models.Model):
     class Meta:
         ordering = ['order']
 
-    def get_translation(self):
-        ...
+    def get_translation(self, language_code):
+        translation = first_translation(self, language_code, fallback=False)
+        return translation.title if translation else "No translation available"
 
-#    def __str__(self): Քանի որ այս կոդը դեռ չի աշխատում , որովհետև get_translation ու __str__ պետք է սարքել backup-ի լոգիկայով
-#       ...
+    def __str__(self):
+        return self.get_translation("en")
 
 class LessonInfoTranslation(models.Model):
     lesson_info = models.ForeignKey(LessonInfo, on_delete=models.CASCADE, related_name='translations')
