@@ -1,104 +1,66 @@
-# Task wave 2 — модели Django
+# Geko — задания команды
 
-10 человек. Одна зона = свои модели. Срок: **1 день**.
-
-Ветка от `dev`: `feat/<имя>-<зона>`. PR только в `dev`. См. [CONTRIBUTING.md](CONTRIBUTING.md).
-
-**Спека полей:** [backup/prod-geko-back-main/main/models.py](backup/prod-geko-back-main/main/models.py) — смотри, не копируй файл целиком.  
-**Новое:** `Comment`, `UIBlock`, кастомный `User` — [docs/backend.md](docs/backend.md).
-
-Имена классов **как в backup**. Не переименовывать `PopularCourse`, `ContactMessage`.
+**Пошагово (волна 3):** [task-advanced.md](task-advanced.md)  
+**Git:** [CONTRIBUTING.md](CONTRIBUTING.md) · **API-цель:** [docs/backend.md](docs/backend.md)
 
 ---
 
-## 1. Lead
+## Волна 3 — API, admin, фронт **(сейчас)**
 
-Порядок мержа в `dev`, конфликты, ревью.
+Одна зона = тот же человек, что в архиве волны 2 ниже. Детальные шаги, файлы и DoD — в **[task-advanced.md](task-advanced.md)** (раздел «Волна 3 — активные задания»). Техдолг после моделей — [fix.md](fix.md).
 
-**Сделать:** договориться о порядке: **User → Language → Category → … → UIBlock**; таблица «кто что мержит и когда»; никто не пушит в `main`.
+| # | Имя | Фокус волны 3 |
+|---|-----|----------------|
+| 1 | Lead | Контракт API, ревью PR в `dev`, Docker/CI (`migrate` в pipeline) |
+| 2 | Daniel | JWT (`/api/auth/token/`), восстановить `create_admin`, `accounts/admin.py` |
+| 3 | Sv | Параметр `?language=` (базовый хелпер/миксин для ViewSet) |
+| 4 | Karen | API категорий |
+| 5 | Vach | API popular courses + связь с категориями |
+| 6 | Ashot | API events (+ фильтр по `status`) |
+| 7 | Hayk | API reviews / lesson_info (**источник данных:** `main`, не `content`) |
+| 8 | Suren | API teams |
+| 9 | Mariam | `POST /api/contact/`, comments GET/POST, reply с JWT |
+| 10 | UI / QA | Unfold admin, i18n JSON, shell/страницы, QA после API |
 
-**DoD:** все PR идут в `dev`; после полного мержа команда запускает `makemigrations` + `migrate` (зона 10 помогает).
-
-Порядок мержа в `dev` (следующий PR только после предыдущего). В `main` не пушить.
-
-| Когда | Кто | Зона | Что мержить |
-|-------|-----|------|-------------|
-| 1 | Daniel | User | `accounts`: `User` + `managers.py` |
-| 2 | Sv | Language | `Language` |
-| 3 | Karen | Category | `Category` + `CategoryTranslation` |
-| 4 | Vach | Courses | `PopularCourse` + `PopularCourseTranslation` |
-| 5 | Ashot | Events | `Event` + `EventTranslation` + `EventGallery` |
-| 6 | Hayk | Content | `Review`, `LessonInfo` + `LessonInfoTranslation` |
-| 7 | Suren | Team | `Team` + `TeamTranslation` |
-| 8 | Mariam | Leads + Comments | `ContactMessage`, `Comment` |
-| 9 | UI / QA | UIBlock | `UIBlock`, общий `makemigrations` + `migrate`, `init_ui` |
-
-Конфликт в `main/models.py` или в миграции `main` закрывает Lead: чужие классы не переписывать.
-
-## 2. User (`accounts`)Daniel
-
-**Сделать:** [`backend/apps/accounts/models.py`](backend/apps/accounts/models.py) + [`managers.py`](backend/apps/accounts/managers.py) — кастомный `User`, email-логин, роли `user` / `admin` / `superuser`; `save()` согласует `is_staff` / `is_superuser` с role.
-
-**DoD:** `python manage.py makemigrations accounts` без ошибок; PR в `dev` **первым** среди моделей.
-
-## 3. Language - Sv
-
-
-**Сделать:** модель `Language` (`code`, `name`) в `apps/main/models.py`.
-
-**DoD:** миграция `main`; в комментарии PR — seed позже: `am`, `en`, `ru`.
-
-## 4. Category - Karen
-
-**Сделать:** `Category` + `CategoryTranslation` (FK на Language, `unique_together`).
-
-**DoD:** миграция; связь Category ↔ Translation в PR-описании.
-
-## 5. Courses - Vach
-
-**Сделать:** `PopularCourse` + `PopularCourseTranslation` (FK Category).
-
-**DoD:** миграция; имена **PopularCourse**, не Course.
-
-## 6. Events - Ashot
-
-**Сделать:** `Event` (`status`: upcoming / happening / completed) + `EventTranslation` + `EventGallery`.
-
-**DoD:** миграция; три статуса как в backup.
-
-## 7. Content - Hayk
-
-**Сделать:** `Review`; `LessonInfo` + `LessonInfoTranslation`.
-
-**DoD:** миграция; ordering по `order` где нужно (см. backup).
-
-
-## 8. Team
-
-
-**Сделать:** `Team` + `TeamTranslation`.
-
-**DoD:** миграция.
-
-## 9. Leads + Comments - Mariam
-
-**Сделать:** `ContactMessage` (форма пробного урока); `Comment` — гость без логина: `full_name`, `email`, `whatsapp` (blank ok), `text`; FK **либо** `category` **либо** `popular_course`; `parent` для ответа admin; `is_approved`.
-
-**DoD:** миграция; validation «ровно одна цель» (category xor course).
-
-## 10. UI / QA
-
-**Сделать:** `UIBlock` (`key`, `section`, `payload`, `order`, `is_visible`); после мержа всех зон в `dev` — общий `makemigrations` + `migrate`; восстановить логику [`init_ui`](backend/apps/main/management/commands/init_ui.py) (пока заглушка).
-
-**DoD:** `migrate` на чистой БД проходит; `init_ui` создаёт языки и 4 блока; чеклист: все модели из списка в `main/models.py` TODO есть в коде.
+**Правила:** PR только в `dev`; в `main` не пушить; не удалять модели; не мержить устаревшие ветки UI/events (см. CONTRIBUTING).
 
 ---
 
-## Общие правила волны
+## English
 
-- Один PR = одна зона моделей
-- Не трогать сериализаторы / views / React в этой волне
-- Конфликты в `main/models.py` — Lead решает, не перезаписывать чужие классы
-- После волны: [`create_admin`](backend/apps/accounts/management/commands/create_admin.py) и admin-регистрация — следующая волна
+Wave **3** (API, admin, frontend) is **active**. Steps: [task-advanced.md](task-advanced.md). Gaps from models: [fix.md](fix.md). PRs to `dev` only, not `main`.
 
-Когда преподаватель скажет «обнови task» — этот файл перепишут под волну 3.
+Wave **2** (Django models) is **done** on `dev` as of 2026-09-29 — archive below.
+
+## Հայերեն
+
+**Ալիք 3** (API, admin, front) — **ակտիվ**։ Մանրամասներ՝ [task-advanced.md](task-advanced.md)։ Մնացորդներ՝ [fix.md](fix.md)։
+
+**Ալիք 2** (մոդելներ) **`dev`-ում փակված է** (2026-09-29) — արխիվը ստորև։
+
+---
+
+## Архив — волна 2 (модели Django, закрыта)
+
+**Статус:** выполнена по сути (модели + миграции в `dev`).  
+**Дата закрытия (документация):** 2026-09-29  
+**Ветка:** `dev` (последние известные правки — миграции и `feat/courses` от Vach).
+
+Оставшиеся расхождения и техдолг — в [fix.md](fix.md) (раздел «Статус после волны 2»).
+
+### Итог по зонам (wave 2)
+
+| # | Имя | Зона | Результат в `dev` |
+|---|-----|------|-------------------|
+| 1 | Lead | Порядок мержа, ревью | PR в `dev`; `feat/courses` влит; **не** мержить `origin/feat/ui`, `origin/feature/events` |
+| 2 | Daniel | User | `accounts.User` + `UserManager`, email, роли, `save()` |
+| 3 | Sv | Language | `Language` в `apps/main` |
+| 4 | Karen | Category | `Category` + `CategoryTranslation` |
+| 5 | Vach | Courses | `PopularCourse` в `apps.courses` + translation |
+| 6 | Ashot | Events | `Event` + translation + gallery; поле `status` (`0005_event_status`) |
+| 7 | Hayk | Content | `Review`, `LessonInfo` в `main` (+ дубликат в `apps.content` — **намеренно**, не удалять) |
+| 8 | Suren | Team | `Team` в `apps.team` |
+| 9 | Mariam | Leads + Comments | `ContactMessage`, `Comment` (+ `is_approved`, xor в `clean()`) |
+| 10 | UI / QA | UIBlock, migrate, `init_ui` | `UIBlock`; `init_ui` — языки + 4 блока; `migrate` на **новой** SQLite проходит |
+
+**DoD волны 2 (факт):** сериализаторы, views, React, admin, JWT в этой волне не требовались.
