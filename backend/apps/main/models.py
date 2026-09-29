@@ -308,4 +308,3 @@ class UIBlock(models.Model):
     def __str__(self):
         return f"{self.section} - {self.key}"
 
-rmbulik
