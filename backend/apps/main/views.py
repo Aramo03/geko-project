@@ -1,3 +1,8 @@
+from rest_framework import viewsets
 
-# TODO: ViewSets for categories, popular_courses, events, reviews,
-# lesson_info, teams, ui-blocks, comments, contact POST + send_mail.
+from .models import Category
+from .serializers import CategorySerializer
+
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer

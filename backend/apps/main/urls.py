@@ -1,6 +1,13 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
-# TODO: DefaultRouter — same paths as backup + comments + schema.
+from .views import CategoryViewSet
+
+
+router = DefaultRouter()
+router.register("categories", CategoryViewSet, basename="category")
+
+
 urlpatterns = [
-    # path("", include(router.urls)),
+    path("", include(router.urls)),
 ]
