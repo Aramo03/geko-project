@@ -51,7 +51,7 @@ python manage.py runserver
 # frontend (другое окно)
 cd frontend
 npm install
-npm run dev
+npm run dev 
 ```
 
 Или: `docker compose up --build` (когда дойдёте до этой волны).
@@ -70,3 +70,4 @@ npm run dev
 - Компонент = `Component.jsx` + `component.css` + `component.js`
 - Staff (`admin`, `superuser`) и слоты UI — только из terminal
 - PR: своя ветка → `dev`. В `main` не пушить
+

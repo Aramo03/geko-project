@@ -1,9 +1,230 @@
+from django.core.exceptions import ValidationError
 from django.db import models
+
+from apps.model_helpers import first_translation, image_url_or_file
+
+EVENT_STATUS_CHOICES = (
+    ("upcoming", "Upcoming"),
+    ("happening", "Happening"),
+    ("completed", "Completed"),
+)
+
 
 class Language(models.Model):
     code = models.CharField(max_length=10, unique=True)
-    name = models.CharField(max_length=100)
-    def __str__(self):
-        return self.name
+    name = models.CharField(max_length=50)
 
- 
+    def __str__(self):
+        return f"{self.name} ({self.code})"
+
+
+class Category(models.Model):
+    local_image = models.ImageField(
+        upload_to='images/',
+        blank=True,
+        null=True
+    )
+    image_url = models.URLField(
+        blank=True,
+        null=True
+    )
+    order = models.PositiveIntegerField(
+        default=0,
+        blank=True,
+        null=True
+    )
+
+    class Meta:
+        ordering = ['order']
+
+    def get_image(self):
+        return image_url_or_file(self)
+
+    def get_translation(self, language_code=None):
+        return first_translation(self, language_code)
+
+    def __str__(self):
+        translation = self.get_translation()
+        return translation.text if translation else f"Category {self.id}"
+
+
+class CategoryTranslation(models.Model):
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name='translations'
+    )
+    language = models.ForeignKey(
+        Language,
+        on_delete=models.CASCADE
+    )
+    text = models.CharField(max_length=255)
+
+    class Meta:
+        unique_together = ('category', 'language')
+
+    def __str__(self):
+        return f"{self.category_id} - {self.language.code}: {self.text}"
+
+
+
+
+class Event(models.Model):
+    local_image = models.ImageField(
+        upload_to='events/',
+        blank=True,
+        null=True
+    )
+    image_url = models.URLField(
+        blank=True,
+        null=True
+    )
+    date = models.DateTimeField(blank=True, null=True)
+    status = models.CharField(
+        max_length=20,
+        choices=EVENT_STATUS_CHOICES,
+        default="upcoming",
+    )
+
+    def get_image(self):
+        return image_url_or_file(self)
+
+    def get_translation(self, language_code=None):
+        return first_translation(self, language_code)
+
+    def __str__(self):
+        translation = self.get_translation()
+        return translation.title if translation else f"Event {self.id}"
+
+
+class EventTranslation(models.Model):
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name='translations'
+    )
+    language = models.ForeignKey(
+        Language,
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ('event', 'language')
+
+
+class EventGallery(models.Model):
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name='gallery'
+    )
+    image = models.ImageField(upload_to='event_gallery/')
+
+
+class Review(models.Model):
+    full_name = models.CharField(max_length=255)
+    rating = models.PositiveIntegerField(default=5)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name} ({self.rating}/5)"
+
+
+class LessonInfo(models.Model):
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+
+class LessonInfoTranslation(models.Model):
+    lesson_info = models.ForeignKey(
+        LessonInfo,
+        on_delete=models.CASCADE,
+        related_name='translations'
+    )
+    language = models.ForeignKey(
+        Language,
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+
+    class Meta:
+        unique_together = ('lesson_info', 'language')
+
+
+class ContactMessage(models.Model):
+    full_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=50, blank=True, null=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.full_name}"
+
+
+# --- NEW MODELS FOR THIS PROJECT ---
+
+class Comment(models.Model):
+    full_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    whatsapp = models.CharField(max_length=50, blank=True, null=True)
+    
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        blank=True,
+        null=True
+    )
+    popular_course = models.ForeignKey(
+        "courses.PopularCourse",
+        on_delete=models.CASCADE,
+        related_name='comments',
+        blank=True,
+        null=True
+    )
+    parent = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        related_name='replies',
+        blank=True,
+        null=True
+    )
+    
+    text = models.TextField()
+    is_approved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+        if bool(self.category_id) == bool(self.popular_course_id):
+            raise ValidationError(
+                "Comment must have either category or popular_course, but not both."
+            )
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Comment by {self.full_name}"
+
+
+class UIBlock(models.Model):
+    key = models.CharField(max_length=100, unique=True)
+    section = models.CharField(max_length=100)
+    payload = models.JSONField(default=dict)
+    order = models.PositiveIntegerField(default=0)
+    is_visible = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"{self.section} - {self.key}"
+
