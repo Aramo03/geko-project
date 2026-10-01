@@ -1,10 +1,10 @@
 # Task advanced — карта зон и шаги
 
-Короткое задание: [TASK.md](TASK.md). Здесь — **кто какую зону занимает**, слои Front / Back / Serv / UI / Translation и **пошаговый план** на 10 человек.
+Короткое задание: [TASK.md](TASK.md). **Сначала читай волну 3**; волна 2 (модели) — архив внизу.
 
-Git: [CONTRIBUTING.md](CONTRIBUTING.md). Поля моделей: [backup/prod-geko-back-main/main/models.py](backup/prod-geko-back-main/main/models.py) — смотри, не копируй файл целиком. Новое (`User`, `Comment`, `UIBlock`): [docs/backend.md](docs/backend.md).
+Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md). Поля моделей (архив): [backup/prod-geko-back-main/main/models.py](backup/prod-geko-back-main/main/models.py).
 
-**Волна 2 (сейчас) — только Django-модели.** React, serializers, views, JWT, Swagger, Docker как «моя фича», i18n JSON — **не эта волна**.
+**Волна 3 (сейчас)** — API, admin, `create_admin`, фронт, i18n UI, CI. **Волна 2 закрыта** (2026-09-29). Пробелы: [fix.md](fix.md).
 
 ---
 
@@ -13,11 +13,11 @@ Git: [CONTRIBUTING.md](CONTRIBUTING.md). Поля моделей: [backup/prod-g
 | Слой | Что это | Где в репо | Волна |
 |------|---------|------------|--------|
 | **Lead** | ветки, PR в `dev`, конфликты, порядок мержа | git | всегда |
-| **Back — models** | таблицы БД | `backend/apps/accounts/`, `backend/apps/main/models.py` | **2 (сейчас)** |
-| **Translation A (контент)** | тексты курсов / событий / команды в БД | `*Translation` рядом с моделями | **2 (сейчас)**, зоны 3–8 |
-| **UI-слоты (бэк)** | JSON-блоки шапки, hero, футера | модель `UIBlock` + `init_ui` | **2 (сейчас)**, зона 10 |
-| **Back — API** | `/api/…`, `?language=`, JWT, Swagger | serializers, views, urls | волна 3+ |
-| **Back — admin** | Unfold, inlines, inbox заявок | `admin.py` | волна 3+ |
+| **Back — models** | таблицы БД | `accounts`, `main`, `courses`, `team`, `content` | **2 ✓** |
+| **Translation A (контент)** | тексты курсов / событий / команды в БД | `*Translation` рядом с моделями | **2 ✓** |
+| **UI-слоты (бэк)** | JSON-блоки шапки, hero, футера | `UIBlock` + `init_ui` | **2 ✓** |
+| **Back — API** | `/api/…`, `?language=`, JWT, Swagger | serializers, views, urls | **3 (сейчас)** |
+| **Back — admin** | Unfold, inlines, inbox заявок | `admin.py` | **3 (сейчас)** |
 | **Serv** | Docker Compose, Postgres, CI, `.env.example` | корень репо, `.github/` | позже, Lead + зона 10 |
 | **Front — shell** | роутер, Header, Footer, Redux, axios | `frontend/src/` | после API |
 | **Front — страницы** | Home, About, Courses, Events, Contacts | `frontend/src/pages/` | после shell |
@@ -27,30 +27,136 @@ Git: [CONTRIBUTING.md](CONTRIBUTING.md). Поля моделей: [backup/prod-g
 Два разных «перевода»:
 
 1. **Контент** — названия категорий, курсов, событий, роли в команде. Живут в Django (`CategoryTranslation`, `EventTranslation`, …). Это **волна 2**.
-2. **Интерфейс** — «Home», «Контакты», кнопки форм. Живут в JSON i18n. Это **фронт, следующая волна**.
+2. **Интерфейс** — «Home», «Контакты», кнопки форм. Живут в JSON i18n. Это **фронт** (часть волны 3, зона 10).
 
 ---
 
-## Кто что занимает: волна 2 → потом
+## Кто что занимает: волна 3
 
-| # | Зона сейчас | Слой сейчас | Файлы сейчас | Потом (волна 3+) |
-|---|-------------|-------------|--------------|------------------|
-| 1 | Lead | Lead / Serv-координация | git, ревью PR | Lead + Serv (Docker, CI) |
-| 2 | User | Back | `accounts/models.py`, `managers.py` | JWT, `create_admin` |
-| 3 | Language | Back + фундамент Translation | `main/models.py` → `Language` | API `?language=` |
-| 4 | Category | Back + Translation | `Category`, `CategoryTranslation` | API категорий + Front список |
-| 5 | Courses | Back + Translation | `PopularCourse` + translation | Front `/course-category`, `/courses/:id` |
-| 6 | Events | Back + Translation | `Event` + translation + gallery | Front `/events/:tab` |
-| 7 | Content | Back + Translation | `Review`, `LessonInfo` + translation | Front Home: отзывы, lesson stats |
-| 8 | Team | Back + Translation | `Team` + `TeamTranslation` | Front About: слайдер |
-| 9 | Leads + Comments | Back | `ContactMessage`, `Comment` | Front Contacts + треды, SMTP |
-| 10 | UI / QA | UI-слоты + Serv (migrate) | `UIBlock`, `init_ui.py` | Design, i18n JSON, QA |
+| # | Имя | Зона | Слой волны 3 | Ключевые файлы |
+|---|-----|------|--------------|----------------|
+| 1 | Lead | Lead | git, API-контракт, CI | `CONTRIBUTING.md`, `.github/workflows/ci.yml`, `docs/backend.md` |
+| 2 | Daniel | User | JWT, admin user | `accounts/`, `config/urls.py`, `create_admin.py` |
+| 3 | Sv | Language | `?language=` | `main/serializers.py`, `main/views.py`, хелперы |
+| 4 | Karen | Category | API категорий | `main/views.py`, `main/serializers.py` |
+| 5 | Vach | Courses | API курсов | `apps/courses/`, router в `main/urls.py` |
+| 6 | Ashot | Events | API событий + `status` | `main/models.py` Event*, views/serializers |
+| 7 | Hayk | Content | API reviews / lesson_info | **`main`**, не `apps.content` |
+| 8 | Suren | Team | API teams | `apps/team/`, serializers |
+| 9 | Mariam | Leads + Comments | contact + comments | `ContactMessage`, `Comment`, email |
+| 10 | UI / QA | Admin + Front + QA | Unfold, i18n, страницы | `admin.py`, `frontend/src/` |
 
 Параллель после моделей: **2–4** остаются на бэке (API / admin), **5** поднимает оболочку фронта, **6–9** ждут стабильный `/api/`, **10** идёт с токенами и переводами кнопок.
 
 ---
 
-## Порядок мержа (строго)
+## Порядок мержа волны 3 (строго)
+
+```
+Daniel (auth) → Sv (?language=) → Karen → Vach → Ashot → Hayk → Suren → Mariam (POST) → UI/QA
+```
+
+Lead держит таблицу «кто мержит и когда». Никто не пушит в `main`.
+
+---
+
+## Общие шаги (волна 3)
+
+1. Прочитай [TASK.md](TASK.md) и свой блок ниже в «Волна 3 — активные задания».
+2. Прочитай [CONTRIBUTING.md](CONTRIBUTING.md).
+3. Обнови `dev` и создай ветку:
+
+```bash
+git checkout dev
+git pull origin dev
+git checkout -b feat/<имя>-<зона>
+```
+
+4. Спека URL: [docs/backend.md](docs/backend.md). Поля моделей (если нужно): backup `models.py` — смотри, не копируй целиком.
+5. Один PR = одна зона. Не удаляй Django-модели. Не мешай API с CSS / React в одном PR.
+6. PR: **base = `dev`**, не `main`. Конфликт в `urls.py` / serializers — зови Lead.
+7. **Не мержить** `origin/feat/ui`, `origin/feature/events`.
+
+---
+
+## Волна 3 — активные задания
+
+Спека URL: [docs/backend.md](docs/backend.md). Ветка: `feat/<имя>-<зона>` от `dev`, PR только в `dev`. **Не мержить** `origin/feat/ui`, `origin/feature/events`.
+
+### 1 — Lead
+
+1. Зафиксировать в чате контракт API (пути как в `docs/backend.md`).
+2. Ревью: один PR = одна зона; без force-push в `dev`/`main`.
+3. Добавить в CI шаг `python manage.py migrate` (и по желанию smoke `init_ui` после migrate).
+4. Координировать порядок: **Daniel (auth) → Sv (language helper) → GET API по зонам 4–8 → Mariam (POST) → фронт**.
+
+### 2 — Daniel (User / auth)
+
+1. Восстановить [`create_admin`](backend/apps/accounts/management/commands/create_admin.py) (role=`admin`, `is_staff=True`) — `User` уже есть, заглушку убрать.
+2. SimpleJWT: `POST /api/auth/token/`, подключить в [`config/urls.py`](backend/config/urls.py).
+3. Зарегистрировать `User` в [`accounts/admin.py`](backend/apps/accounts/admin.py) (Unfold).
+4. DoD: `create_admin` + логин через JWT для `admin`/`superuser`.
+
+### 3 — Sv (Language)
+
+1. Общий способ отдавать переводы по `?language=` (query param, default `en` или `am` — согласовать с Lead).
+2. Вынести повторяющуюся логику из `get_translation` в serializer mixin или helper (не дублировать в 5 ViewSet).
+3. DoD: любой list/detail API зон 4–8 принимает `language` и отдаёт нужный `*Translation`.
+
+### 4 — Karen (Category)
+
+1. Serializer: `Category` + nested/flat translation text.
+2. ViewSet: `GET /api/categories/?language=`.
+3. DoD: Swagger показывает endpoint; фильтр по языку работает.
+
+### 5 — Vach (Courses)
+
+1. Serializers для `PopularCourse` + translation (`apps.courses`).
+2. `GET /api/popular_courses/?language=`, `GET /api/courses/<category_id>/` (как в backup).
+3. DoD: FK на категорию отражён в API; имена **PopularCourse**.
+
+### 6 — Ashot (Events)
+
+1. ViewSet/list: `GET /api/events/?language=` и detail `GET /api/events/<id>/`.
+2. Фильтр по `status` (`upcoming` / `happening` / `completed`) для вкладок фронта.
+3. DoD: три статуса в API; gallery по необходимости read-only.
+
+### 7 — Hayk (Content)
+
+1. `GET /api/reviews/?language=` и `GET /api/lesson_info/?language=` из **`main.models`**.
+2. **Не** подключать `apps.content` к публичному API без решения Lead (дубликат моделей намеренный).
+3. DoD: ordering `LessonInfo` по `order`.
+
+### 8 — Suren (Team)
+
+1. `GET /api/teams/?language=` из `apps.team`.
+2. Serializer: `name`, `role`, `desc` из `TeamTranslation`.
+3. DoD: `db_table`/`related_name` не ломают migrate.
+
+### 9 — Mariam (Leads + Comments)
+
+1. `POST /api/contact/` → `ContactMessage` (валидация полей; при необходимости добавить поля backup — отдельный PR с Lead).
+2. `GET /api/comments/?category=` | `?popular_course=`; `POST /api/comments/` без JWT (гость).
+3. `POST /api/comments/<id>/reply/` с JWT (`admin`); уважать `is_approved` и xor category/course.
+4. DoD: гость не может reply; admin может.
+
+### 10 — UI / QA
+
+1. Зарегистрировать модели в [`main/admin.py`](backend/apps/main/admin.py) (Unfold, inlines для translations где уместно).
+2. `GET /api/ui-blocks/` (read-only для фронта).
+3. Фронт: [`frontend/src/api/client.js`](frontend/src/api/client.js) — language query, JWT interceptor; страницы из TODO (`Home`, `Courses`, `Events`, `Contacts`, …).
+4. i18n UI: `frontend/src/i18n/am.json`, `en.json`, `ru.json` (кнопки/меню — не путать с Translation A в БД).
+5. DoD: `migrate` + `init_ui` в README/Docker; чеклист пустых состояний и ошибок API.
+
+**Запрещено в волне 3:** удалять Django-модели; мержить `feat/ui` / `feature/events`; пушить в `main`.
+
+---
+
+## Архив — волна 2 (модели, закрыта)
+
+Справочник по выполненным заданиям моделей. **Не начинай отсюда** — активная работа в разделе «Волна 3» выше.
+
+### Порядок мержа моделей (волна 2)
 
 ```
 User → Language → Category → Courses → Events → Content → Team → Leads/Comments → UIBlock
@@ -62,7 +168,7 @@ Lead держит таблицу «кто мержит и когда». Никт
 
 ---
 
-## Общие шаги (каждый, кроме Lead)
+### Общие шаги (волна 2, каждый кроме Lead)
 
 Делай **до** кода своей зоны.
 
@@ -383,7 +489,7 @@ python manage.py makemigrations accounts
 
 ---
 
-## Запрещено в волне 2
+### Запрещено в волне 2
 
 - `frontend/` — страницы, Header, i18n JSON, стили
 - serializers, views, urls API, JWT, Swagger
@@ -396,97 +502,55 @@ python manage.py makemigrations accounts
 
 ---
 
-## Волна 3+ (ещё не началась)
-
-Когда преподаватель скажет «обнови task», короткий [TASK.md](TASK.md) перепишут. Ожидаемая раскладка тех же 10 номеров:
-
-| # | Слой | Работа |
-|---|------|--------|
-| 1 | Lead + Serv | API-контракт, Docker Compose, ревью |
-| 2 | Back | JWT, `create_admin`, User admin |
-| 3–4 | Back API | ViewSet + `?language=`, категории |
-| 5–8 | Front страницы | Courses, Events, Home/About, Team |
-| 9 | Front + Back | контакты `POST /api/contact/`, комментарии, SMTP |
-| 10 | UI + Translation B + QA | i18n JSON, токены, адаптив, empty/error |
-
-До этой команды **не начинай** волну 3 в своём PR волны 2.
-
----
-
 ## English
 
-Short assignment: [TASK.md](TASK.md). This file is the **zone map** and **step-by-step** for 10 people.
+Short assignment: [TASK.md](TASK.md). **Read wave 3 first**; wave 2 is archive at the bottom.
 
-**Wave 2 = Django models only.** Do not touch React, serializers, views, JWT, Swagger, Docker-as-a-feature, or i18n JSON.
+**Wave 3 (now):** API, admin, JWT, frontend, i18n UI. See «Волна 3 — активные задания» above. Spec: [docs/backend.md](docs/backend.md). PR **only to `dev`**. Do not merge `feat/ui` / `feature/events`. Keep `PopularCourse` and `ContactMessage` names.
+
+**Merge order (wave 3):** Daniel (auth) → Sv (`?language=`) → Karen → Vach → Ashot → Hayk → Suren → Mariam (POST) → UI/QA.
 
 ### Layer map
 
 | Layer | Meaning | Wave |
 |-------|---------|------|
 | Lead | git, PR to `dev`, merge order | always |
-| Back models | DB tables in `accounts` + `main/models.py` | **2 now** |
-| Translation A | `*Translation` rows (course/event/team copy) | **2 now**, zones 3–8 |
-| UI slots | `UIBlock` + `init_ui` | **2 now**, zone 10 |
-| Back API / admin | `/api/…`, Unfold | later |
+| Back models | DB tables in `accounts` + apps | **2 done** |
+| Translation A | `*Translation` rows | **2 done** |
+| UI slots | `UIBlock` + `init_ui` | **2 done** |
+| Back API / admin | `/api/…`, Unfold | **3 now** |
 | Serv | Docker, Postgres, CI | later (Lead + zone 10) |
-| Front shell / pages | Header, routes, Home…Contacts | later |
-| Translation B | `frontend/src/i18n/*.json` (buttons/nav) | **not now** |
+| Front shell / pages | Header, routes, Home…Contacts | **3** (zone 10) |
+| Translation B | `frontend/src/i18n/*.json` | **3** (zone 10) |
+
+### Archive — wave 2 (models)
 
 Merge order: **User → Language → Category → Courses → Events → Content → Team → Leads/Comments → UIBlock**.
 
-Branch from `dev`: `feat/<name>-<zone>`. PR **only to `dev`**. Spec: backup `models.py` (read, do not paste the whole file). Keep names `PopularCourse` and `ContactMessage`.
-
-### Per-zone steps (wave 2)
-
-1. **Lead** — merge table, review FK/`unique_together`, resolve `models.py` conflicts without deleting others’ classes, never `main`. After all PRs: migrate with zone 10.
-2. **User** — `accounts` `User` + `UserManager`; email login; roles `user`/`admin`/`superuser`; `save()` syncs `is_staff`/`is_superuser`. First model PR. Do not restore `create_admin`.
-3. **Language** — `code`, `name` only. Seed `am`/`en`/`ru` later in `init_ui` (note that in the PR).
-4. **Category** — wait for Language; `Category` + `CategoryTranslation` (`text`, `unique_together`, `related_name='translations'`).
-5. **Courses** — wait for Category; **`PopularCourse`** (not `Course`) + translation (`title`, `lang`, `desc`).
-6. **Events** — statuses `upcoming` / `happening` / `completed` only; + `EventTranslation` + `EventGallery`.
-7. **Content** — `Review` (no translation model); `LessonInfo` + `LessonInfoTranslation`; `ordering` by `order`.
-8. **Team** — `Team` + `TeamTranslation` (`name`, `role`, `desc`).
-9. **Leads** — wait for Category + Courses; `ContactMessage`; `Comment` guest fields; **xor** `category` vs `popular_course`; `parent`; `is_approved`.
-10. **UI/QA** — `UIBlock` (`key`, `section`, `payload`, `order`, `is_visible`); after every zone is in `dev`, `makemigrations` + `migrate` on a clean DB; restore `init_ui` for languages + four keys `header` / `hero` / `footer` / `contacts_bar` (idempotent). Checklist: every TODO class exists.
-
-Later: 2–4 stay backend (JWT/API/admin); 5–9 become frontend pages; 10 becomes Design + i18n JSON + QA; Lead owns Serv.
+Per-zone summary: Lead merge table; User email + roles; Language `code`/`name`; Category + Translation; **PopularCourse**; Events three statuses + gallery; Review + LessonInfo; Team + Translation; ContactMessage + Comment (xor); UIBlock + `init_ui` on clean DB.
 
 ---
 
 ## Հայերեն
 
-Կարճ առաջադրանք՝ [TASK.md](TASK.md)։ Այս ֆայլը **գոտիների քարտեզն** է և **քայլ առ քայլ**՝ 10 հոգու համար։
+Կարճ առաջադրանք՝ [TASK.md](TASK.md)։ **Նախ կարդա ալիք 3**; ալիք 2 — արխիվ ստորև։
 
-**Ալիք 2 = միայն Django մոդելներ։** React, serializers, views, JWT, Swagger, Docker, i18n JSON՝ ոչ հիմա։
+**Ալիք 3 (հիմա)** — API, admin, JWT, front, i18n UI։ Մանրամասներ՝ վերևի «Волна 3 — активные задания»։ PR միայն `dev`։
 
-### Շերտեր
+**Merge (ալիք 3)**՝ Daniel → Sv → Karen → Vach → Ashot → Hayk → Suren → Mariam → UI/QA։
+
+### Շերտեր (ալիք 3)
 
 | Շերտ | Ինչ է | Ալիք |
 |------|--------|------|
 | Lead | git, PR դեպի `dev` | միշտ |
-| Back models | `accounts` + `main/models.py` | **2 հիմա** |
-| Translation A | `*Translation` աղյուսակներ | **2 հիմա**, գոտի 3–8 |
-| UI slots | `UIBlock` + `init_ui` | **2 հիմա**, գոտի 10 |
-| Back API / admin | `/api/…`, Unfold | հետո |
-| Serv | Docker, Postgres, CI | հետո |
-| Front | Header, էջեր | հետո |
-| Translation B | `i18n/*.json` (կոճակներ) | **ոչ հիմա** |
+| Back models | մոդելներ | **2 փակված** |
+| Back API / admin | `/api/…`, Unfold | **3 հիմա** |
+| Front + i18n | էջեր, `i18n/*.json` | **3, գոտի 10** |
+
+### Արխիվ — ալիք 2 (մոդելներ)
 
 Միաձուլման կարգ՝ **User → Language → Category → Courses → Events → Content → Team → Leads/Comments → UIBlock**։
 
-Ճյուղ՝ `feat/<անուն>-<գոտի>` `dev`-ից։ PR միայն `dev`։ Դաշտերը՝ backup `models.py` (նայել, ամբողջ ֆայլը չպատճենել)։ Չվերանվանել `PopularCourse`, `ContactMessage`։
+Գոտիներ՝ User, Language, Category, PopularCourse, Events, Content, Team, ContactMessage + Comment, UIBlock + `init_ui`։
 
-### Գոտիներ (ալիք 2)
-
-1. **Lead** — merge աղյուսակ, կոնֆլիկտներ `models.py`-ում առանց ուրիշի կլասները ջնջելու, `main` չդիպչել։
-2. **User** — email-լոգին, `user`/`admin`/`superuser`, manager, `save()` համաձայնեցնում է `is_staff`։ Առաջին PR։ `create_admin`՝ ոչ հիմա։
-3. **Language** — `code`, `name`։ Seed `am`/`en`/`ru`՝ հետո `init_ui`-ում։
-4. **Category** — սպասել Language-ին։ + Translation, `unique_together`։
-5. **Courses** — հենց `PopularCourse`, ոչ `Course`։
-6. **Events** — 3 status + gallery + translation։
-7. **Content** — Review + LessonInfo (+ translation, `order`)։
-8. **Team** — Team + TeamTranslation։
-9. **Leads** — ContactMessage + Comment (category **կամ** course, ոչ երկուսը)։
-10. **UI/QA** — UIBlock, ամբողջ `migrate`, `init_ui`՝ լեզուներ + 4 բլոկ (`header`, `hero`, `footer`, `contacts_bar`)։
-
-Հետո՝ 2–4 մնում են backend, 5–9՝ էջեր, 10՝ դիզայն + i18n, Lead՝ Docker/CI։
