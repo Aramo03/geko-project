@@ -10,4 +10,5 @@ router.register("categories", CategoryViewSet, basename="category")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("", include("apps.courses.urls")),
 ]
