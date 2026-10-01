@@ -1,6 +1,15 @@
 from rest_framework import serializers
 
+from apps.model_helpers import get_translation
 from .models import Category, CategoryTranslation
+
+
+class TranslationSerializerMixin:
+    def get_translation(self, obj):
+        request = self.context.get("request")
+        language = request.query_params.get("language") if request else None
+
+        return get_translation(obj, language)
 
 
 class CategoryTranslationSerializer(serializers.ModelSerializer):
