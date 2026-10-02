@@ -2,11 +2,13 @@ from rest_framework import serializers
 
 from apps.model_helpers import get_translation
 from .models import Category, CategoryTranslation
+from apps.content.models import Review, LessonInfo
 
 
 class TranslationSerializerMixin:
     def get_translation(self, obj):
-        request = self.context.get("request")
+        context = getattr(self, "context", {})
+        request = context.get("request")
         language = request.query_params.get("language") if request else None
 
         return get_translation(obj, language)
@@ -46,3 +48,21 @@ class CategorySerializer(serializers.ModelSerializer):
             ]
 
         return data
+
+class ReviewSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+    class Meta:
+        model = Review
+        fields = ["id", "image", "name", "comment",]
+
+    def get_image(self, obj):
+        return obj.get_image()
+class LessonInfoSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = LessonInfo
+        fields = ["id", "image", "order",]
+
+    def get_image(self, obj):
+        return obj.get_image()
