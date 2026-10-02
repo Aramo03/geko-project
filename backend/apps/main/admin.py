@@ -1,3 +1,15 @@
-# TODO (student wave — admin): register models after they exist.
-# Reference: backup/prod-geko-back-main/main/admin.py (inlines, translations).
-# UIBlock: has_add_permission False for non-superuser admin role.
+from django.contrib import admin
+from unfold.admin import ModelAdmin
+
+from .models import UIBlock
+
+
+@admin.register(UIBlock)
+class UIBlockAdmin(ModelAdmin):
+    list_display = ("key", "section", "order", "is_visible")
+    list_filter = ("section", "is_visible")
+    search_fields = ("key", "section")
+    ordering = ("order",)
+
+    def has_add_permission(self, request):
+        return bool(getattr(request.user, "is_superuser", False))
