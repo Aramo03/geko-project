@@ -14,4 +14,5 @@ router.register("lesson_info", LessonInfoViewSet, basename="lesson-info")
 urlpatterns = [
     path("", include(router.urls)),
     path("", include("apps.courses.urls")),
+    path("", include("apps.team.urls")),
 ]
