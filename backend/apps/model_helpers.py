@@ -14,3 +14,7 @@ def first_translation(instance, language_code=None, *, fallback=True):
     if translation is None and fallback:
         translation = instance.translations.first()
     return translation
+
+
+def get_translation(instance, language_code=None):
+    return first_translation(instance, language_code)
