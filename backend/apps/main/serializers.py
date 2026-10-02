@@ -10,6 +10,7 @@ from .models import (
     LessonInfo,
     LessonInfoTranslation,
     Review,
+    UIBlock,
 )
 
 
@@ -133,3 +134,9 @@ class LessonInfoSerializer(serializers.ModelSerializer):
             ]
 
         return data
+
+
+class UIBlockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UIBlock
+        fields = ["id", "key", "section", "payload", "order", "is_visible"]

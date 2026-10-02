@@ -1,11 +1,12 @@
 from rest_framework import viewsets
 
-from .models import Category, Event, LessonInfo, Review
+from .models import Category, Event, LessonInfo, Review, UIBlock
 from .serializers import (
     CategorySerializer,
     EventSerializer,
     LessonInfoSerializer,
     ReviewSerializer,
+    UIBlockSerializer,
 )
 
 
@@ -71,3 +72,8 @@ class LessonInfoViewSet(viewsets.ReadOnlyModelViewSet):
             ).distinct()
 
         return queryset
+
+
+class UIBlockViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = UIBlock.objects.filter(is_visible=True)
+    serializer_class = UIBlockSerializer
