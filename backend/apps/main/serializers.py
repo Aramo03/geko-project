@@ -1,7 +1,16 @@
 from rest_framework import serializers
 
 from apps.model_helpers import get_translation
-from .models import Category, CategoryTranslation, Event, EventGallery, EventTranslation
+from .models import (
+    Category,
+    CategoryTranslation,
+    Event,
+    EventGallery,
+    EventTranslation,
+    LessonInfo,
+    LessonInfoTranslation,
+    Review,
+)
 
 
 class TranslationSerializerMixin:
@@ -88,3 +97,39 @@ class EventSerializer(serializers.ModelSerializer):
             "translations",
             "gallery",
         ]
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ["id", "full_name", "rating", "text", "created_at"]
+
+
+class LessonInfoTranslationSerializer(serializers.ModelSerializer):
+    language = serializers.CharField(source="language.code", read_only=True)
+
+    class Meta:
+        model = LessonInfoTranslation
+        fields = ["language", "title", "content"]
+
+
+class LessonInfoSerializer(serializers.ModelSerializer):
+    translations = LessonInfoTranslationSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = LessonInfo
+        fields = ["id", "order", "translations"]
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get("request")
+        language = request.query_params.get("language") if request else None
+
+        if language:
+            data["translations"] = [
+                translation
+                for translation in data["translations"]
+                if translation["language"] == language
+            ]
+
+        return data

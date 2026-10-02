@@ -1,7 +1,12 @@
 from rest_framework import viewsets
 
-from .models import Category, Event
-from .serializers import CategorySerializer, EventSerializer
+from .models import Category, Event, LessonInfo, Review
+from .serializers import (
+    CategorySerializer,
+    EventSerializer,
+    LessonInfoSerializer,
+    ReviewSerializer,
+)
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -36,6 +41,29 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
 
         if status:
             queryset = queryset.filter(status=status)
+
+        if language:
+            queryset = queryset.filter(
+                translations__language__code=language
+            ).distinct()
+
+        return queryset
+
+
+class ReviewViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+
+class LessonInfoViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = LessonInfoSerializer
+
+    def get_queryset(self):
+        queryset = LessonInfo.objects.prefetch_related(
+            "translations__language"
+        ).order_by("order")
+
+        language = self.request.query_params.get("language")
 
         if language:
             queryset = queryset.filter(
