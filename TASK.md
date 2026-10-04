@@ -5,9 +5,12 @@
 
 ---
 
-## Волна 3 — API, admin, фронт **(сейчас)**
+## Волна 3 — API, admin, фронт **(закрыта)**
 
-Одна зона = тот же человек, что в архиве волны 2 ниже. Детальные шаги, файлы и DoD — в **[task-advanced.md](task-advanced.md)** (раздел «Волна 3 — активные задания»). Техдолг после моделей — [fix.md](fix.md).
+**Дата закрытия (документация):** 2026-10-04 · **Ветка:** `dev`  
+Остаточный техдолг и список исправлений — **[fix.md](fix.md)**. Пошаговый архив заданий — **[task-advanced.md](task-advanced.md)**.
+
+Итог по зонам (выполнено на `dev`):
 
 | # | Имя | Фокус волны 3 |
 |---|-----|----------------|
@@ -28,13 +31,13 @@
 
 ## English
 
-Wave **3** (API, admin, frontend) is **active**. Steps: [task-advanced.md](task-advanced.md). Gaps from models: [fix.md](fix.md). PRs to `dev` only, not `main`.
+Wave **3** closed 2026-10-04 on `dev`. Residual debt: [fix.md](fix.md). Archive: [task-advanced.md](task-advanced.md).
 
 Wave **2** (Django models) is **done** on `dev` as of 2026-09-29 — archive below.
 
 ## Հայերեն
 
-**Ալիք 3** (API, admin, front) — **ակտիվ**։ Մանրամասներ՝ [task-advanced.md](task-advanced.md)։ Մնացորդներ՝ [fix.md](fix.md)։
+**Ալիք 3** փակված է (2026-10-04)։ Մնացորդներ՝ [fix.md](fix.md)։
 
 **Ալիք 2** (մոդելներ) **`dev`-ում փակված է** (2026-09-29) — արխիվը ստորև։
 
@@ -46,7 +49,7 @@ Wave **2** (Django models) is **done** on `dev` as of 2026-09-29 — archive bel
 **Дата закрытия (документация):** 2026-09-29  
 **Ветка:** `dev` (последние известные правки — миграции и `feat/courses` от Vach).
 
-Оставшиеся расхождения и техдолг — в [fix.md](fix.md) (раздел «Статус после волны 2»).
+Архитектура wave 2 и техдолг — в [fix.md](fix.md) (раздел «Архив — волна 2»).
 
 ### Итог по зонам (wave 2)
 

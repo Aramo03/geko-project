@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.model_helpers import get_translation
+from apps.model_helpers import get_translation, resolve_language_code
 from .models import (
     Category,
     CategoryTranslation,
@@ -45,15 +45,14 @@ class CategorySerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
+        request = self.context.get("request")
+        language = resolve_language_code(request)
 
-        language = self.context["request"].query_params.get("language")
-
-        if language:
-            data["translations"] = [
-                translation
-                for translation in data["translations"]
-                if translation["language"] == language
-            ]
+        data["translations"] = [
+            translation
+            for translation in data["translations"]
+            if translation["language"] == language
+        ] or data["translations"]
 
         return data
 
@@ -99,6 +98,19 @@ class EventSerializer(serializers.ModelSerializer):
             "gallery",
         ]
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get("request")
+        language = resolve_language_code(request)
+
+        data["translations"] = [
+            translation
+            for translation in data["translations"]
+            if translation["language"] == language
+        ] or data["translations"]
+
+        return data
+
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
@@ -124,14 +136,13 @@ class LessonInfoSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         request = self.context.get("request")
-        language = request.query_params.get("language") if request else None
+        language = resolve_language_code(request)
 
-        if language:
-            data["translations"] = [
-                translation
-                for translation in data["translations"]
-                if translation["language"] == language
-            ]
+        data["translations"] = [
+            translation
+            for translation in data["translations"]
+            if translation["language"] == language
+        ] or data["translations"]
 
         return data
 

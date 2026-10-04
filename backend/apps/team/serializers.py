@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from apps.model_helpers import resolve_language_code
+
 from .models import Team, TeamTranslation
 
 
@@ -39,17 +41,12 @@ class TeamSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
 
         request = self.context.get("request")
-        language = (
-            request.query_params.get("language")
-            if request
-            else None
-        )
+        language = resolve_language_code(request)
 
-        if language:
-            data["translations"] = [
-                translation
-                for translation in data["translations"]
-                if translation["language"] == language
-            ]
+        data["translations"] = [
+            translation
+            for translation in data["translations"]
+            if translation["language"] == language
+        ] or data["translations"]
 
         return data

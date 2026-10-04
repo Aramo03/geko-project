@@ -5,6 +5,31 @@
     "courses": "Courses",
     "events": "Events",
     "contacts": "Contacts"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong. Try again later.",
+    "empty": "Nothing to show yet."
+  },
+  "contacts": {
+    "title": "Contact us",
+    "fullName": "Full name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "send": "Send",
+    "required": "Required",
+    "success": "Message sent. We will contact you soon.",
+    "error": "Could not send the message."
+  },
+  "events": {
+    "title": "Events",
+    "upcoming": "Upcoming",
+    "happening": "Happening",
+    "completed": "Completed"
+  },
+  "home": {
+    "reviews": "Reviews",
+    "lessons": "Lesson info"
   }
-  
 }
