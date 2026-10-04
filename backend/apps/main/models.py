@@ -1,5 +1,13 @@
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils.translation import get_language
+
+from apps.model_helpers import first_translation, image_url_or_file
+
+EVENT_STATUS_CHOICES = (
+    ("upcoming", "Upcoming"),
+    ("happening", "Happening"),
+    ("completed", "Completed"),
+)
 
 
 class Language(models.Model):
@@ -30,18 +38,10 @@ class Category(models.Model):
         ordering = ['order']
 
     def get_image(self):
-        if self.local_image:
-            return self.local_image.url
-        return self.image_url
+        return image_url_or_file(self)
 
     def get_translation(self, language_code=None):
-        if not language_code:
-            language_code = get_language()
-        
-        translation = self.translations.filter(language__code=language_code).first()
-        if not translation:
-            translation = self.translations.first()
-        return translation
+        return first_translation(self, language_code)
 
     def __str__(self):
         translation = self.get_translation()
@@ -67,69 +67,6 @@ class CategoryTranslation(models.Model):
         return f"{self.category_id} - {self.language.code}: {self.text}"
 
 
-class PopularCourse(models.Model):
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.CASCADE,
-        related_name='courses',
-        blank=True,
-        null=True
-    )
-    local_image = models.ImageField(
-        upload_to='courses/',
-        blank=True,
-        null=True
-    )
-    image_url = models.URLField(
-        blank=True,
-        null=True
-    )
-    order = models.PositiveIntegerField(
-        default=0,
-        blank=True,
-        null=True
-    )
-
-    class Meta:
-        ordering = ['order']
-
-    def get_image(self):
-        if self.local_image:
-            return self.local_image.url
-        return self.image_url
-
-    def get_translation(self, language_code=None):
-        if not language_code:
-            language_code = get_language()
-        
-        translation = self.translations.filter(language__code=language_code).first()
-        if not translation:
-            translation = self.translations.first()
-        return translation
-
-    def __str__(self):
-        translation = self.get_translation()
-        return translation.title if translation else f"PopularCourse {self.id}"
-
-
-class PopularCourseTranslation(models.Model):
-    popular_course = models.ForeignKey(
-        PopularCourse,
-        on_delete=models.CASCADE,
-        related_name='translations'
-    )
-    language = models.ForeignKey(
-        Language,
-        on_delete=models.CASCADE
-    )
-    title = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-
-    class Meta:
-        unique_together = ('popular_course', 'language')
-
-    def __str__(self):
-        return f"{self.popular_course_id} - {self.language.code}: {self.title}"
 
 
 class Event(models.Model):
@@ -143,20 +80,17 @@ class Event(models.Model):
         null=True
     )
     date = models.DateTimeField(blank=True, null=True)
+    status = models.CharField(
+        max_length=20,
+        choices=EVENT_STATUS_CHOICES,
+        default="upcoming",
+    )
 
     def get_image(self):
-        if self.local_image:
-            return self.local_image.url
-        return self.image_url
+        return image_url_or_file(self)
 
     def get_translation(self, language_code=None):
-        if not language_code:
-            language_code = get_language()
-        
-        translation = self.translations.filter(language__code=language_code).first()
-        if not translation:
-            translation = self.translations.first()
-        return translation
+        return first_translation(self, language_code)
 
     def __str__(self):
         translation = self.get_translation()
@@ -223,31 +157,6 @@ class LessonInfoTranslation(models.Model):
         unique_together = ('lesson_info', 'language')
 
 
-class Team(models.Model):
-    image = models.ImageField(upload_to='team/', blank=True, null=True)
-    order = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ['order']
-
-
-class TeamTranslation(models.Model):
-    team = models.ForeignKey(
-        Team,
-        on_delete=models.CASCADE,
-        related_name='translations'
-    )
-    language = models.ForeignKey(
-        Language,
-        on_delete=models.CASCADE
-    )
-    name = models.CharField(max_length=255)
-    role = models.CharField(max_length=255)
-
-    class Meta:
-        unique_together = ('team', 'language')
-
-
 class ContactMessage(models.Model):
     full_name = models.CharField(max_length=255)
     email = models.EmailField()
@@ -274,7 +183,7 @@ class Comment(models.Model):
         null=True
     )
     popular_course = models.ForeignKey(
-        PopularCourse,
+        "courses.PopularCourse",
         on_delete=models.CASCADE,
         related_name='comments',
         blank=True,
@@ -289,7 +198,18 @@ class Comment(models.Model):
     )
     
     text = models.TextField()
+    is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def clean(self):
+        if bool(self.category_id) == bool(self.popular_course_id):
+            raise ValidationError(
+                "Comment must have either category or popular_course, but not both."
+            )
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Comment by {self.full_name}"
@@ -308,4 +228,3 @@ class UIBlock(models.Model):
     def __str__(self):
         return f"{self.section} - {self.key}"
 
-rmbulik

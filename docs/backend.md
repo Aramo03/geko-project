@@ -1,6 +1,6 @@
 # Backend
 
-Django API + админка. **Модели пишете вы** (см. [TASK.md](../TASK.md) и TODO в `apps/accounts/models.py`, `apps/main/models.py`). Логика и имена ресурсов — как в [backup/prod-geko-back-main](../backup/prod-geko-back-main).
+Django API + админка. Задания: [TASK.md](../TASK.md), детали — [task-advanced.md](../task-advanced.md). Статус и техдолг: [fix.md](../fix.md).
 
 ## Стек (обязательно)
 
@@ -15,9 +15,7 @@ Django API + админка. **Модели пишете вы** (см. [TASK.md]
 | Pillow | картинки |
 | PostgreSQL | база в Docker; локально можно SQLite из `.env.example` |
 
-## URL (цель, пишете вы)
-
-Как в backup, плюс comments и schema:
+## URL (контракт)
 
 ```
 GET  /api/categories/?language=
@@ -38,53 +36,108 @@ GET  /api/schema/swagger-ui/
      /api/admin/                       Unfold
 ```
 
-Админка в backup была на `/api/admin/`. Сохрани этот путь.
+Админка: `/api/admin/`.
+
+**ContactMessage (факт):** `full_name`, `email`, `phone`, `message`. В backup у формы ещё `country`, `category`, `whatsapp` — см. [fix.md](../fix.md).
 
 ## JWT
 
 - Гость оставляет комментарий **без** токена (`full_name`, `email`, `whatsapp`, `text`).
 - `admin` / `superuser` логинятся через JWT и отвечают на комментарии.
 - Публичной регистрации staff нет.
+- Для reply с фронта (dev): сохраните access token в `localStorage` под ключом `geko_access_token` после `POST /api/auth/token/`.
 
 ## Unfold
 
-`unfold` стоит **перед** `django.contrib.admin` в `INSTALLED_APPS`. Админ видит контент, inbox комментариев, существующие `UIBlock`. У роли `admin` для `UIBlock` нет кнопки Add — слоты создаёт terminal.
+`unfold` стоит **перед** `django.contrib.admin` в `INSTALLED_APPS`. У роли `admin` для `UIBlock` нет кнопки Add — слоты создаёт terminal (`init_ui`).
 
-## Команды (уже в каркасе)
+## Миграции
+
+После изменения моделей:
 
 ```bash
+cd backend
+python manage.py makemigrations
 python manage.py migrate
-python manage.py createsuperuser    # role=superuser
-python manage.py create_admin       # role=admin, is_staff
-python manage.py init_ui            # слоты header / hero / footer / contacts_bar
 ```
 
-`admin` и `superuser` создаются **только** из terminal. `init_ui` можно вызывать повторно — не дублирует `key`.
+На **чистой** SQLite: удалите локальный `db.sqlite3` или задайте другой `DB_NAME` в `.env`, затем снова `migrate`.
 
-## Модели (ваша работа)
+Перед PR всегда проверяйте `makemigrations` / `migrate` на чистой БД.
 
-Реализуйте в `apps/accounts` и `apps/main` (поля — в backup):
+## Staff в terminal
 
-- User: `user` / `admin` / `superuser`
-- Language, Category + Translation, PopularCourse + Translation
-- Event + Translation + EventGallery
-- Review, LessonInfo, Team + translations
-- ContactMessage
-- **Comment**: категория или курс, гость, `parent` для ответа admin
-- **UIBlock**: JSON-слоты UI
+Создавайте staff **только** из terminal (не через публичную регистрацию).
 
-Не переименовывай `PopularCourse` и `ContactMessage`.
+### Superuser (`role=superuser`, полный доступ Django)
+
+```bash
+python manage.py createsuperuser
+```
+
+Введите **email** и пароль. `UserManager.create_superuser` выставляет `role=superuser`, `is_staff`, `is_superuser`.
+
+### Admin (`role=admin`, staff для JWT и админки)
+
+Интерактивно:
+
+```bash
+python manage.py create_admin
+```
+
+С аргументами:
+
+```bash
+python manage.py create_admin admin@example.com 'your-secure-password'
+```
+
+### JWT-логин
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/auth/token/ \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@example.com","password":"your-secure-password"}'
+```
+
+### UI-слоты и языки
+
+```bash
+python manage.py init_ui
+```
+
+Идемпотентно: языки `am` / `en` / `ru` и блоки `header`, `hero`, `footer`, `contacts_bar`.
+
+Полный порядок первого запуска:
+
+```bash
+pip install -r requirements.txt
+python manage.py makemigrations   # если меняли модели
+python manage.py migrate
+python manage.py createsuperuser  # и/или create_admin
+python manage.py init_ui
+python manage.py runserver
+```
 
 ## Docker
 
-Из корня репозитория: `docker compose up --build`.
+Из корня: `docker compose up --build`.
 
-Сервисы: `db` (Postgres), `backend`, `frontend`. Переменные — `.env.example`, не коммить `.env`.
+Сервисы: `db` (Postgres), `backend`, `frontend`. Переменные — `.env.example`.
+
+**Первый запуск backend в Docker** (в контейнере или локально с Postgres из compose):
+
+```bash
+python manage.py migrate
+python manage.py init_ui
+python manage.py create_admin
+```
+
+Compose по умолчанию только `runserver` — миграции выполняются вручную один раз.
 
 ## English
 
-Implement models first (TASK.md), then DRF routers, Swagger, JWT, Unfold admin, contact email. Guest comments need no token. UI slots come from `init_ui`.
+After model changes: `makemigrations` then `migrate`. Staff via `createsuperuser` / `create_admin`. API paths as above. Swagger: `/api/schema/swagger-ui/`.
 
 ## Հայերեն
 
-Սկզբում մոդելները (TASK.md), հետո API, Swagger, JWT, Unfold, նամակ։ Admin/superuser և UI-ն՝ միայն terminal-ից։
+Մոդելներից հետո՝ `makemigrations`, ապա `migrate`։ Staff՝ `createsuperuser` / `create_admin`։ API ու Swagger՝ վերևի ցանկում։
