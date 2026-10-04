@@ -1,16 +1,51 @@
 # Geko — задания команды
 
-**Пошагово (волна 3):** [task-advanced.md](task-advanced.md)  
-**Git:** [CONTRIBUTING.md](CONTRIBUTING.md) · **API-цель:** [docs/backend.md](docs/backend.md)
+**Пошагово (волна 4):** [task-advanced.md](task-advanced.md)  
+**Git:** [CONTRIBUTING.md](CONTRIBUTING.md) · **API:** [docs/backend.md](docs/backend.md) · **Фронт:** [docs/frontend.md](docs/frontend.md)
 
 ---
 
-## Волна 3 — API, admin, фронт **(закрыта)**
+## Волна 4 — страницы как backup **(сейчас)**
+
+Шаги, файлы и DoD — в **[task-advanced.md](task-advanced.md)** (раздел «Волна 4 — активные задания»). Долг полей после волны 3 — [fix.md](fix.md). Порядок мержа — там же, не здесь.
+
+| # | Имя | Фокус волны 4 |
+|---|-----|----------------|
+| 1 | Lead | Порядок мержа, ревью, Docker `migrate` при старте backend |
+| 2 | Daniel | Redux store + слайс токена (`geko_access_token`) |
+| 3 | Sv | Согласовать язык UI и `?language=` (сейчас i18n fallback `am`, API default `en`) |
+| 4 | Karen | `/course-category` и `/course-category/:id` |
+| 5 | Vach | `/courses/:id` + карточка курса |
+| 6 | Ashot | `/events`, вкладки, `/events/:tab/:id` |
+| 7 | Hayk | Секции Home: reviews + lesson info |
+| 8 | Suren | `/about-us` из `GET /api/teams/` + Unfold для Team |
+| 9 | Mariam | Поля контакта как в [docs/frontend.md](docs/frontend.md) + компоненты комментариев |
+| 10 | UI / QA | Header, Footer, 404, hero из `UIBlock`, чеклист пустых/ошибок |
+
+**Правила:** ветка `feat/<имя>-<зона>` от `dev`; один PR = одна зона; в `main` не пушить; модели не удалять; не мержить `origin/feat/ui` и `origin/feature/events` (см. CONTRIBUTING).
+
+---
+
+## English
+
+Wave **4** (pages like backup) is **active**. Steps: [task-advanced.md](task-advanced.md). Field gaps: [fix.md](fix.md). PRs to `dev` only.
+
+Wave **3** (API, admin, frontend shell) closed 2026-10-04. Wave **2** (models) closed 2026-09-29 — archives below.
+
+## Հայերեն
+
+**Ալիք 4** (էջեր backup-ի պես) — **ակտիվ**։ Մանրամասներ՝ [task-advanced.md](task-advanced.md)։ Մնացորդներ՝ [fix.md](fix.md)։
+
+**Ալիք 3** փակված է (2026-10-04)։ **Ալիք 2** փակված է (2026-09-29) — արխիվը ստորև։
+
+---
+
+## Архив — волна 3 (API, admin, фронт, закрыта)
 
 **Дата закрытия (документация):** 2026-10-04 · **Ветка:** `dev`  
-Остаточный техдолг и список исправлений — **[fix.md](fix.md)**. Пошаговый архив заданий — **[task-advanced.md](task-advanced.md)**.
+Исправления и техдолг — **[fix.md](fix.md)**. Пошаговый архив — **[task-advanced.md](task-advanced.md)**.
 
-Итог по зонам (выполнено на `dev`):
+### Итог по зонам (wave 3)
 
 | # | Имя | Фокус волны 3 |
 |---|-----|----------------|
@@ -24,22 +59,6 @@
 | 8 | Suren | API teams |
 | 9 | Mariam | `POST /api/contact/`, comments GET/POST, reply с JWT |
 | 10 | UI / QA | Unfold admin, i18n JSON, shell/страницы, QA после API |
-
-**Правила:** PR только в `dev`; в `main` не пушить; не удалять модели; не мержить устаревшие ветки UI/events (см. CONTRIBUTING).
-
----
-
-## English
-
-Wave **3** closed 2026-10-04 on `dev`. Residual debt: [fix.md](fix.md). Archive: [task-advanced.md](task-advanced.md).
-
-Wave **2** (Django models) is **done** on `dev` as of 2026-09-29 — archive below.
-
-## Հայերեն
-
-**Ալիք 3** փակված է (2026-10-04)։ Մնացորդներ՝ [fix.md](fix.md)։
-
-**Ալիք 2** (մոդելներ) **`dev`-ում փակված է** (2026-09-29) — արխիվը ստորև։
 
 ---
 
