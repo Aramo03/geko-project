@@ -6,7 +6,7 @@ class UIBlock(models.Model):
     payload = models.JSONField(default=dict)
     order = models.PositiveIntegerField(default=0)
     is_visible = models.BooleanField(default=True)
-
+       
     class Meta:
         ordering = ['order']
 
