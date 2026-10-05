@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -8,9 +6,9 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from apps.main.models import Category, Comment, ContactMessage
-from .serializers import (CommentSerializer,ContactMessageSerializer,)
-from apps.main.serializers import CategorySerializer
+from apps.main.models import Comment, ContactMessage
+
+from .serializers import CommentSerializer, ContactMessageSerializer
 
 
 class IsAdminUserRole(IsAuthenticated):
@@ -22,11 +20,6 @@ class IsAdminUserRole(IsAuthenticated):
             request.user.is_authenticated
             and request.user.role in ("admin", "superuser")
         )
-
-
-class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
 
 
 class ContactMessageViewSet(viewsets.GenericViewSet):

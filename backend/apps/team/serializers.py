@@ -1,28 +1,36 @@
 from rest_framework import serializers
 
 from apps.model_helpers import resolve_language_code
-from apps.main.serializers import CategorySerializer
 
-from .models import PopularCourse, PopularCourseTranslation
-
-
-class PopularCourseTranslationSerializer(serializers.ModelSerializer):
-    language = serializers.CharField(source="language.code", read_only=True)
-
-    class Meta:
-        model = PopularCourseTranslation
-        fields = ["language", "title", "description"]
+from .models import Team, TeamTranslation
 
 
-class PopularCourseSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True, allow_null=True)
-    translations = PopularCourseTranslationSerializer(many=True, read_only=True)
+class TeamTranslationSerializer(serializers.ModelSerializer):
+    language = serializers.CharField(
+        source="language.code",
+        read_only=True,
+    )
 
     class Meta:
-        model = PopularCourse
+        model = TeamTranslation
+        fields = [
+            "language",
+            "name",
+            "role",
+            "desc",
+        ]
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    translations = TeamTranslationSerializer(
+        many=True,
+        read_only=True,
+    )
+
+    class Meta:
+        model = Team
         fields = [
             "id",
-            "category",
             "local_image",
             "image_url",
             "order",
@@ -31,6 +39,7 @@ class PopularCourseSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
+
         request = self.context.get("request")
         language = resolve_language_code(request)
 

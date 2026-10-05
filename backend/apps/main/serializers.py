@@ -1,7 +1,17 @@
 from rest_framework import serializers
 
-from apps.model_helpers import get_translation
-from .models import Category, CategoryTranslation
+from apps.model_helpers import get_translation, resolve_language_code
+from .models import (
+    Category,
+    CategoryTranslation,
+    Event,
+    EventGallery,
+    EventTranslation,
+    LessonInfo,
+    LessonInfoTranslation,
+    Review,
+    UIBlock,
+)
 
 
 class TranslationSerializerMixin:
@@ -35,14 +45,109 @@ class CategorySerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
+        request = self.context.get("request")
+        language = resolve_language_code(request)
 
-        language = self.context["request"].query_params.get("language")
-
-        if language:
-            data["translations"] = [
-                translation
-                for translation in data["translations"]
-                if translation["language"] == language
-            ]
+        data["translations"] = [
+            translation
+            for translation in data["translations"]
+            if translation["language"] == language
+        ] or data["translations"]
 
         return data
+
+
+class EventTranslationSerializer(serializers.ModelSerializer):
+    language = serializers.CharField(source="language.code")
+
+    class Meta:
+        model = EventTranslation
+        fields = [
+            "language",
+            "title",
+            "description",
+        ]
+
+
+class EventGallerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventGallery
+        fields = [
+            "id",
+            "image",
+        ]
+        read_only_fields = [
+            "id",
+            "image",
+        ]
+
+
+class EventSerializer(serializers.ModelSerializer):
+    translations = EventTranslationSerializer(many=True, read_only=True)
+    gallery = EventGallerySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Event
+        fields = [
+            "id",
+            "local_image",
+            "image_url",
+            "date",
+            "status",
+            "translations",
+            "gallery",
+        ]
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get("request")
+        language = resolve_language_code(request)
+
+        data["translations"] = [
+            translation
+            for translation in data["translations"]
+            if translation["language"] == language
+        ] or data["translations"]
+
+        return data
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ["id", "full_name", "rating", "text", "created_at"]
+
+
+class LessonInfoTranslationSerializer(serializers.ModelSerializer):
+    language = serializers.CharField(source="language.code", read_only=True)
+
+    class Meta:
+        model = LessonInfoTranslation
+        fields = ["language", "title", "content"]
+
+
+class LessonInfoSerializer(serializers.ModelSerializer):
+    translations = LessonInfoTranslationSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = LessonInfo
+        fields = ["id", "order", "translations"]
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get("request")
+        language = resolve_language_code(request)
+
+        data["translations"] = [
+            translation
+            for translation in data["translations"]
+            if translation["language"] == language
+        ] or data["translations"]
+
+        return data
+
+
+class UIBlockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UIBlock
+        fields = ["id", "key", "section", "payload", "order", "is_visible"]
