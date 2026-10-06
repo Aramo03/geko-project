@@ -11,6 +11,10 @@
     "error": "Something went wrong. Try again later.",
     "empty": "Nothing to show yet."
   },
+  "about": {
+    "team": "Our team",
+    "memberImageAlt": "{{name}}"
+  },
   "contacts": {
     "title": "Contact us",
     "fullName": "Full name",

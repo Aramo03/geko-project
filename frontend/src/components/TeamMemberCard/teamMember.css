@@ -1,0 +1,33 @@
+.team-member-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.team-member-card__image {
+  width: 9rem;
+  height: 9rem;
+  border: 2px dashed #64748b;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.team-member-card__content h3 {
+  margin: 0.25rem 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.team-member-card__content p {
+  margin: 0.4rem 0;
+}
+
+.team-member-card__role {
+  font-weight: 600;
+}
