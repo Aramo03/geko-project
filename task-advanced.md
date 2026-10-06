@@ -1,10 +1,10 @@
 # Task advanced — карта зон и шаги
 
-Короткое задание: [TASK.md](TASK.md). **Сначала читай волну 3**; волна 2 (модели) — архив внизу.
+Короткое задание: [TASK.md](TASK.md). **Сначала читай волну 4**; волны 3 и 2 — архив внизу.
 
-Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md). Поля моделей (архив): [backup/prod-geko-back-main/main/models.py](backup/prod-geko-back-main/main/models.py).
+Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md). Фронт: [docs/frontend.md](docs/frontend.md). Долг полей волны 3 закрывает волна 4 — список в [fix.md](fix.md). Backup UI: [backup/geko-front-main](backup/geko-front-main) — смотри, не копируй папками.
 
-**Волна 3 (сейчас)** — API, admin, `create_admin`, фронт, i18n UI, CI. **Волна 2 закрыта** (2026-09-29). Пробелы: [fix.md](fix.md).
+**Волна 4 (сейчас)** — страницы и оболочка как backup, Redux-токен, язык UI = API, поля контакта, комментарии на курсах, Docker `migrate`. **Волна 3 закрыта** (2026-10-04). **Волна 2 закрыта** (2026-09-29).
 
 ---
 
@@ -16,20 +16,312 @@ Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md)
 | **Back — models** | таблицы БД | `accounts`, `main`, `courses`, `team`, `content` | **2 ✓** |
 | **Translation A (контент)** | тексты курсов / событий / команды в БД | `*Translation` рядом с моделями | **2 ✓** |
 | **UI-слоты (бэк)** | JSON-блоки шапки, hero, футера | `UIBlock` + `init_ui` | **2 ✓** |
-| **Back — API** | `/api/…`, `?language=`, JWT, Swagger | serializers, views, urls | **3 (сейчас)** |
-| **Back — admin** | Unfold, inlines, inbox заявок | `admin.py` | **3 (сейчас)** |
-| **Serv** | Docker Compose, Postgres, CI, `.env.example` | корень репо, `.github/` | позже, Lead + зона 10 |
-| **Front — shell** | роутер, Header, Footer, Redux, axios | `frontend/src/` | после API |
-| **Front — страницы** | Home, About, Courses, Events, Contacts | `frontend/src/pages/` | после shell |
-| **Translation B (UI)** | подписи кнопок и меню | `frontend/src/i18n/am.json` `en.json` `ru.json` | **не сейчас** |
-| **UI / Design / QA** | токены, адаптив, пустые/ошибки | CSS, Tailwind, чеклисты | после страниц |
+| **Back — API** | `/api/…`, `?language=`, JWT, Swagger | serializers, views, urls | **3 ✓** |
+| **Back — admin** | Unfold, inlines, inbox заявок | `admin.py` | **3 ✓** |
+| **Serv** | Docker Compose, Postgres, CI, `.env.example` | корень репо, `.github/` | **4 (сейчас)**, Lead |
+| **Front — shell** | роутер, Header, Footer, Redux, axios | `frontend/src/` | **4 (сейчас)** |
+| **Front — страницы** | Home, About, Courses, Events, Contacts | `frontend/src/pages/` | **4 (сейчас)** |
+| **Translation B (UI)** | подписи кнопок и меню | `frontend/src/i18n/am.json` `en.json` `ru.json` | **4 (сейчас)** |
+| **UI / Design / QA** | токены, адаптив, пустые/ошибки | CSS, Tailwind, чеклисты | **4 (сейчас)** |
 
 Два разных «перевода»:
 
 1. **Контент** — названия категорий, курсов, событий, роли в команде. Живут в Django (`CategoryTranslation`, `EventTranslation`, …). Это **волна 2**.
-2. **Интерфейс** — «Home», «Контакты», кнопки форм. Живут в JSON i18n. Это **фронт** (часть волны 3, зона 10).
+2. **Интерфейс** — «Home», «Контакты», кнопки форм. Живут в JSON i18n. Это **волна 4** (все зоны, ключи добавляет тот, чья страница).
 
 ---
+
+## Кто что занимает: волна 4
+
+| # | Имя | Зона | Слой волны 4 | Ключевые файлы |
+|---|-----|------|--------------|----------------|
+| 1 | Lead | Lead | git, Docker migrate | `docker-compose.yml`, ревью PR |
+| 2 | Daniel | User | Redux token | `frontend/src/store/`, `main.jsx` |
+| 3 | Sv | Language | UI язык = API | `frontend/src/i18n/index.js`, `Header` |
+| 4 | Karen | Category | страницы категорий | `pages/CourseCategory/`, карточки |
+| 5 | Vach | Courses | страница курса | `pages/CourseDetails/`, `apps/courses/admin.py` |
+| 6 | Ashot | Events | вкладки и деталь | `pages/Events/` |
+| 7 | Hayk | Content | секции Home | `pages/Home/` — reviews, lesson info |
+| 8 | Suren | Team | About + admin Team | `pages/About/`, `apps/team/admin.py` |
+| 9 | Mariam | Leads + Comments | контакт + комментарии UI | `ContactMessage`, `CommentForm` |
+| 10 | UI / QA | Shell + QA | Header, Footer, 404, hero | `components/Header`, `Footer`, `NotFound` |
+
+Страницы Karen и Vach ждут общий `CommentForm` от Mariam. Оболочка (UI/QA) мержится раньше страниц.
+
+---
+
+## Порядок мержа волны 4 (строго)
+
+```
+Daniel (store) → Sv (language) → UI/QA (Header, Footer, 404) → Mariam (contact + comments UI) → Karen → Vach → Ashot → Hayk → Suren
+```
+
+Почему так: страницы сидят в оболочке; категории и курсы ждут общий `CommentForm` от Mariam. Hayk и Suren не блокируют друг друга, но Suren последний, чтобы About не конфликтовал с Home.
+
+Lead держит таблицу «кто мержит и когда». Никто не пушит в `main`.
+
+---
+
+## Общие шаги (волна 4)
+
+Делай **до** кода своей зоны.
+
+1. Прочитай [TASK.md](TASK.md) и свой блок в «Волна 4 — активные задания».
+2. Прочитай [CONTRIBUTING.md](CONTRIBUTING.md) и [docs/frontend.md](docs/frontend.md).
+3. Обнови `dev` и создай ветку:
+
+```bash
+git checkout dev
+git pull origin dev
+git checkout -b feat/<имя>-<зона>
+```
+
+Примеры зон: `user`, `language`, `category`, `courses`, `events`, `content`, `team`, `leads`, `shell`.
+
+4. Смотри backup в `backup/geko-front-main` — повтори поведение, не копируй папки целиком.
+5. Новый компонент = **три файла**: `Component.jsx`, `component.css`, `component.js`. Не складывай три блока в один `.jsx`.
+6. Медиа только из `frontend/public/` и backup. Не Unsplash и не свои фото.
+7. Формы — только `useForm`. Подписи кнопок — ключи в `am.json` / `en.json` / `ru.json`. Тексты курсов и событий — с API `?language=`.
+8. Один PR = одна зона. PR: **base = `dev`**, не `main`.
+9. **Не мержить** `origin/feat/ui`, `origin/feature/events`.
+
+---
+
+## Волна 4 — активные задания
+
+Спека страниц: [docs/frontend.md](docs/frontend.md). API уже в `dev`: [docs/backend.md](docs/backend.md).
+
+### 1 — Lead
+
+**Слой:** git + Docker. Чужие страницы не пишешь.
+
+#### Шаги
+
+1. Таблица в чате: имя, ветка `feat/…`, ссылка на PR, когда мержить (порядок выше).
+2. Ревью: один PR = одна зона; нет force-push в `dev` / `main`; нет копипасты backup целиком.
+3. В [docker-compose.yml](docker-compose.yml) у сервиса `backend` команда должна применить миграции и потом поднять сервер, например:
+
+```yaml
+command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+```
+
+4. Не меняй `main`. Устаревшие `feat/ui` и `feature/events` не вливай.
+
+#### DoD
+
+- Контейнер backend поднимает схему без ручного `migrate`.
+- Все PR волны 4 влиты в `dev` в указанном порядке.
+
+---
+
+### 2 — Daniel (Redux token)
+
+**Слой:** Front shell. Публичной регистрации нет.
+
+**Файлы:** новая папка `frontend/src/store/`, [`frontend/src/main.jsx`](frontend/src/main.jsx).
+
+#### Шаги
+
+1. Ветка: `feat/<имя>-user`.
+2. Redux Toolkit: store и слайс access-token.
+3. Ключ в `localStorage`: `geko_access_token` (тот же, что уже читает [`frontend/src/api/client.js`](frontend/src/api/client.js)).
+4. Действия: записать токен, очистить токен. При старте приложения прочитай ключ из `localStorage` в store.
+5. Оберни приложение в `Provider` в `main.jsx`.
+6. Не делай страницу логина для гостей и не меняй `User` / JWT endpoints.
+
+#### DoD
+
+- `npm run build` проходит.
+- Токен, положенный в store, оказывается в `localStorage` под `geko_access_token` и наоборот.
+
+---
+
+### 3 — Sv (язык UI = API)
+
+**Слой:** i18n + query `language`.
+
+**Файлы:** [`frontend/src/i18n/index.js`](frontend/src/i18n/index.js), переключатель в Header.
+
+#### Шаги
+
+1. Дождись мержа store Daniel (не обязательно для языка, но ветка от актуального `dev`).
+2. Сейчас UI fallback — `am`, API default — `en` в [`backend/apps/model_helpers.py`](backend/apps/model_helpers.py) (`DEFAULT_API_LANGUAGE`). Зафиксируй **оба на `en`**: `fallbackLng: 'en'` в `i18n/index.js`. Константу на бэке не переименовывай и не ставь `am`.
+3. Кнопки языка в Header уже вызывают `i18n.changeLanguage`. Проверь, что после клика следующий GET уходит с `?language=` равным `am`, `en` или `ru` (interceptor в `client.js`).
+4. Если список на странице не обновляется сам — не переписывай чужие страницы; в PR опиши, что владельцы страниц должны зависеть от `i18n.language` в `useEffect`.
+
+#### DoD
+
+- Переключение am / en / ru меняет query `language`.
+- Без выбранного языка и API, и i18n сходятся на `en`.
+
+---
+
+### 4 — Karen (категории)
+
+**Слой:** Front — `/course-category` и `/course-category/:id`.
+
+**Смотри:** `backup/geko-front-main/src/components/pages/courses/Courses.jsx`, `CoursesMenu.jsx`.
+
+#### Шаги
+
+1. Дождись мержа оболочки (UI/QA) и `CommentForm` (Mariam).
+2. `GET /api/categories/` — список. Карточка категории — отдельная папка из трёх файлов.
+3. `GET /api/courses/<category_id>/` — курсы выбранной категории. Ссылка на `/courses/:id`.
+4. Под списком курсов вставь комментарии Mariam с фильтром `?category=<id>`.
+5. Состояния: загрузка, ошибка сети, пустой список — тексты из i18n, не захардкоженные строки на одном языке.
+
+#### DoD
+
+- Оба маршрута открываются и ходят в API.
+- Пустой ответ и ошибка видны пользователю.
+
+---
+
+### 5 — Vach (курс)
+
+**Слой:** Front — `/courses/:id` + короткая регистрация в админке.
+
+**Файлы:** [`frontend/src/pages/CourseDetails/`](frontend/src/pages/CourseDetails/), `backend/apps/courses/admin.py`.
+
+#### Шаги
+
+1. Дождись Mariam (`CommentForm`).
+2. Страница одного `PopularCourse`: данные из `GET /api/popular_courses/` (найди по `id`) или detail, если роутер его уже отдаёт. Имя класса остаётся **PopularCourse**.
+3. Картинка: если URL не начинается с `https://`, добавь `VITE_BASE_URL` (см. docs/frontend.md).
+4. Комментарии с `?popular_course=<id>`.
+5. Unfold: список `PopularCourse` в `apps/courses/admin.py` (list_display, без переписывания модели).
+
+#### DoD
+
+- `/courses/:id` показывает название и не остаётся заглушкой.
+- Курс виден в Django admin.
+
+---
+
+### 6 — Ashot (события)
+
+**Слой:** Front — вкладки и деталь. Модель не переименовывай.
+
+**Маршруты:** `/events` → редирект на `/events/completed`; `/events/:tab`; `/events/:tab/:id`.
+
+#### Шаги
+
+1. Дождись оболочки UI/QA.
+2. Вкладки ровно три: `upcoming`, `happening`, `completed`. Список: `GET /api/events/?status=<tab>`.
+3. Пустая вкладка не кликабельна (как в backup `Events.jsx`).
+4. Карточка и страница `/events/:tab/:id`: заголовок из translation, gallery из API. Поле даты на API — **`date`**. Не переименовывай его в `start_date` / `end_date` без Lead.
+5. Компонент карточки — три файла.
+
+#### DoD
+
+- Три статуса приходят с API и переключаются вкладками.
+- Деталь события открывается по id.
+
+---
+
+### 7 — Hayk (Home: отзывы и занятия)
+
+**Слой:** секции главной. Источник — **`main`**, не `apps.content`.
+
+**Файлы:** [`frontend/src/pages/Home/`](frontend/src/pages/Home/).
+
+#### Шаги
+
+1. Дождись оболочки.
+2. Секция отзывов: `GET /api/reviews/`. Поля, которые есть: `full_name`, `rating`, `text`. Картинок у Review нет — не добавляй image-поля в модель.
+3. Секция занятий: `GET /api/lesson_info/?language=`. Заголовок из translation. Порядок уже по `order` на API.
+4. Параметр `language` у reviews ни на что не влияет (нет translation-модели) — не строй фильтр языка для отзывов.
+5. Состояния loading / error / empty.
+
+#### DoD
+
+- На `/` видны обе секции, без текста TODO.
+
+---
+
+### 8 — Suren (About + admin Team)
+
+**Слой:** `/about-us` и Unfold для команды.
+
+**Файлы:** [`frontend/src/pages/About/`](frontend/src/pages/About/), `backend/apps/team/admin.py`.
+
+**Смотри:** backup `AboutUs.jsx`, `Tutors.jsx`.
+
+#### Шаги
+
+1. Мерж после Home, чтобы не столкнуться в общем layout, если трогаешь только About.
+2. `GET /api/teams/?language=`. На карточке: `name`, `role`, `desc` из `TeamTranslation`.
+3. Карточка — три файла. Пустой список — empty state из i18n.
+4. Зарегистрируй `Team` в Unfold (`apps/team/admin.py`): list по `order`, inline переводов если уместно. Модель и `db_table` не меняй.
+
+#### DoD
+
+- `/about-us` показывает команду или пустое состояние.
+- Team открывается в `/api/admin/`.
+
+---
+
+### 9 — Mariam (контакт и комментарии)
+
+**Слой:** бэкенд полей контакта + общие компоненты комментариев. Reply в UI не делай.
+
+#### Шаги
+
+1. Дождись оболочки (форма контакта живёт на `/contacts` внутри layout).
+2. Миграция `ContactMessage`: добавь `country` (CharField, blank), `whatsapp` (CharField, blank), FK `category` → `Category`, `null=True`, `blank=True`, `SET_NULL`. Поле `phone` не удаляй.
+3. Обнови serializer и [`backend/apps/leads/tests.py`](backend/apps/leads/tests.py). `POST /api/contact/` принимает новые поля.
+4. Форма [`frontend/src/pages/Contacts/Contacts.jsx`](frontend/src/pages/Contacts/Contacts.jsx) — `useForm`: `full_name`, `email`, `whatsapp`, `country`, `category`, `message` (как docs/frontend.md). Категории для select — `GET /api/categories/`.
+5. Общие компоненты (каждый — три файла), например `frontend/src/components/CommentList/` и `CommentForm/`:
+   - список: `GET /api/comments/?category=` или `?popular_course=`;
+   - форма гостя: `full_name`, `email`, `whatsapp`, `text` → `POST /api/comments/` **без** JWT;
+   - xor: либо category, либо popular_course — как в модели.
+6. `POST /api/comments/<id>/reply/` в интерфейс не выноси. Это остаётся API + JWT.
+
+#### DoD
+
+- Форма контакта шлёт `country`, `whatsapp`, `category`.
+- Гостевой комментарий создаётся; чужой `CommentForm` можно вставить на страницу категории и курса.
+
+---
+
+### 10 — UI / QA (оболочка)
+
+**Слой:** Header, Footer, 404, hero. Мержится **до** страниц зон 4–8.
+
+**Файлы:** [`frontend/src/components/Header/`](frontend/src/components/Header/), новый `frontend/src/components/Footer/`, [`frontend/src/pages/NotFound/NotFound.jsx`](frontend/src/pages/NotFound/NotFound.jsx), hero на Home.
+
+#### Шаги
+
+1. Дождись Sv, чтобы язык в шапке уже совпадал с API.
+2. Header: телефон и email из `GET /api/ui-blocks/` (ключи `header` и `contacts_bar`), не хардкод номеров. Меню и флаги уже есть — не ломай маршруты.
+3. Footer — новая папка из трёх файлов: навигация, контакты. Тексты кнопок — i18n JSON (`am`, `en`, `ru`).
+4. Подключи Footer в [`frontend/src/App.jsx`](frontend/src/App.jsx) так, чтобы он был на всех маршрутах рядом с Header.
+5. NotFound: убери TODO, страница 404 на неизвестный путь.
+6. Hero на Home: блок `hero` из `ui-blocks` (ключ из `init_ui`). Не затирай секции Hayk, если его PR уже влит; если нет — оставь reviews/lesson как есть и добавь только hero.
+7. Чеклист в описании PR: ширина 375px и desktop; пустой ответ API; ошибка сети.
+
+#### DoD
+
+- Header, Footer и 404 есть на маршрутах из `App.jsx`.
+- Hero читает `UIBlock`, а не захардкоженный текст.
+
+---
+
+## Запрещено в волне 4
+
+- пушить в `main`
+- удалять Django-модели
+- мержить `origin/feat/ui` и `origin/feature/events`
+- копировать backup папками
+- картинки не из `frontend/public` / backup (Unsplash, случайные URL)
+- публичная регистрация staff
+- переименовывать `PopularCourse`, `ContactMessage`, поле `Event.date`
+
+---
+
+## Архив — волна 3 (API, admin, фронт, закрыта 2026-10-04)
+
+Справочник. **Не начинай отсюда** — активная работа в разделе «Волна 4» выше.
 
 ## Кто что занимает: волна 3
 
@@ -154,7 +446,7 @@ git checkout -b feat/<имя>-<зона>
 
 ## Архив — волна 2 (модели, закрыта)
 
-Справочник по выполненным заданиям моделей. **Не начинай отсюда** — активная работа в разделе «Волна 3» выше.
+Справочник по выполненным заданиям моделей. **Не начинай отсюда** — активная работа в разделе «Волна 4» выше.
 
 ### Порядок мержа моделей (волна 2)
 
@@ -504,53 +796,35 @@ python manage.py makemigrations accounts
 
 ## English
 
-Short assignment: [TASK.md](TASK.md). **Read wave 3 first**; wave 2 is archive at the bottom.
+Short assignment: [TASK.md](TASK.md). **Read wave 4 first.** Waves 3 and 2 are archives below.
 
-**Wave 3 (now):** API, admin, JWT, frontend, i18n UI. See «Волна 3 — активные задания» above. Spec: [docs/backend.md](docs/backend.md). PR **only to `dev`**. Do not merge `feat/ui` / `feature/events`. Keep `PopularCourse` and `ContactMessage` names.
+**Wave 4 (now):** pages like backup. Merge: Daniel (store) → Sv (language) → UI/QA (Header, Footer, 404) → Mariam (contact + comments) → Karen → Vach → Ashot → Hayk → Suren. Spec: [docs/frontend.md](docs/frontend.md). PR **only to `dev`**.
 
-**Merge order (wave 3):** Daniel (auth) → Sv (`?language=`) → Karen → Vach → Ashot → Hayk → Suren → Mariam (POST) → UI/QA.
+Zones: Lead — Docker `migrate` on backend start; Daniel — Redux token `geko_access_token`; Sv — UI and API language both `en` by default; Karen — category pages; Vach — course page; Ashot — event tabs and detail (`date`, not `start_date`); Hayk — Home reviews + lesson info from `main`; Suren — About + Team admin; Mariam — contact fields `country` / `whatsapp` / `category` + guest `CommentForm`; UI/QA — shell and 404.
 
-### Layer map
+### Archive — wave 3
 
-| Layer | Meaning | Wave |
-|-------|---------|------|
-| Lead | git, PR to `dev`, merge order | always |
-| Back models | DB tables in `accounts` + apps | **2 done** |
-| Translation A | `*Translation` rows | **2 done** |
-| UI slots | `UIBlock` + `init_ui` | **2 done** |
-| Back API / admin | `/api/…`, Unfold | **3 now** |
-| Serv | Docker, Postgres, CI | later (Lead + zone 10) |
-| Front shell / pages | Header, routes, Home…Contacts | **3** (zone 10) |
-| Translation B | `frontend/src/i18n/*.json` | **3** (zone 10) |
+API, admin, JWT. Merge was Daniel → Sv → Karen → Vach → Ashot → Hayk → Suren → Mariam → UI/QA. Closed 2026-10-04.
 
 ### Archive — wave 2 (models)
 
 Merge order: **User → Language → Category → Courses → Events → Content → Team → Leads/Comments → UIBlock**.
 
-Per-zone summary: Lead merge table; User email + roles; Language `code`/`name`; Category + Translation; **PopularCourse**; Events three statuses + gallery; Review + LessonInfo; Team + Translation; ContactMessage + Comment (xor); UIBlock + `init_ui` on clean DB.
-
 ---
 
 ## Հայերեն
 
-Կարճ առաջադրանք՝ [TASK.md](TASK.md)։ **Նախ կարդա ալիք 3**; ալիք 2 — արխիվ ստորև։
+Կարճ առաջադրանք՝ [TASK.md](TASK.md)։ **Նախ կարդա ալիք 4**։ Ալիք 3 և 2 — արխիվ ստորև։
 
-**Ալիք 3 (հիմա)** — API, admin, JWT, front, i18n UI։ Մանրամասներ՝ վերևի «Волна 3 — активные задания»։ PR միայն `dev`։
+**Ալիք 4 (հիմա)** — էջեր backup-ի պես։ Merge՝ Daniel → Sv → UI/QA → Mariam → Karen → Vach → Ashot → Hayk → Suren։ PR միայն `dev`։
 
-**Merge (ալիք 3)**՝ Daniel → Sv → Karen → Vach → Ashot → Hayk → Suren → Mariam → UI/QA։
+Գոտիներ՝ Lead (Docker migrate), Daniel (Redux token), Sv (լեզու `en`), Karen (կատեգորիաներ), Vach (դասընթաց), Ashot (իրադարձություններ), Hayk (Home reviews), Suren (About), Mariam (կոնտակտ + մեկնաբանություն), UI/QA (Header, Footer, 404)։
 
-### Շերտեր (ալիք 3)
+### Արխիվ — ալիք 3
 
-| Շերտ | Ինչ է | Ալիք |
-|------|--------|------|
-| Lead | git, PR դեպի `dev` | միշտ |
-| Back models | մոդելներ | **2 փակված** |
-| Back API / admin | `/api/…`, Unfold | **3 հիմա** |
-| Front + i18n | էջեր, `i18n/*.json` | **3, գոտի 10** |
+API, admin, JWT։ Փակված է 2026-10-04։
 
-### Արխիվ — ալիք 2 (մոդելներ)
+### Արխիվ — ալիք 2
 
 Միաձուլման կարգ՝ **User → Language → Category → Courses → Events → Content → Team → Leads/Comments → UIBlock**։
-
-Գոտիներ՝ User, Language, Category, PopularCourse, Events, Content, Team, ContactMessage + Comment, UIBlock + `init_ui`։
 

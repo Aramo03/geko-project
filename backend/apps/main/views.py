@@ -52,8 +52,10 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ReviewViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        return Review.objects.all().order_by("-created_at")
 
 
 class LessonInfoViewSet(viewsets.ReadOnlyModelViewSet):

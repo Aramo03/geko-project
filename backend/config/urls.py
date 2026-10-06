@@ -12,11 +12,14 @@ urlpatterns = [
     path("api/admin/", admin.site.urls),
     path("api/auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "api/schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
     path("api/", include("apps.main.urls")),
-
-    path("api/leads/", include("apps.leads.urls")),
-
-
+    path("api/", include("apps.leads.urls")),
 ]
 
 if settings.DEBUG:

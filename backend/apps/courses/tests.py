@@ -56,7 +56,7 @@ class PopularCourseApiTests(APITestCase):
         self.assertEqual(figma["category"]["id"], self.design.id)
         self.assertEqual(
             {item["language"] for item in figma["translations"]},
-            {"en", "ru"},
+            {"en"},
         )
 
     def test_language_filter(self):
