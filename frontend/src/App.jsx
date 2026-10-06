@@ -7,6 +7,7 @@ import CourseDetails from "./pages/CourseDetails/CourseDetails.jsx"
 import Events from "./pages/Events/Events.jsx"
 import Contacts from "./pages/Contacts/Contacts.jsx"
 import NotFound from "./pages/NotFound/NotFound.jsx"
+import Footer from "./components/Footer/Footer.jsx"
 
 export default function App() {
 
@@ -26,6 +27,8 @@ export default function App() {
         <Route path="/contacts" element={<Contacts />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+
+       <Footer />
     </>
   )
 }
