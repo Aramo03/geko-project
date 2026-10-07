@@ -8,6 +8,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 urlpatterns = [
     path("api/admin/", admin.site.urls),
     path("api/", include("apps.main.urls")),
+    path("api/", include("apps.courses.urls")), # Ավելացրu սա
 
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
@@ -16,6 +17,3 @@ urlpatterns = [
         name="swagger-ui",
     ),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
