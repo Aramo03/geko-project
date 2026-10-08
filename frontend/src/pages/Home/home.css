@@ -1,1 +1,16 @@
-.page { padding: 2rem; }
+.page {
+  padding: 2rem;
+}
+
+.home-section + .home-section {
+  margin-top: 2rem;
+}
+
+.home-section ul {
+  padding-left: 1.25rem;
+}
+
+.review-text,
+.lesson-content {
+  margin: 0.25rem 0 0;
+}
