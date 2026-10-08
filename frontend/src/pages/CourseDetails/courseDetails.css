@@ -1,1 +1,14 @@
-.page { padding: 2rem; }
+.page {
+  padding: 2rem;
+}
+
+.course-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+}
+
+.course-description {
+  white-space: pre-wrap;
+}

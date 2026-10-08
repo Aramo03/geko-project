@@ -35,6 +35,15 @@
   },
   "home": {
     "reviews": "Կարծիքներ",
-    "lessons": "Դասի մասին"
+    "lessons": "Դասի մասին",
+    "untitled": "Անվերնագիր"
+  },
+  "categories": {
+    "comments": "Մեկնաբանություններ",
+    "untitled": "Անվերնագիր"
+  },
+  "course": {
+    "comments": "Մեկնաբանություններ",
+    "untitled": "Անվերնագիր"
   }
 }

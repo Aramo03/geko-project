@@ -1,41 +1,60 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { api, pickTranslation } from '../../api/client.js'
+import { api } from '../../api/client.js'
+import CourseComments from '../../components/CourseComments/CourseComments.jsx'
+import { courseDescription, courseImage, courseTitle } from './courseDetails.js'
 import './courseDetails.css'
 
 export default function CourseDetails() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { id } = useParams()
   const [course, setCourse] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    if (!id) return
+    let cancelled = false
     setLoading(true)
     setError(false)
-    api
-      .get('/api/popular_courses/')
-      .then((res) => {
-        const found = res.data.find((c) => String(c.id) === String(id))
-        setCourse(found || null)
-      })
-      .catch(() => setError(true))
-      .finally(() => setLoading(false))
-  }, [id])
+    setCourse(null)
 
-  const tr = course ? pickTranslation(course.translations) : null
+    api
+      .get(`/api/popular_courses/${id}/`)
+      .then((res) => {
+        if (cancelled) return
+        if (!res.data || Array.isArray(res.data)) {
+          setError(true)
+          return
+        }
+        setCourse(res.data)
+      })
+      .catch(() => {
+        if (!cancelled) setError(true)
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [id, i18n.language])
+
+  const title = courseTitle(course) || t('course.untitled')
+  const description = courseDescription(course)
+  const image = course ? courseImage(course) : ''
 
   return (
     <main className="page">
       {loading && <p>{t('common.loading')}</p>}
       {error && <p className="error">{t('common.error')}</p>}
-      {!loading && !error && !course && <p>{t('common.empty')}</p>}
-      {course && (
+      {!loading && !error && course && (
         <>
-          <h1>{tr?.title || `Course ${course.id}`}</h1>
-          {tr?.description && <p>{tr.description}</p>}
+          <h1>{title}</h1>
+          {image ? <img className="course-image" src={image} alt={title} /> : null}
+          {description ? <p className="course-description">{description}</p> : null}
+          <CourseComments courseId={id} />
         </>
       )}
     </main>

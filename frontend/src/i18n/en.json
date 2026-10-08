@@ -35,6 +35,15 @@
   },
   "home": {
     "reviews": "Reviews",
-    "lessons": "Lesson info"
+    "lessons": "Lesson info",
+    "untitled": "Untitled"
+  },
+  "categories": {
+    "comments": "Comments",
+    "untitled": "Untitled"
+  },
+  "course": {
+    "comments": "Comments",
+    "untitled": "Untitled"
   }
 }
