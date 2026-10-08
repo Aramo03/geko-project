@@ -13,7 +13,8 @@
   },
   "about": {
     "team": "Our team",
-    "memberImageAlt": "{{name}}"
+    "empty": "No team members yet.",
+    "memberImageAlt": "Photo of {{name}}"
   },
   "contacts": {
     "title": "Contact us",

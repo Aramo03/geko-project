@@ -13,7 +13,8 @@
   },
   "about": {
     "team": "Наша команда",
-    "memberImageAlt": "{{name}}"
+    "empty": "В команде пока никого нет.",
+    "memberImageAlt": "Фото: {{name}}"
   },
   "contacts": {
     "title": "Связаться с нами",

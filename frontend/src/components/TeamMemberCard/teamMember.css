@@ -18,6 +18,11 @@
   object-fit: cover;
 }
 
+.team-member-card__content {
+  width: 100%;
+  overflow-wrap: anywhere;
+}
+
 .team-member-card__content h3 {
   margin: 0.25rem 0;
   font-size: 1.2rem;

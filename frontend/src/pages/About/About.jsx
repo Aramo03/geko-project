@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
 import TeamMemberCard from '../../components/TeamMemberCard/TeamMemberCard.jsx'
+import { teamListFromResponse } from './about.js'
 import './about.css'
 
 export default function About() {
@@ -17,7 +18,7 @@ export default function About() {
     api
       .get('/api/teams/')
       .then((res) => {
-        if (active) setTeams(Array.isArray(res.data) ? res.data : [])
+        if (active) setTeams(teamListFromResponse(res.data))
       })
       .catch(() => {
         if (active) setError(true)
@@ -32,11 +33,11 @@ export default function About() {
   return (
     <main className="page about-page">
       <h1>{t('nav.about')}</h1>
-      <section className="about-team" aria-labelledby="about-team-title">
+      <section className="about-team" aria-labelledby="about-team-title" aria-busy={loading}>
         <h2 id="about-team-title">{t('about.team')}</h2>
         {loading && <p>{t('common.loading')}</p>}
         {error && <p className="error" role="alert">{t('common.error')}</p>}
-        {!loading && !error && teams.length === 0 && <p>{t('common.empty')}</p>}
+        {!loading && !error && teams.length === 0 && <p>{t('about.empty')}</p>}
         {!loading && !error && teams.length > 0 && (
           <div className="about-team-grid">
             {teams.map((member) => (

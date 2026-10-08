@@ -13,7 +13,8 @@
   },
   "about": {
     "team": "Մեր թիմը",
-    "memberImageAlt": "{{name}}"
+    "empty": "Թիմում դեռ ոչ ոք չկա։",
+    "memberImageAlt": "Լուսանկար՝ {{name}}"
   },
   "contacts": {
     "title": "Կապ մեզ հետ",
