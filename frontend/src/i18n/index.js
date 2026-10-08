@@ -12,6 +12,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
     ru: { translation: ru }
   },
   fallbackLng: 'am',
+  supportedLngs: ['am','en', 'ru'],
   interpolation: { escapeValue: false },
 })
 
