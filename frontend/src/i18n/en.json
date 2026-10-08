@@ -31,5 +31,9 @@
   "home": {
     "reviews": "Reviews",
     "lessons": "Lesson info"
+  },
+  "categories": {
+    "comments": "Comments",
+    "untitled": "Untitled"
   }
 }
