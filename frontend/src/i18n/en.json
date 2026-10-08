@@ -36,7 +36,8 @@
   "home": {
     "reviews": "Reviews",
     "lessons": "Lesson info",
-    "untitled": "Untitled"
+    "untitled": "Untitled",
+    "hero": "Hero"
   },
   "categories": {
     "comments": "Comments",
@@ -45,5 +46,15 @@
   "course": {
     "comments": "Comments",
     "untitled": "Untitled"
+  },
+  "footer": {
+    "navigation": "Navigation",
+    "contacts": "Contacts",
+    "map": "Map"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "This page does not exist.",
+    "home": "Home"
   }
 }

@@ -21,3 +21,19 @@ export function lessonTitle(lesson) {
 export function lessonContent(lesson) {
   return pickTranslation(lesson?.translations)?.content || ''
 }
+
+export function findBlock(blocks, key) {
+  if (!Array.isArray(blocks)) return null
+  return blocks.find((block) => block?.key === key) || null
+}
+
+export function blockText(value, language) {
+  if (typeof value === 'string') return value.trim()
+  if (!value || typeof value !== 'object') return ''
+  const code = (language || 'en').split('-')[0]
+  if (Object.prototype.hasOwnProperty.call(value, code)) {
+    return typeof value[code] === 'string' ? value[code].trim() : ''
+  }
+  const fallback = value.en
+  return typeof fallback === 'string' ? fallback.trim() : ''
+}
