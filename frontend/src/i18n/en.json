@@ -35,5 +35,9 @@
   "categories": {
     "comments": "Comments",
     "untitled": "Untitled"
+  },
+  "course": {
+    "comments": "Comments",
+    "untitled": "Untitled"
   }
 }
