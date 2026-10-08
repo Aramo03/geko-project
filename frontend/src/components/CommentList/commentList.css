@@ -1,0 +1,19 @@
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comment-item {
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.comment-item h3 {
+  margin: 0 0 8px;
+}
+
+.comment-item p {
+  margin: 0 0 8px;
+}

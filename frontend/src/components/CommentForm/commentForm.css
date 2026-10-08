@@ -1,0 +1,21 @@
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comment-form input,
+.comment-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.comment-form textarea {
+  min-height: 120px;
+}
+
+.comment-form button {
+  width: fit-content;
+  cursor: pointer;
+}

@@ -5,6 +5,35 @@
     "courses": "Courses",
     "events": "Events",
     "contacts": "Contacts"
-  }
+  },
+
   
+  "contacts": {
+    "title": "Contact us",
+    "fullName": "Full name",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "country": "Country",
+    "category": "Category",
+    "selectCategory": "Select category",
+    "message": "Message",
+    "send": "Send",
+    "required": "Required field",
+    "success": "Your message has been sent successfully",
+    "error": "Something went wrong"
+  },
+
+  "comments": {
+    "title": "Comments",
+    "fullName": "Full name",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "text": "Comment",
+    "send": "Send",
+    "required": "Required field",
+    "empty": "No comments yet",
+    "success": "Comment added successfully",
+    "error": "Failed to add comment"
+  }
 }
+
