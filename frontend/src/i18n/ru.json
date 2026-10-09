@@ -31,5 +31,13 @@
   "home": {
     "reviews": "Отзывы",
     "lessons": "О занятиях"
+  },
+  "categories": {
+    "comments": "Комментарии",
+    "untitled": "Без названия"
+  },
+  "course": {
+    "comments": "Комментарии",
+    "untitled": "Без названия"
   }
 }
