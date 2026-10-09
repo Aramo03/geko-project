@@ -1,70 +1,115 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { api, pickTranslation } from '../../api/client.js'
+import { api } from '../../api/client.js'
+import { asList, lessonContent, lessonTitle } from './home.js'
 import './home.css'
 
 export default function Home() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [reviews, setReviews] = useState([])
   const [lessons, setLessons] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [reviewsLoading, setReviewsLoading] = useState(true)
+  const [lessonsLoading, setLessonsLoading] = useState(true)
+  const [reviewsError, setReviewsError] = useState(false)
+  const [lessonsError, setLessonsError] = useState(false)
 
   useEffect(() => {
-    setLoading(true)
-    setError(false)
-    Promise.all([
-      api.get('/api/reviews/'),
-      api.get('/api/lesson_info/'),
-    ])
-      .then(([reviewsRes, lessonsRes]) => {
-        setReviews(reviewsRes.data)
-        setLessons(lessonsRes.data)
+    let cancelled = false
+    setReviewsLoading(true)
+    setReviewsError(false)
+    setReviews([])
+
+    api
+      .get('/api/reviews/')
+      .then((res) => {
+        if (cancelled) return
+        const list = asList(res.data)
+        if (!list) {
+          setReviewsError(true)
+          return
+        }
+        setReviews(list)
       })
-      .catch(() => setError(true))
-      .finally(() => setLoading(false))
+      .catch(() => {
+        if (!cancelled) setReviewsError(true)
+      })
+      .finally(() => {
+        if (!cancelled) setReviewsLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
   }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    setLessonsLoading(true)
+    setLessonsError(false)
+    setLessons([])
+
+    api
+      .get('/api/lesson_info/')
+      .then((res) => {
+        if (cancelled) return
+        const list = asList(res.data)
+        if (!list) {
+          setLessonsError(true)
+          return
+        }
+        setLessons(list)
+      })
+      .catch(() => {
+        if (!cancelled) setLessonsError(true)
+      })
+      .finally(() => {
+        if (!cancelled) setLessonsLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [i18n.language])
 
   return (
     <main className="page home-page">
       <h1>{t('nav.home')}</h1>
-      {loading && <p>{t('common.loading')}</p>}
-      {error && <p className="error">{t('common.error')}</p>}
-      {!loading && !error && (
-        <>
-          <section>
-            <h2>{t('home.reviews')}</h2>
-            {reviews.length === 0 ? (
-              <p>{t('common.empty')}</p>
-            ) : (
-              <ul>
-                {reviews.map((r) => (
-                  <li key={r.id}>
-                    <strong>{r.full_name}</strong> ({r.rating}/5): {r.text}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-          <section>
-            <h2>{t('home.lessons')}</h2>
-            {lessons.length === 0 ? (
-              <p>{t('common.empty')}</p>
-            ) : (
-              <ul>
-                {lessons.map((lesson) => {
-                  const tr = pickTranslation(lesson.translations)
-                  return (
-                    <li key={lesson.id}>
-                      {tr?.title || `Lesson ${lesson.id}`}
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
-          </section>
-        </>
-      )}
+      <section className="home-section">
+        <h2>{t('home.reviews')}</h2>
+        {reviewsLoading && <p>{t('common.loading')}</p>}
+        {reviewsError && <p className="error">{t('common.error')}</p>}
+        {!reviewsLoading && !reviewsError && reviews.length === 0 && <p>{t('common.empty')}</p>}
+        {!reviewsLoading && !reviewsError && reviews.length > 0 && (
+          <ul>
+            {reviews.map((review) => (
+              <li key={review.id}>
+                <strong>{review.full_name}</strong> ({review.rating}/5)
+                <p className="review-text">{review.text}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+      <section className="home-section">
+        <h2>{t('home.lessons')}</h2>
+        {lessonsLoading && <p>{t('common.loading')}</p>}
+        {lessonsError && <p className="error">{t('common.error')}</p>}
+        {!lessonsLoading && !lessonsError && lessons.length === 0 && <p>{t('common.empty')}</p>}
+        {!lessonsLoading && !lessonsError && lessons.length > 0 && (
+          <ul>
+            {lessons.map((lesson) => {
+              const title = lessonTitle(lesson) || t('home.untitled')
+              const content = lessonContent(lesson)
+              return (
+                <li key={lesson.id}>
+                  {title}
+                  {content ? <p className="lesson-content">{content}</p> : null}
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </section>
     </main>
   )
 }
