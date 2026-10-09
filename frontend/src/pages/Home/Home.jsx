@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
-import { asList, lessonContent, lessonTitle } from './home.js'
+import { asList, blockText, findBlock, lessonContent, lessonTitle } from './home.js'
 import './home.css'
 
 export default function Home() {
@@ -12,6 +12,9 @@ export default function Home() {
   const [lessonsLoading, setLessonsLoading] = useState(true)
   const [reviewsError, setReviewsError] = useState(false)
   const [lessonsError, setLessonsError] = useState(false)
+  const [blocks, setBlocks] = useState([])
+  const [heroLoading, setHeroLoading] = useState(true)
+  const [heroError, setHeroError] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -71,9 +74,50 @@ export default function Home() {
     }
   }, [i18n.language])
 
+  useEffect(() => {
+    let cancelled = false
+    setHeroLoading(true)
+    setHeroError(false)
+    setBlocks([])
+
+    api
+      .get('/api/ui-blocks/')
+      .then((res) => {
+        if (cancelled) return
+        const list = asList(res.data)
+        if (!list) {
+          setHeroError(true)
+          return
+        }
+        setBlocks(list)
+      })
+      .catch(() => {
+        if (!cancelled) setHeroError(true)
+      })
+      .finally(() => {
+        if (!cancelled) setHeroLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [i18n.language])
+
+  const hero = findBlock(blocks, 'hero')
+  const heroTitle = blockText(hero?.payload?.title, i18n.language)
+  const heroText = blockText(hero?.payload?.text, i18n.language)
+
   return (
     <main className="page home-page">
       <h1>{t('nav.home')}</h1>
+      <section className="home-section">
+        <h2>{t('home.hero')}</h2>
+        {heroLoading && <p>{t('common.loading')}</p>}
+        {heroError && <p className="error">{t('common.error')}</p>}
+        {!heroLoading && !heroError && !heroTitle && !heroText && <p>{t('common.empty')}</p>}
+        {heroTitle && <p className="hero-title">{heroTitle}</p>}
+        {heroText && <p>{heroText}</p>}
+      </section>
       <section className="home-section">
         <h2>{t('home.reviews')}</h2>
         {reviewsLoading && <p>{t('common.loading')}</p>}
