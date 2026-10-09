@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, pickTranslation } from '../../api/client.js'
+import Hero from '../../components/Hero/Hero.jsx'
 import './home.css'
 
 export default function Home() {
@@ -27,6 +28,7 @@ export default function Home() {
 
   return (
     <main className="page home-page">
+      <Hero />
       <h1>{t('nav.home')}</h1>
       {loading && <p>{t('common.loading')}</p>}
       {error && <p className="error">{t('common.error')}</p>}
@@ -66,5 +68,6 @@ export default function Home() {
         </>
       )}
     </main>
+    
   )
 }
