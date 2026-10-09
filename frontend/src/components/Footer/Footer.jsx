@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer__content">
 
-        {/* Logo + description */}
+      
         <div className="footer__brand">
           <div className="footer__logo">
             <span className="footer__logo-icon">G</span>
@@ -19,7 +19,7 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Programs */}
+        
         <div className="footer__column">
           <h3>Programs</h3>
 
@@ -28,7 +28,7 @@ const Footer = () => {
           <a href="#">Visual Identity</a>
         </div>
 
-        {/* Company */}
+        
         <div className="footer__column">
           <h3>Company</h3>
 

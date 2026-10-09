@@ -54,7 +54,6 @@
   line-height: 1.5;
 }
 
-/* COLUMNS */
 
 .footer__column {
   display: flex;
@@ -82,7 +81,7 @@
   color: #ffffff;
 }
 
-/* BOTTOM */
+
 
 .footer__bottom {
   max-width: 1140px;
@@ -118,7 +117,7 @@
   color: #ffffff;
 }
 
-/* MOBILE */
+
 
 @media (max-width: 700px) {
   .footer {
