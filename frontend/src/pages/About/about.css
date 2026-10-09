@@ -1,1 +1,13 @@
-.page { padding: 2rem; }
+.about-page { padding: 2rem; }
+
+.about-team {
+  margin-top: 2rem;
+}
+
+.about-team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 280px));
+  gap: 1.25rem;
+  margin-top: 1rem;
+  justify-content: start;
+}
