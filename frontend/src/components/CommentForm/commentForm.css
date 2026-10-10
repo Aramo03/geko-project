@@ -15,7 +15,20 @@
   min-height: 120px;
 }
 
+.comment-form label {
+  display: grid;
+  gap: 0.35rem;
+}
+
 .comment-form button {
   width: fit-content;
   cursor: pointer;
+}
+
+.comment-form .error {
+  color: #b00020;
+}
+
+.comment-form .success {
+  color: #0b6e4f;
 }

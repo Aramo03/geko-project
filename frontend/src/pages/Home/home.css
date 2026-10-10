@@ -1,1 +1,16 @@
-.page { padding: 2rem; }
+.page {
+  padding: 2rem;
+}
+
+.home-section + .home-section {
+  margin-top: 2rem;
+}
+
+.home-section ul {
+  padding-left: 1.25rem;
+}
+
+.hero-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}

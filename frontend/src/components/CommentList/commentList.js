@@ -1,18 +1,11 @@
-export function getCommentParams({
-  category,
-  popularCourse,
-}) {
-  if (category) {
-    return {
-      category,
-    }
-  }
+import { commentTarget } from '../CommentForm/commentForm.js'
 
-  if (popularCourse) {
-    return {
-      popular_course: popularCourse,
-    }
-  }
+export function getCommentParams({ category, popularCourse }) {
+  return commentTarget(category, popularCourse)
+}
 
-  return {}
+export function asCommentList(data) {
+  if (Array.isArray(data)) return data
+  if (Array.isArray(data?.results)) return data.results
+  return null
 }

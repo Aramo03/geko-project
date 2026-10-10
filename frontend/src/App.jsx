@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom"
 import Header from "./components/Header/Header.jsx"
+import Footer from "./components/Footer/Footer.jsx"
 import Home from "./pages/Home/Home.jsx"
 import About from "./pages/About/About.jsx"
 import CourseCategory from "./pages/CourseCategory/CourseCategory.jsx"
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/contacts" element={<Contacts />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer />
     </>
   )
 }

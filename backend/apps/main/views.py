@@ -1,8 +1,81 @@
 from rest_framework import viewsets
 
-from .models import Category
-from .serializers import CategorySerializer
+from .models import Category, Event, LessonInfo, Review, UIBlock
+from .serializers import (
+    CategorySerializer,
+    EventSerializer,
+    LessonInfoSerializer,
+    ReviewSerializer,
+    UIBlockSerializer,
+)
+
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        queryset = Category.objects.prefetch_related(
+            "translations__language"
+        ).all()
+
+        language = self.request.query_params.get("language")
+
+        if language:
+            queryset = queryset.filter(
+                translations__language__code=language
+            ).distinct()
+
+        return queryset
+
+
+class EventViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = EventSerializer
+
+    def get_queryset(self):
+        queryset = Event.objects.prefetch_related(
+            "translations__language",
+            "gallery",
+        ).all()
+
+        status = self.request.query_params.get("status")
+        language = self.request.query_params.get("language")
+
+        if status:
+            queryset = queryset.filter(status=status)
+
+        if language:
+            queryset = queryset.filter(
+                translations__language__code=language
+            ).distinct()
+
+        return queryset
+
+
+class ReviewViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        return Review.objects.all().order_by("-created_at")
+
+
+class LessonInfoViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = LessonInfoSerializer
+
+    def get_queryset(self):
+        queryset = LessonInfo.objects.prefetch_related(
+            "translations__language"
+        ).order_by("order")
+
+        language = self.request.query_params.get("language")
+
+        if language:
+            queryset = queryset.filter(
+                translations__language__code=language
+            ).distinct()
+
+        return queryset
+
+
+class UIBlockViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = UIBlock.objects.filter(is_visible=True)
+    serializer_class = UIBlockSerializer

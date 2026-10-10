@@ -1,11 +1,14 @@
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
+import { categoryOptions, contactPayload } from './contacts.js'
 import './contacts.css'
 
 export default function Contacts() {
-  const { t } = useTranslation()
-
+  const { t, i18n } = useTranslation()
+  const [categories, setCategories] = useState([])
+  const [status, setStatus] = useState(null)
   const {
     register,
     handleSubmit,
@@ -13,114 +16,76 @@ export default function Contacts() {
     formState: { errors, isSubmitting },
   } = useForm()
 
-  const onSubmit = async (data) => {
-    try {
-      await api.post('/api/contact/', data)
+  useEffect(() => {
+    let active = true
+    api
+      .get('/api/categories/')
+      .then((res) => {
+        if (active) setCategories(categoryOptions(res.data))
+      })
+      .catch(() => {
+        if (active) setCategories([])
+      })
+    return () => {
+      active = false
+    }
+  }, [i18n.language])
 
-      alert(t('contacts.success'))
+  async function onSubmit(data) {
+    setStatus(null)
+    try {
+      await api.post('/api/contact/', contactPayload(data))
+      setStatus('success')
       reset()
-    } catch (error) {
-      console.error(error)
-      alert(t('contacts.error'))
+    } catch {
+      setStatus('error')
     }
   }
 
   return (
-    <main className="page">
+    <main className="page contacts-page">
       <h1>{t('contacts.title')}</h1>
-
-      <form
-        className="contact-form"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        {/* Full name */}
+      <form className="contact-form" onSubmit={handleSubmit(onSubmit)}>
         <label>
           {t('contacts.fullName')}
-
-          <input
-            type="text"
-            {...register('full_name', {
-              required: true,
-            })}
-          />
-
-          {errors.full_name && (
-            <span>{t('contacts.required')}</span>
-          )}
+          <input type="text" {...register('full_name', { required: true })} />
+          {errors.full_name && <span className="error">{t('contacts.required')}</span>}
         </label>
-
-        {/* Email */}
         <label>
           {t('contacts.email')}
-
-          <input
-            type="email"
-            {...register('email', {
-              required: true,
-            })}
-          />
-
-          {errors.email && (
-            <span>{t('contacts.required')}</span>
-          )}
+          <input type="email" {...register('email', { required: true })} />
+          {errors.email && <span className="error">{t('contacts.required')}</span>}
         </label>
-
-        {/* WhatsApp */}
         <label>
           {t('contacts.whatsapp')}
-
-          <input
-            type="text"
-            {...register('whatsapp')}
-          />
+          <input type="text" {...register('whatsapp')} />
         </label>
-
-        {/* Country */}
         <label>
           {t('contacts.country')}
-
-          <input
-            type="text"
-            {...register('country')}
-          />
+          <input type="text" {...register('country')} />
         </label>
-
-        {/* Category */}
         <label>
           {t('contacts.category')}
-
           <select {...register('category')}>
-            <option value="">
-              {t('contacts.selectCategory')}
-            </option>
-
-            <option value="1">Category 1</option>
-            <option value="2">Category 2</option>
+            <option value="">{t('contacts.selectCategory')}</option>
+            {categories.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.label}
+              </option>
+            ))}
           </select>
         </label>
-
-        {/* Message */}
         <label>
           {t('contacts.message')}
-
-          <textarea
-            {...register('message', {
-              required: true,
-            })}
-          />
-
-          {errors.message && (
-            <span>{t('contacts.required')}</span>
-          )}
+          <textarea {...register('message', { required: true })} rows={4} />
+          {errors.message && <span className="error">{t('contacts.required')}</span>}
         </label>
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-        >
+        <button type="submit" disabled={isSubmitting}>
           {t('contacts.send')}
         </button>
       </form>
+      {status === 'success' && <p className="success">{t('contacts.success')}</p>}
+      {status === 'error' && <p className="error">{t('contacts.error')}</p>}
     </main>
   )
 }

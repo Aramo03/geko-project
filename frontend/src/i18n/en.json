@@ -6,12 +6,21 @@
     "events": "Events",
     "contacts": "Contacts"
   },
-
-  
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong. Try again later.",
+    "empty": "Nothing to show yet."
+  },
+  "about": {
+    "team": "Our team",
+    "empty": "No team members yet.",
+    "memberImageAlt": "Photo of {{name}}"
+  },
   "contacts": {
     "title": "Contact us",
     "fullName": "Full name",
     "email": "Email",
+    "phone": "Phone",
     "whatsapp": "WhatsApp",
     "country": "Country",
     "category": "Category",
@@ -22,7 +31,6 @@
     "success": "Your message has been sent successfully",
     "error": "Something went wrong"
   },
-
   "comments": {
     "title": "Comments",
     "fullName": "Full name",
@@ -34,6 +42,35 @@
     "empty": "No comments yet",
     "success": "Comment added successfully",
     "error": "Failed to add comment"
+  },
+  "events": {
+    "title": "Events",
+    "upcoming": "Upcoming",
+    "happening": "Happening",
+    "completed": "Completed"
+  },
+  "home": {
+    "reviews": "Reviews",
+    "lessons": "Lesson info",
+    "untitled": "Untitled",
+    "hero": "Hero"
+  },
+  "categories": {
+    "comments": "Comments",
+    "untitled": "Untitled"
+  },
+  "course": {
+    "comments": "Comments",
+    "untitled": "Untitled"
+  },
+  "footer": {
+    "navigation": "Navigation",
+    "contacts": "Contacts",
+    "map": "Map"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "This page does not exist.",
+    "home": "Home"
   }
 }
-

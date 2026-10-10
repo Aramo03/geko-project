@@ -17,3 +17,7 @@
 .comment-item p {
   margin: 0 0 8px;
 }
+
+.comment-list .error {
+  color: #b00020;
+}

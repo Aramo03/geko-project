@@ -1,5 +1,17 @@
 from django.utils.translation import get_language
 
+DEFAULT_API_LANGUAGE = "en"
+
+
+def resolve_language_code(request=None, explicit=None):
+    if explicit:
+        return explicit
+    if request is not None:
+        param = request.query_params.get("language")
+        if param:
+            return param
+    return DEFAULT_API_LANGUAGE
+
 
 def image_url_or_file(instance):
     if instance.local_image:
