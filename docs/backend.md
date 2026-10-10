@@ -132,7 +132,7 @@ python manage.py init_ui
 python manage.py create_admin
 ```
 
-Compose по умолчанию только `runserver` — миграции выполняются вручную один раз.
+Сейчас compose запускает только `runserver` — это незакрытый пункт волны 4. Волна 5, зона Lead: команда `migrate && runserver`. Пока PR Lead не влит, миграции в контейнере по-прежнему вручную один раз.
 
 ## English
 

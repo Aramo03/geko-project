@@ -1,6 +1,8 @@
 # Frontend
 
-Как писать React в этом проекте. Смотри живой пример: [backup/geko-front-main](../backup/geko-front-main). Код оттуда не копируй папками — повтори логику.
+Как писать React в этом проекте. **Волна 5:** вид бери из [Figma Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0) (файл `dhh8j2e9rBeYrdPmzKz02I`, холст `0-1`). Backup [backup/geko-front-main](../backup/geko-front-main) — старое поведение, не макет. Код оттуда не копируй папками.
+
+Кадр своей страницы ищи на холсте. Нет кадра — спроси Lead, не рисуй второй дизайн. Цвета — CSS-переменные оболочки (их выкладывает UI/QA). Новые подписи — в `am.json` / `en.json` / `ru.json`.
 
 ## Стек (обязательно)
 
@@ -76,8 +78,8 @@ Header (телефон, email, языки, меню) → страница → Fo
 
 ## English
 
-Use Tailwind, i18n, react-router-dom, and `useForm`. Media only from `backup/` / `frontend/public/`. Every component folder must contain `Component.jsx`, `component.css`, `component.js`.
+Wave 5 visual source: [Figma Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0). Use Tailwind, i18n, react-router-dom, and `useForm`. Media only from `backup/` / `frontend/public/`. Every component folder must contain `Component.jsx`, `component.css`, `component.js`.
 
 ## Հայերեն
 
-Ամեն կոմպոնենտ՝ 3 ֆայլ։ Նկարները միայն backup-ից։ Ձևերը՝ `useForm`։ Երթուղիները նույնն են, ինչ հին կայքում, գումարած մեկնաբանություններ։
+Ալիք 5-ի տեսքը՝ [Figma](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0)։ Ամեն կոմպոնենտ՝ 3 ֆայլ։ Նկարները միայն backup-ից / `public`-ից։ Ձևերը՝ `useForm`։

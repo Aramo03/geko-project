@@ -1,42 +1,67 @@
 # Geko — задания команды
 
-**Пошагово (волна 4):** [task-advanced.md](task-advanced.md)  
+**Пошагово (волна 5):** [task-advanced.md](task-advanced.md)  
+**Макет:** [Figma — Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0)  
 **Git:** [CONTRIBUTING.md](CONTRIBUTING.md) · **API:** [docs/backend.md](docs/backend.md) · **Фронт:** [docs/frontend.md](docs/frontend.md)
 
 ---
 
-## Волна 4 — страницы как backup **(сейчас)**
+## Волна 5 — UI по Figma **(сейчас)**
 
-Шаги, файлы и DoD — в **[task-advanced.md](task-advanced.md)** (раздел «Волна 4 — активные задания»). Долг полей после волны 3 — [fix.md](fix.md). Порядок мержа — там же, не здесь.
+Шаги и DoD — в **[task-advanced.md](task-advanced.md)** (раздел «Волна 5»). Ошибки волны 4, которые чинятся по ходу вёрстки — [fix.md](fix.md).
 
-| # | Имя | Фокус волны 4 |
+Источник вида — файл Figma `dhh8j2e9rBeYrdPmzKz02I` (холст `0-1`), не папки backup. Данные по-прежнему с API.
+
+| # | Имя | Фокус волны 5 |
 |---|-----|----------------|
-| 1 | Lead | Порядок мержа, ревью, Docker `migrate` при старте backend |
-| 2 | Daniel | Redux store + слайс токена (`geko_access_token`) |
-| 3 | Sv | Согласовать язык UI и `?language=` (сейчас i18n fallback `am`, API default `en`) |
-| 4 | Karen | `/course-category` и `/course-category/:id` |
-| 5 | Vach | `/courses/:id` + карточка курса |
-| 6 | Ashot | `/events`, вкладки, `/events/:tab/:id` |
-| 7 | Hayk | Секции Home: reviews + lesson info |
-| 8 | Suren | `/about-us` из `GET /api/teams/` + Unfold для Team |
-| 9 | Mariam | Поля контакта как в [docs/frontend.md](docs/frontend.md) + компоненты комментариев |
-| 10 | UI / QA | Header, Footer, 404, hero из `UIBlock`, чеклист пустых/ошибок |
+| 1 | Lead | Ревью по макету, Docker `migrate` перед `runserver` |
+| 2 | Daniel | Медиа hero (видео/картинка из `frontend/public`) |
+| 3 | Sv | Старт языка на `en`; queryset не прячет объект без перевода |
+| 4 | Karen | Макет категорий; на странице только `CommentList` |
+| 5 | Vach | Макет `/courses/:id`; тот же queryset-фикс в `courses` |
+| 6 | Ashot | События: закрыть дыры DoD волны 4 и сверстать по кадру |
+| 7 | Hayk | Секции отзывов и занятий на Home по кадру |
+| 8 | Suren | `/about-us` по кадру; queryset команды без выкидывания строк |
+| 9 | Mariam | Контакт и комментарии по кадру; текст «ждёт одобрения» |
+| 10 | UI / QA | Токены, Header, Footer, 404, payload `init_ui` |
 
-**Правила:** ветка `feat/<имя>-<зона>` от `dev`; один PR = одна зона; в `main` не пушить; модели не удалять; не мержить `origin/feat/ui` и `origin/feature/events` (см. CONTRIBUTING).
+**Правила:** ветка `feat/<имя>-<зона>` от `dev`; один PR = одна зона; в `main` не пушить; модели не удалять; не мержить `origin/feat/ui` и `origin/feature/events`.
+
+Порядок мержа: **Sv → UI/QA → Daniel → Mariam → Karen → Vach → Ashot → Hayk → Suren**.
 
 ---
 
 ## English
 
-Wave **4** (pages like backup) is **active**. Steps: [task-advanced.md](task-advanced.md). Field gaps: [fix.md](fix.md). PRs to `dev` only.
+Wave **5** (UI from Figma) is **active**. Steps: [task-advanced.md](task-advanced.md). File: [Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0). Wave 4 gaps: [fix.md](fix.md). PRs to `dev` only.
 
-Wave **3** (API, admin, frontend shell) closed 2026-10-04. Wave **2** (models) closed 2026-09-29 — archives below.
+Wave **4** (pages) closed 2026-10-10. Wave **3** closed 2026-10-04. Wave **2** closed 2026-09-29 — archives below.
 
 ## Հայերեն
 
-**Ալիք 4** (էջեր backup-ի պես) — **ակտիվ**։ Մանրամասներ՝ [task-advanced.md](task-advanced.md)։ Մնացորդներ՝ [fix.md](fix.md)։
+**Ալիք 5** (UI ըստ Figma) — **ակտիվ**։ Քայլեր՝ [task-advanced.md](task-advanced.md)։ Մակետ՝ [Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0)։ Ալիք 4-ի սխալները՝ [fix.md](fix.md)։ PR միայն `dev`։
 
-**Ալիք 3** փակված է (2026-10-04)։ **Ալիք 2** փակված է (2026-09-29) — արխիվը ստորև։
+**Ալիք 4** փակված է (2026-10-10)։ **Ալիք 3** փակված է (2026-10-04)։ **Ալիք 2** փակված է (2026-09-29) — արխիվը ստորև։
+
+---
+
+## Архив — волна 4 (страницы, закрыта)
+
+**Дата закрытия:** 2026-10-10 · **Ветка:** `dev`  
+Ошибки — **[fix.md](fix.md)**. Пошаговый архив — **[task-advanced.md](task-advanced.md)**.
+
+| # | Имя | Фокус волны 4 | Итог проверки |
+|---|-----|----------------|----------------|
+| 1 | Lead | Docker `migrate`, порядок PR | migrate в compose нет |
+| 2 | Daniel | Redux token | сделано |
+| 3 | Sv | UI язык = API, default `en` | fallback есть, детектор браузера мешает |
+| 4 | Karen | Категории | страницы есть, комментарии продублированы |
+| 5 | Vach | Курс | страница и admin есть, queryset режет курс |
+| 6 | Ashot | События | список-заглушка, детали нет |
+| 7 | Hayk | Home: reviews + lessons | сделано |
+| 8 | Suren | About + admin Team | сделано |
+| 9 | Mariam | Контакт + комментарии | сделано |
+| 10 | UI / QA | Header, Footer, 404, hero | каркас есть, вид не макет |
 
 ---
 

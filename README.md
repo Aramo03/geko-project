@@ -1,13 +1,13 @@
 # GEKO — учебный каркас
 
-Сайт школы [GEKO Education](https://gekoeducation.com). Ученики собирают проект в команде. **Волна 3 (API + admin + фронт)** закрыта на `dev`; остатки — [fix.md](fix.md).
+Сайт школы [GEKO Education](https://gekoeducation.com). Ученики собирают проект в команде. **Волна 4 (страницы)** закрыта на `dev` (2026-10-10). **Сейчас волна 5 — UI по [Figma](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0).** Ошибки волны 4 — [fix.md](fix.md).
 
 **RU / EN / HY** — читай гайды на том языке, который удобен. Код и имена API — на английском, как в backup.
 
 ## С чего начать
 
 1. [CONTRIBUTING.md](CONTRIBUTING.md) — git: `main` не трогать, работа в своей ветке, PR только в `dev`
-2. [TASK.md](TASK.md) — задания по волнам (сейчас: волна 3 закрыта, архив волны 2 внизу)
+2. [TASK.md](TASK.md) — задания по волнам (сейчас: волна 5, UI по Figma; волна 4 закрыта)
 3. [docs/frontend.md](docs/frontend.md) — React, Tailwind, i18n, `useForm`, 3 файла на компонент
 4. [docs/backend.md](docs/backend.md) — Django, DRF, JWT, Swagger, миграции, staff в terminal
 5. [backup/README.md](backup/README.md) — старый сайт. Смотреть, не копировать код 1:1
@@ -48,12 +48,13 @@ npm run dev
 
 ## Что уже готово
 
-- Модели и миграции (волна 2), API и JWT (волна 3) на `dev`
+- Модели и миграции (волна 2), API и JWT (волна 3), страницы и оболочка (волна 4) на `dev`
 - Swagger: `/api/schema/swagger-ui/`
-- React: маршруты, Header + i18n, страницы с запросами к API (базовый уровень)
+- React: маршруты, Header, Footer, страницы с запросами к API
 - backup и медиа в `frontend/public/`
+- Макет волны 5: [Figma Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0)
 
-Дальше: дизайн/QA, паритет с backup, техдолг из [fix.md](fix.md).
+Дальше: сверстать экраны по Figma и закрыть дыры из [fix.md](fix.md) (события, язык по умолчанию, `migrate` в Docker).
 
 ## Правила (коротко)
 
