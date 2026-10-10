@@ -38,7 +38,7 @@ GET  /api/schema/swagger-ui/
 
 Админка: `/api/admin/`.
 
-**ContactMessage (факт):** `full_name`, `email`, `phone`, `message`. В backup у формы ещё `country`, `category`, `whatsapp` — см. [fix.md](../fix.md).
+**ContactMessage:** `full_name`, `email`, `phone`, `whatsapp`, `country`, `category`, `message`. `POST /api/contact/` принимает `country`, `whatsapp` и `category` (id категории или пусто). Поле `phone` остаётся.
 
 ## JWT
 

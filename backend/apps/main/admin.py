@@ -73,8 +73,8 @@ class LessonInfoAdmin(ModelAdmin):
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(ModelAdmin):
-    list_display = ("full_name", "email", "phone", "created_at")
-    search_fields = ("full_name", "email", "message")
+    list_display = ("full_name", "email", "phone", "whatsapp", "country", "category", "created_at")
+    search_fields = ("full_name", "email", "phone", "whatsapp", "country", "message")
     readonly_fields = ("created_at",)
 
 

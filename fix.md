@@ -24,7 +24,7 @@
 ### Архитектура и данные (wave 2, всё ещё актуально)
 
 1. **Дубликаты `main` vs `apps.content`** — намеренный учебный дубликат. Публичный API читает **`main`** (и `apps.courses` / `apps.team`), не `apps.content`.
-2. **`ContactMessage`** — в модели: `phone`, без `country` / FK `category` / `whatsapp` как в backup. API и форма фронта под текущую схему.
+2. **`ContactMessage`** — `phone` сохранён. Волна 4 добавляет `country`, `whatsapp` и FK `category` (`0006_contactmessage_country_whatsapp_category`).
 3. **`Event`** — одно поле `date` (не `start_date`/`end_date` backup); gallery `related_name='gallery'`.
 4. **`Review` в `main`** — `full_name`, `rating`, `text` (без image fields backup).
 
@@ -65,7 +65,7 @@
 
 ## Волна 3 — техдолг (не блокирует merge в `dev`)
 
-1. **Contact / backup** — поля `country`, `category`, `whatsapp` на `ContactMessage` (нужна миграция + форма).
+1. **Contact / backup** — закрыто в волне 4: `country`, `whatsapp`, FK `category` и форма `/contacts`.
 2. **Event / Review** — полный паритет полей и медиа с backup.
 3. **Admin** — `PopularCourse` / `Team` в Unfold (сейчас только через API; список в админке опционально).
 4. **Фронт** — визуал и поведение как backup (дизайн, комментарии на страницах курсов, admin login UI).

@@ -161,6 +161,15 @@ class ContactMessage(models.Model):
     full_name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=50, blank=True, null=True)
+    whatsapp = models.CharField(max_length=50, blank=True, default="")
+    country = models.CharField(max_length=100, blank=True, default="")
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        related_name="contact_messages",
+        blank=True,
+        null=True,
+    )
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 

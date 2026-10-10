@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
 import CategoryCard from '../../components/CategoryCard/CategoryCard.jsx'
 import CategoryComments from '../../components/CategoryComments/CategoryComments.jsx'
+import CommentForm from '../../components/CommentForm/CommentForm.jsx'
 import { asList, categoryTitle, courseTitle } from './courseCategory.js'
 import './courseCategory.css'
+
 
 export default function CourseCategory() {
   const { t, i18n } = useTranslation()
@@ -94,7 +96,12 @@ export default function CourseCategory() {
           ))}
         </ul>
       )}
-      {!loading && !error && id && <CategoryComments categoryId={id} />}
+      {!loading && !error && id && (
+        <>
+          <CategoryComments categoryId={id} />
+          <CommentForm category={id} />
+        </>
+      )}
     </main>
   )
 }

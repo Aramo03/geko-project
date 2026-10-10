@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
 import CourseComments from '../../components/CourseComments/CourseComments.jsx'
+import CommentForm from '../../components/CommentForm/CommentForm.jsx'
 import { courseDescription, courseImage, courseTitle } from './courseDetails.js'
 import './courseDetails.css'
 
@@ -55,6 +56,7 @@ export default function CourseDetails() {
           {image ? <img className="course-image" src={image} alt={title} /> : null}
           {description ? <p className="course-description">{description}</p> : null}
           <CourseComments courseId={id} />
+          <CommentForm popularCourse={id} />
         </>
       )}
     </main>
