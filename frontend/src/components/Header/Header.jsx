@@ -67,7 +67,7 @@ export default function Header() {
               key={lang.code}
               type="button"
               onClick={() => i18n.changeLanguage(lang.code)}
-              className={i18n.language === lang.code ? 'active' : ''}
+              className={i18n.resolvedLanguage?.split('-')[0] === lang.code ? 'active' : ''}
             >
               <img src={lang.flag} alt={lang.code} width="24" height="16" />
             </button>

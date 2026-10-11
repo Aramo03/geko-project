@@ -6,6 +6,10 @@ import en from './en.json'
 import ru from './ru.json'
 
 i18n.use(LanguageDetector).use(initReactI18next).init({
+  detection:{
+    order:['localStorage'],
+    caches:['localStorage'],
+  },
   resources: {
     am: { translation: am },
     en: { translation: en },
