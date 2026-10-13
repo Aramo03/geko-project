@@ -1,78 +1,194 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { api } from '../../api/client.js'
-import { NAV_ITEMS, footerValue } from './footer.js'
-import './footer.css'
+
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
+import { api } from "../../api/client.js";
 
 export default function Footer() {
-  const { t } = useTranslation()
-  const [blocks, setBlocks] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const { t, i18n } = useTranslation();
+  const [blocks, setBlocks] = useState([]);
 
   useEffect(() => {
-    let cancelled = false
-    setLoading(true)
-    setError(false)
+    let active = true;
 
     api
-      .get('/api/ui-blocks/')
+      .get("/api/ui-blocks/")
       .then((res) => {
-        if (cancelled) return
-        if (!Array.isArray(res.data)) {
-          setError(true)
-          return
-        }
-        setBlocks(res.data)
+        if (!active) return;
+
+        const data = Array.isArray(res.data)
+          ? res.data
+          : res.data?.results || [];
+
+        setBlocks(data);
       })
       .catch(() => {
-        if (!cancelled) setError(true)
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false)
-      })
+        if (active) setBlocks([]);
+      });
 
     return () => {
-      cancelled = true
-    }
-  }, [])
+      active = false;
+    };
+  }, [i18n.language]);
 
-  const phone = footerValue(blocks, 'phone')
-  const email = footerValue(blocks, 'email')
-  const address = footerValue(blocks, 'address')
-  const map = footerValue(blocks, 'map')
-  const mapLink = /^https?:\/\//i.test(map) ? map : ''
-  const hasContacts = phone || email || address || mapLink
+  const footerBlock = blocks.find(
+    (item) => item.key === "footer" && item.is_visible !== false
+  );
+
+  const contactBlock = blocks.find(
+    (item) => item.key === "contacts_bar" && item.is_visible !== false
+  );
+
+  const footerData = footerBlock?.payload || {};
+  const contactData = contactBlock?.payload || {};
+
+ const currentLanguage = i18n.language.split("-")[0];
+
+const getLocalizedValue = (value) => {
+  if (typeof value === "string") return value;
+
+  if (value && typeof value === "object") {
+    return (
+      value[currentLanguage] ||
+      value.en ||
+      value.am ||
+      value.ru ||
+      ""
+    );
+  }
+
+  return "";
+};
+
+const phone = getLocalizedValue(
+  footerData.phone || contactData.phone
+);
+
+const address = getLocalizedValue(
+  footerData.address || contactData.address
+);
+
+const description = getLocalizedValue(
+  footerData.description
+);
+  const links = [
+    { to: "/", label: t("nav.home", "Home") },
+    { to: "/courses", label: t("nav.courses", "Courses") },
+    { to: "/events", label: t("nav.events", "Events") },
+    { to: "/contacts", label: t("nav.contacts", "Contacts") }
+  ];
 
   return (
-    <footer className="footer">
-      <nav aria-label={t('footer.navigation')}>
-        <h2>{t('footer.navigation')}</h2>
-        {NAV_ITEMS.map((item) => (
-          <Link key={item.to} to={item.to}>
-            {t(item.key)}
-          </Link>
-        ))}
-      </nav>
-      <section>
-        <h2>{t('footer.contacts')}</h2>
-        {loading && <p>{t('common.loading')}</p>}
-        {error && <p className="error">{t('common.error')}</p>}
-        {!loading && !error && !hasContacts && <p>{t('common.empty')}</p>}
-        {(phone || email || address) && (
-          <ul>
-            {phone && <li><a href={`tel:${phone}`}>{phone}</a></li>}
-            {email && <li><a href={`mailto:${email}`}>{email}</a></li>}
-            {address && <li>{address}</li>}
-          </ul>
-        )}
-        {mapLink && (
-          <a href={mapLink} target="_blank" rel="noreferrer">
-            {t('footer.map')}
-          </a>
-        )}
-      </section>
+    <footer className="w-full bg-[#0B3928] font-sans text-white">
+      <div className="mx-auto max-w-[1440px] px-6 pb-5 pt-[60px] sm:px-10 lg:px-[5.5%]">
+        <div className="grid grid-cols-1 gap-12 pb-[55px] md:grid-cols-3 md:gap-16">
+          <div>
+            <Link
+              to="/"
+              className="mb-7 inline-flex items-center gap-3"
+            >
+              <span className="flex h-[31px] w-[31px] items-center justify-center rounded-[7px] bg-white text-[17px] font-extrabold text-[#0B3928]">
+                G
+              </span>
+
+              <span className="text-[18px] font-extrabold tracking-tight">
+                GEKO
+              </span>
+            </Link>
+
+            <h3 className="mb-5 text-[13px] font-bold text-white">
+              {t("nav.about", "About Us")}
+            </h3>
+
+            <p className="max-w-[280px] text-[12px] leading-[1.8] text-white/65">
+              {description ||
+                t(
+                  "footer.description",
+                  "Providing holistic and practical digital pathways for modern technical sciences and analytics foundations."
+                )}
+            </p>
+          </div>
+
+          <div className="md:pl-8">
+            <h3 className="mb-5 text-[13px] font-bold text-white">
+              {t("footer.quickLinks", "Quick Links")}
+            </h3>
+
+            <div className="flex flex-col gap-[14px]">
+              {links.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="w-fit text-[12px] text-white/65 transition-colors hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="mb-5 text-[13px] font-bold text-white">
+              {t("footer.contactInfo", "Contact Info")}
+            </h3>
+
+            <div className="flex flex-col gap-5">
+              {address && (
+                <div className="flex items-start gap-3">
+                  <FaMapMarkerAlt
+                    size={16}
+                    className="mt-[2px] shrink-0 text-white"
+                  />
+
+                  <p className="max-w-[260px] text-[12px] leading-[1.7] text-white/65">
+                    {address}
+                  </p>
+                </div>
+              )}
+
+              {phone && (
+                <a
+                  href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+                  className="flex items-center gap-3 text-[12px] text-white/65 transition-colors hover:text-white"
+                >
+                  <FaPhoneAlt
+                    size={16}
+                    className="shrink-0 text-white"
+                  />
+
+                  <span>{phone}</span>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-5 border-t border-white/10 pb-1 pt-[45px] sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-[300px] text-[11px] leading-[1.5] text-white/45">
+            {t(
+              "footer.copyright",
+              "Copyright © 2026 GEKO Education. All rights reserved."
+            )}
+          </p>
+
+          <div className="flex items-center gap-6">
+            <Link
+              to="/privacy-policy"
+              className="text-[11px] text-white/45 transition-colors hover:text-white"
+            >
+              {t("footer.privacyPolicy", "Privacy Policy")}
+            </Link>
+
+            <Link
+              to="/terms"
+              className="text-[11px] text-white/45 transition-colors hover:text-white"
+            >
+              {t("footer.terms", "Terms & Conditions")}
+            </Link>
+          </div>
+        </div>
+      </div>
     </footer>
-  )
+  );
 }
