@@ -68,9 +68,10 @@
     "contacts": "Contacts",
     "map": "Map"
   },
-  "notFound": {
-    "title": "Page not found",
-    "text": "This page does not exist.",
-    "home": "Home"
+   "notFound": {
+    "title": "Oops! Page Not Found",
+    "description": "The page you're looking for seems to have wandered off. Don't worry, let's get you back on track!",
+    "backHome": "Back to Home",
+    "exploreCourses": "Explore Courses"
   }
 }
