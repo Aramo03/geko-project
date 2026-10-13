@@ -6,7 +6,7 @@ import EventCard from '../../components/EventCard/EventCard.jsx'
 import EventDetails from '../../components/EventDetails/EventDetails.jsx'
 import EventRegistration from '../../components/EventRegistration/EventRegistration.jsx'
 import { formatDate } from '../../components/EventCard/eventCard.js'
-import { TABS, DEFAULT_TAB, splitEvents } from './events.js'
+import { TABS, DEFAULT_TAB, splitEvents, groupEventsByStatus, toRelativeApiPath } from './events.js'
 import './events.css'
 
 export default function Events() {
@@ -21,21 +21,31 @@ export default function Events() {
     let cancelled = false
     setLoading(true)
     setError(false)
-    Promise.all(TABS.map((status) => api.get('/api/events/', { params: { status } })))
-      .then((responses) => {
-        if (cancelled) return
-        const next = {}
-        TABS.forEach((status, i) => {
-          next[status] = responses[i].data
-        })
-        setEvents(next)
-      })
-      .catch(() => {
+    async function loadEvents() {
+      try {
+        const allItems = []
+        let path = '/api/events/'
+        while (path) {
+          const { data } = await api.get(path)
+          if (Array.isArray(data)) {
+            allItems.push(...data)
+            break
+          }
+          if (Array.isArray(data?.results)) {
+            allItems.push(...data.results)
+            path = toRelativeApiPath(data.next, api.defaults.baseURL)
+          } else {
+            break
+          }
+        }
+        if (!cancelled) setEvents(groupEventsByStatus(allItems))
+      } catch {
         if (!cancelled) setError(true)
-      })
-      .finally(() => {
+      } finally {
         if (!cancelled) setLoading(false)
-      })
+      }
+    }
+    loadEvents()
     return () => {
       cancelled = true
     }
