@@ -1,0 +1,33 @@
+.event-register {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+}
+.event-register__title { font-size: 1.2rem; font-weight: 800; margin-bottom: 1rem; }
+.event-register__form { display: flex; flex-direction: column; gap: 0.9rem; }
+.event-register__form label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.85rem; font-weight: 600; }
+.event-register__form input,
+.event-register__form select {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--ev-line, #d1d5db);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  background: #fff;
+}
+.event-register__form input:focus,
+.event-register__form select:focus { outline: 2px solid var(--ev-green-btn, #14543a); outline-offset: 1px; }
+.event-register__form button {
+  padding: 0.7rem 1rem;
+  background: var(--ev-green-btn, #14543a);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+.event-register__form button:hover:not(:disabled) { filter: brightness(1.15); }
+.event-register__form button:disabled { opacity: 0.6; cursor: wait; }
+.event-register__error { color: #dc2626; font-size: 0.8rem; font-weight: 500; }
+.event-register__ok { color: var(--ev-green-btn, #14543a); font-weight: 600; }

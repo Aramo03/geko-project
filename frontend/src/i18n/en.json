@@ -47,7 +47,40 @@
     "title": "Events",
     "upcoming": "Upcoming",
     "happening": "Happening",
-    "completed": "Completed"
+    "completed": "Completed",
+    "back": "Back to events",
+    "date": "Date",
+    "description": "About the event",
+    "signUp": "Sign up",
+    "untitled": "Untitled event",
+    "more": "Read more",
+    "prev": "Previous photo",
+    "next": "Next photo",
+    "hero": {
+      "upcoming": "Upcoming Events at GEKO",
+      "happening": "Events Happening Now at GEKO",
+      "completed": "Past Events at GEKO"
+    },
+    "section": {
+      "upcoming": "Featured Events",
+      "happening": "Happening Now",
+      "completed": "Past Events"
+    },
+    "calendarTitle": "Events Calendar",
+    "pastTitle": "Browse Past Events",
+    "register": {
+      "title": "Events Registration",
+      "event": "Event Selection",
+      "eventPlaceholder": "Select an event",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your full name",
+      "email": "Email Address",
+      "emailPlaceholder": "Enter your email",
+      "submit": "Submit Registration",
+      "required": "This field is required",
+      "success": "Registration sent. We will contact you soon.",
+      "error": "Could not send. Try again later."
+    }
   },
   "home": {
     "reviews": "Reviews",
