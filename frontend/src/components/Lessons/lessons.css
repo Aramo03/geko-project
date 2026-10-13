@@ -1,0 +1,38 @@
+.home-lessons {
+  margin-top: 2rem;
+}
+
+.home-lessons h2 {
+  margin-bottom: 1.25rem;
+}
+
+.home-lessons__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.home-lessons__card {
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid #e8e8e8;
+  border-radius: 1rem;
+  background: #fff;
+}
+
+.home-lessons__card h3 {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.home-lessons__content {
+  margin: 0.75rem 0 0;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .home-lessons__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

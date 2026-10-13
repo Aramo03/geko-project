@@ -1,0 +1,63 @@
+.home-reviews {
+  margin-top: 2rem;
+}
+
+.home-reviews h2 {
+  margin-bottom: 1.25rem;
+}
+
+.home-reviews__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.home-reviews__card {
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid #e8e8e8;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 4%);
+}
+
+.home-reviews__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.home-reviews__header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.home-reviews__rating {
+  color: #f4ad24;
+  white-space: nowrap;
+}
+
+.home-reviews__rating-value {
+  color: #555;
+  font-size: 0.875rem;
+}
+
+.home-reviews__text {
+  margin: 1rem 0 0;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .home-reviews__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .home-reviews__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
