@@ -65,6 +65,14 @@ export default function Header() {
 
   const phone = contactData.phone || headerData.phone || "";
   const email = contactData.email || headerData.email || "";
+  const logo =
+    typeof headerData.logo === "string" && headerData.logo.trim()
+      ? headerData.logo.trim()
+      : "/images/logo.webp";
+  const buttonLink =
+    typeof headerData.button_link === "string" && headerData.button_link.trim()
+      ? headerData.button_link.trim()
+      : "/contacts";
 
   const facebook = headerData.facebook || contactData.facebook || "";
   const instagram = headerData.instagram || contactData.instagram || "";
@@ -110,7 +118,7 @@ export default function Header() {
 
           <div className="ml-auto flex items-center gap-3">
             <span className="hidden sm:inline">
-              {t("header.followUs", "Follow us:")}
+              {t("header.followUs")}
             </span>
 
             <div className="hidden items-center gap-3 sm:flex">
@@ -145,7 +153,7 @@ export default function Header() {
   <button
     type="button"
     onClick={() => setLanguageOpen(!languageOpen)}
-    aria-label="Select language"
+    aria-label={t("header.selectLanguage")}
     aria-expanded={languageOpen}
     className="flex items-center gap-2 rounded-md px-2 py-1 transition hover:bg-white/10"
   >
@@ -200,8 +208,8 @@ export default function Header() {
         >
           <span >
             <img
-              src="/images/logo.webp"
-              alt="GEKO Logo"
+              src={logo}
+              alt={t("header.logoAlt")}
               className="h-[60px] w-[60px] object-cover"
             />
           </span>
@@ -229,10 +237,10 @@ export default function Header() {
 
         <div className="hidden items-center gap-3 sm:flex">
           <Link
-            to="/contacts"
+            to={buttonLink}
             className="rounded-[6px] border border-[#104A48] px-4 py-[9px] text-[11px] font-semibold text-[#104A48] transition hover:bg-[#EAF3F0]"
           >
-            {t("header.enrollNow", "Enroll Now")}
+            {t("header.enrollNow")}
           </Link>
 
           
@@ -241,7 +249,7 @@ export default function Header() {
         <button
           type="button"
           onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
+          aria-label={t("header.toggleMenu")}
           aria-expanded={menuOpen}
           className="ml-auto text-[#104A48] lg:hidden"
         >
@@ -264,11 +272,11 @@ export default function Header() {
           ))}
 
           <Link
-            to="/contacts"
+            to={buttonLink}
             onClick={() => setMenuOpen(false)}
             className="mt-2 rounded-md border border-[#104A48] px-3 py-2 text-center text-sm font-medium text-[#104A48]"
           >
-            {t("header.enrollNow", "Enroll Now")}
+            {t("header.enrollNow")}
           </Link>
         </nav>
       )}

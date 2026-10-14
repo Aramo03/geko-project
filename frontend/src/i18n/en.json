@@ -96,12 +96,25 @@
     "comments": "Comments",
     "untitled": "Untitled"
   },
+  "header": {
+    "followUs": "Follow us:",
+    "enrollNow": "Enroll Now",
+    "selectLanguage": "Select language",
+    "toggleMenu": "Toggle menu",
+    "logoAlt": "GEKO logo"
+  },
   "footer": {
     "navigation": "Navigation",
     "contacts": "Contacts",
-    "map": "Map"
+    "map": "Map",
+    "description": "Providing holistic and practical digital pathways for modern technical sciences and analytics foundations.",
+    "quickLinks": "Quick Links",
+    "contactInfo": "Contact Info",
+    "copyright": "Copyright © 2026 GEKO Education. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms & Conditions"
   },
-   "notFound": {
+  "notFound": {
     "title": "Oops! Page Not Found",
     "description": "The page you're looking for seems to have wandered off. Don't worry, let's get you back on track!",
     "backHome": "Back to Home",
