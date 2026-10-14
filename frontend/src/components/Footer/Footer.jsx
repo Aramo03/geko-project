@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
+import { FaEnvelope, FaFacebookF, FaInstagram, FaLinkedinIn, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import { api } from "../../api/client.js";
 
 export default function Footer() {
@@ -87,6 +87,12 @@ const logo =
     ? headerData.logo.trim()
     : "/images/logo.webp";
 
+const socialLinks = [
+  { name: "Facebook", url: footerData.facebook, Icon: FaFacebookF },
+  { name: "Instagram", url: footerData.instagram, Icon: FaInstagram },
+  { name: "LinkedIn", url: footerData.linkedin, Icon: FaLinkedinIn },
+].filter((item) => typeof item.url === "string" && item.url.trim());
+
   const links = [
     { to: "/", label: t("nav.home") },
     { to: "/about-us", label: t("nav.about") },
@@ -96,8 +102,8 @@ const logo =
   ];
 
   return (
-    <footer className="w-full bg-[#0B3928] font-sans text-white">
-      <div className="mx-auto max-w-[1440px] px-6 pb-5 pt-[60px] sm:px-10 lg:px-[5.5%]">
+    <footer className="w-full bg-brand font-sans text-white">
+      <div className="mx-auto max-w-[var(--container-page)] px-6 pb-5 pt-[60px] sm:px-10 lg:px-[5.5%]">
         <div className="grid grid-cols-1 gap-12 pb-[55px] md:grid-cols-3 md:gap-16">
           <div>
             <Link
@@ -115,6 +121,23 @@ const logo =
             <p className="max-w-[280px] text-[12px] leading-[1.8] text-white/65">
               {description || t("footer.description")}
             </p>
+
+            {socialLinks.length > 0 && (
+              <div className="mt-5 flex items-center gap-4">
+                {socialLinks.map(({ name, url, Icon }) => (
+                  <a
+                    key={name}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={name}
+                    className="transition hover:text-accent"
+                  >
+                    <Icon size={16} />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="md:pl-8">

@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: Roboto;
+  src: url("/fonts/roboto-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif;
+  --color-brand: #0b3928;
+  --color-brand-ink: #104a48;
+  --color-brand-muted: #657084;
+  --color-brand-soft: #eaf3f0;
+  --color-brand-hover: #15543c;
+  --color-accent: #00bc83;
+  --color-accent-bright: #00b981;
+  --color-canvas: #f3f9f6;
+  --color-mint: #e0f4ea;
+  --color-copy-muted: #75877f;
+  --container-page: 90rem;
+  --spacing-section: 2rem;
+}
