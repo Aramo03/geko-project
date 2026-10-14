@@ -35,9 +35,14 @@
   "categories": {
     "sidebar": "Categories",
     "all": "All",
+    "kicker": "Empowerment Curriculum",
+    "popularTitle": "Popular Courses",
+    "subtitle": "Explore our most popular educational programs customized for logical, analytical, and digital maturity.",
     "comments": "Comments",
     "untitled": "Untitled",
-    "learnMore": "Learn more"
+    "learnMore": "Learn More",
+    "viewAll": "View all courses",
+    "students": "Students"
   },
   "comments": {
     "fullName": "Full name",
