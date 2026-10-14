@@ -88,17 +88,12 @@ const description = getLocalizedValue(
               to="/"
               className="mb-7 inline-flex items-center gap-3"
             >
-              <span className="flex h-[31px] w-[31px] items-center justify-center rounded-[7px] bg-white text-[17px] font-extrabold text-[#0B3928]">
-                G
-              </span>
+                <img className="h-[60px] w-[60px] object-contain" src="/images/logo.webp" alt="GEKO Logo" />
 
-              <span className="text-[18px] font-extrabold tracking-tight">
-                GEKO
-              </span>
             </Link>
 
             <h3 className="mb-5 text-[13px] font-bold text-white">
-              {t("nav.about", "About Us")}
+              {t("nav.about", "About Us")}``
             </h3>
 
             <p className="max-w-[280px] text-[12px] leading-[1.8] text-white/65">

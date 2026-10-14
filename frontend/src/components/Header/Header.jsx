@@ -198,13 +198,14 @@ export default function Header() {
           to="/"
           className="flex shrink-0 items-center gap-2"
         >
-          <span className="flex h-[30px] w-[30px] items-center justify-center rounded-[6px] bg-[#104A48] text-[17px] font-extrabold text-white">
-            G
+          <span >
+            <img
+              src="/images/logo.webp"
+              alt="GEKO Logo"
+              className="h-[60px] w-[60px] object-cover"
+            />
           </span>
 
-          <span className="text-[18px] font-extrabold tracking-tight text-[#104A48]">
-            GEKO
-          </span>
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
@@ -234,12 +235,7 @@ export default function Header() {
             {t("header.enrollNow", "Enroll Now")}
           </Link>
 
-          <Link
-            to="/contacts"
-            className="rounded-[6px] bg-[#104A48] px-4 py-[10px] text-[11px] font-semibold text-white transition hover:bg-[#0B3928]"
-          >
-            {t("header.freeTrial", "Free Trial Class")}
-          </Link>
+          
         </div>
 
         <button
@@ -273,14 +269,6 @@ export default function Header() {
             className="mt-2 rounded-md border border-[#104A48] px-3 py-2 text-center text-sm font-medium text-[#104A48]"
           >
             {t("header.enrollNow", "Enroll Now")}
-          </Link>
-
-          <Link
-            to="/contacts"
-            onClick={() => setMenuOpen(false)}
-            className="rounded-md bg-[#104A48] px-3 py-2 text-center text-sm font-semibold text-white"
-          >
-            {t("header.freeTrial", "Free Trial Class")}
           </Link>
         </nav>
       )}
