@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
 import { api, pickTranslation } from '../../api/client.js'
 import { eventCover, formatDate, resolveImage } from '../EventCard/eventCard.js'
 import { galleryImages, nextIndex } from './eventDetails.js'
@@ -22,7 +23,12 @@ export default function EventDetails() {
     api
       .get(`/api/events/${id}/`)
       .then((res) => {
-        if (!cancelled) setEvent(res.data)
+        if (cancelled) return
+        if (!res.data || Array.isArray(res.data)) {
+          setError(true)
+          return
+        }
+        setEvent(res.data)
       })
       .catch(() => {
         if (!cancelled) setError(true)
@@ -35,8 +41,9 @@ export default function EventDetails() {
     }
   }, [id, i18n.language])
 
+  const backTo = `/events/${tab}`
   const back = (
-    <Link to={`/events/${tab}`} className="event-details__back">
+    <Link to={backTo} className="event-details__back">
       ← {t('events.back')}
     </Link>
   )
@@ -72,23 +79,27 @@ export default function EventDetails() {
         <nav className="event-details__crumbs" aria-label="breadcrumb">
           <Link to="/">{t('nav.home')}</Link>
           <span aria-hidden="true">/</span>
-          <Link to={`/events/${tab}`}>{t('events.title')}</Link>
+          <Link to={backTo}>{t('events.title')}</Link>
         </nav>
+        <p className="event-details__kicker">{t('events.kicker')}</p>
         <h1 className="event-details__title">{title}</h1>
-        {event.date && (
+        {event.date ? (
           <p className="event-details__date">
-            {t('events.date')}: {formatDate(event.date, i18n.language)}
+            <Calendar size={16} strokeWidth={2} aria-hidden="true" />
+            <span>
+              {t('events.date')}: {formatDate(event.date, i18n.language)}
+            </span>
           </p>
-        )}
+        ) : null}
       </section>
 
       <div className="event-details__content">
         {back}
 
-        {images.length > 0 && (
+        {images.length > 0 ? (
           <div className="event-details__gallery">
             <img src={images[slide]} alt={title} />
-            {images.length > 1 && (
+            {images.length > 1 ? (
               <>
                 <button
                   type="button"
@@ -96,7 +107,7 @@ export default function EventDetails() {
                   aria-label={t('events.prev')}
                   onClick={() => setSlide(nextIndex(slide, images.length, -1))}
                 >
-                  ‹
+                  <ChevronLeft size={22} />
                 </button>
                 <button
                   type="button"
@@ -104,22 +115,22 @@ export default function EventDetails() {
                   aria-label={t('events.next')}
                   onClick={() => setSlide(nextIndex(slide, images.length, 1))}
                 >
-                  ›
+                  <ChevronRight size={22} />
                 </button>
                 <span className="event-details__counter">
                   {slide + 1} / {images.length}
                 </span>
               </>
-            )}
+            ) : null}
           </div>
-        )}
+        ) : null}
 
-        {tr?.description && (
+        {tr?.description ? (
           <>
             <h2 className="event-details__subtitle">{t('events.description')}</h2>
             <p className="event-details__text">{tr.description}</p>
           </>
-        )}
+        ) : null}
 
         <Link to="/contacts" className="event-details__signup">
           {t('events.signUp')}

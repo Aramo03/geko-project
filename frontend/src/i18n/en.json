@@ -55,6 +55,7 @@
     "error": "Failed to send the comment"
   },
   "events": {
+    "kicker": "GEKO Education",
     "title": "Events",
     "upcoming": "Upcoming",
     "happening": "Happening",
@@ -73,24 +74,9 @@
       "completed": "Past Events at GEKO"
     },
     "section": {
-      "upcoming": "Featured Events",
-      "happening": "Happening Now",
-      "completed": "Past Events"
-    },
-    "calendarTitle": "Events Calendar",
-    "pastTitle": "Browse Past Events",
-    "register": {
-      "title": "Events Registration",
-      "event": "Event Selection",
-      "eventPlaceholder": "Select an event",
-      "fullName": "Full Name",
-      "fullNamePlaceholder": "Enter your full name",
-      "email": "Email Address",
-      "emailPlaceholder": "Enter your email",
-      "submit": "Submit Registration",
-      "required": "This field is required",
-      "success": "Registration sent. We will contact you soon.",
-      "error": "Could not send. Try again later."
+      "upcoming": "Upcoming events",
+      "happening": "Happening now",
+      "completed": "Past events"
     }
   },
   "home": {

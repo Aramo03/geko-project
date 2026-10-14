@@ -55,6 +55,7 @@
     "error": "Не удалось отправить комментарий"
   },
   "events": {
+    "kicker": "GEKO Education",
     "title": "События",
     "upcoming": "Предстоящие",
     "happening": "Сейчас",
@@ -73,24 +74,9 @@
       "completed": "Прошедшие события GEKO"
     },
     "section": {
-      "upcoming": "Главные события",
+      "upcoming": "Предстоящие события",
       "happening": "Идут сейчас",
       "completed": "Прошедшие события"
-    },
-    "calendarTitle": "Календарь событий",
-    "pastTitle": "Прошедшие события",
-    "register": {
-      "title": "Регистрация на событие",
-      "event": "Выбор события",
-      "eventPlaceholder": "Выберите событие",
-      "fullName": "Полное имя",
-      "fullNamePlaceholder": "Введите ваше имя",
-      "email": "Email",
-      "emailPlaceholder": "Введите ваш email",
-      "submit": "Отправить заявку",
-      "required": "Обязательное поле",
-      "success": "Заявка отправлена. Мы скоро свяжемся с вами.",
-      "error": "Не удалось отправить. Попробуйте позже."
     }
   },
   "home": {
