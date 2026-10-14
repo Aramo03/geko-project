@@ -1,0 +1,11 @@
+.hero-media {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.hero-media__visual {
+  display: block;
+  width: 100%;
+  max-height: 28rem;
+  object-fit: cover;
+}

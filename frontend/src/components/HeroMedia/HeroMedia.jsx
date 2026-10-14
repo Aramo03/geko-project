@@ -1,193 +1,34 @@
-import React, { useState } from "react";
-import "./HeroMedia.css";
+import { useState } from 'react'
+import { HERO_POSTER, HERO_VIDEO_SOURCES } from './heroMedia.js'
+import './heroMedia.css'
 
 export default function HeroMedia() {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    country: "",
-    category: "",
-    whatsapp: "",
-    email: "",
-    message: "",
-  });
+  const [videoFailed, setVideoFailed] = useState(false)
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-  };
+  if (videoFailed) {
+    return (
+      <div className="hero-media">
+        <img className="hero-media__visual" src={HERO_POSTER} alt="" />
+      </div>
+    )
+  }
 
   return (
-    <section className="relative w-screen left-1/2 -translate-x-1/2 min-h-screen flex items-center justify-center overflow-hidden bg-emerald-950 py-12 px-6 sm:px-10 lg:px-16 my-[-2rem]">
-      {/* Background Image with 100% width and height coverage */}
-      <div className="absolute inset-0 z-0 w-full h-full">
-        <img
-          src="/images/mainLoad.webp"
-          alt="Classroom background"
-          className="w-full h-full object-cover object-center"
-          onError={(e) => {
-            e.target.style.display = "none";
-          }}
-        />
-        <div className="absolute inset-0 bg-emerald-950/80 mix-blend-multiply"></div>
-        <div className="absolute inset-0 bg-black/40"></div>
-      </div>
-
-      {/* Content Container spanning safe max-width inside the full-width section */}
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center px-4 sm:px-8">
-        {/* Left Side: Hero Text & Buttons */}
-        <div className="lg:col-span-7 text-white space-y-6">
-          <div className="inline-block bg-amber-400 text-gray-950 text-xs sm:text-sm font-extrabold px-3.5 py-1.5 rounded-md uppercase tracking-wider shadow-sm">
-            Smart Future Pathways
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-            Learn. Grow. Achieve.
-          </h1>
-
-          <p className="text-base sm:text-lg text-gray-200 max-w-2xl leading-relaxed">
-            Empower your child with structured education modules designed by
-            global certified mentors. Interactive mathematical courses, modern
-            robotics, and coding tracks custom-built for creative and logical
-            development.
-          </p>
-
-          <div className="flex flex-wrap gap-4 pt-4">
-            <a
-              href="#courses"
-              className="px-8 py-4 rounded-xl bg-amber-400 text-gray-950 font-extrabold hover:bg-white transition duration-200 shadow-xl inline-flex items-center gap-2 text-base tracking-wide"
-            >
-              Explore Courses
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        {/* Right Side: Registration Form Card */}
-        <div className="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 shadow-2xl text-gray-900 border border-gray-100">
-          <div className="mb-6">
-            <span className="text-xs font-bold text-emerald-800 tracking-wider uppercase">
-              Enroll Today
-            </span>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-gray-900 mt-1">
-              A FREE TRIAL CLASS REGISTRATION
-            </h2>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Full Name */}
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Full Name
-              </label>
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                placeholder="Enter your full name"
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700 transition"
-                required
-              />
-            </div>
-
-            {/* Country & Category Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  Country
-                </label>
-                <select
-                  name="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700 text-gray-700 transition"
-                >
-                  <option value="">Select</option>
-                  <option value="am">Armenia</option>
-                  <option value="us">United States</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  Category
-                </label>
-                <select
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700 text-gray-700 transition"
-                >
-                  <option value="">Select Grade</option>
-                  <option value="1">Grade 1-3</option>
-                  <option value="2">Grade 4-6</option>
-                </select>
-              </div>
-            </div>
-
-            {/* WhatsApp & Email Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  WhatsApp Number
-                </label>
-                <input
-                  type="text"
-                  name="whatsapp"
-                  value={formData.whatsapp}
-                  onChange={handleChange}
-                  placeholder="+1 (000) 000-0000"
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700 transition"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="example@mail.com"
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700 transition"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Message (Optional) */}
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Message (Optional)
-              </label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows="2"
-                placeholder="Any notes or specific questions..."
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-700 resize-none transition"
-              ></textarea>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full py-3.5 bg-emerald-900 hover:bg-emerald-800 text-white font-bold rounded-xl transition duration-200 shadow-md uppercase tracking-wider text-sm mt-2"
-            >
-              Confirm Registration
-            </button>
-          </form>
-        </div>
-      </div>
-    </section>
-  );
+    <div className="hero-media">
+      <video
+        className="hero-media__visual"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster={HERO_POSTER}
+        onError={() => setVideoFailed(true)}
+      >
+        {HERO_VIDEO_SOURCES.map((source) => (
+          <source key={source.type} src={source.src} type={source.type} />
+        ))}
+      </video>
+    </div>
+  )
 }
