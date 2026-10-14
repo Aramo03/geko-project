@@ -1,0 +1,129 @@
+.comment-form {
+  display: grid;
+  gap: 0.9rem;
+  width: 100%;
+  max-width: 40rem;
+  padding: 1.5rem 1.25rem 1.6rem;
+  background: #fff;
+  border: 1px solid var(--color-brand-soft);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(11, 57, 40, 0.07);
+}
+
+.comment-form-title {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.comment-form-lead {
+  margin: -0.35rem 0 0;
+  color: var(--color-copy-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.comment-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.comment-field span {
+  color: var(--color-brand-ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.comment-required {
+  color: var(--color-accent);
+}
+
+.comment-form input,
+.comment-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.78rem 0.95rem;
+  border: 1px solid #d7e4de;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--color-brand-ink);
+  font: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.comment-form textarea {
+  min-height: 7.5rem;
+  resize: vertical;
+}
+
+.comment-form input:focus,
+.comment-form textarea:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(0, 188, 131, 0.15);
+}
+
+.comment-form input[aria-invalid='true'],
+.comment-form textarea[aria-invalid='true'] {
+  border-color: #c24141;
+}
+
+.comment-form button[type='submit'] {
+  width: 100%;
+  min-height: 2.7rem;
+  border: 0;
+  border-radius: 5px;
+  background: var(--color-brand);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.comment-form button[type='submit']:hover:not(:disabled) {
+  background: var(--color-brand-hover);
+}
+
+.comment-form button[type='submit']:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.comment-error {
+  color: #c24141;
+  font-size: 0.75rem;
+}
+
+.comment-status {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.comment-status-success {
+  background: var(--color-mint);
+  color: var(--color-brand);
+}
+
+.comment-status-error {
+  background: #fdecec;
+  color: #c24141;
+}
+
+@media (min-width: 640px) {
+  .comment-form {
+    padding: 1.7rem 1.6rem 1.8rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .comment-form {
+    padding: 1.15rem 1rem 1.3rem;
+  }
+}

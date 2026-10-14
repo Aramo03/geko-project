@@ -1,113 +1,113 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
+import { EMAIL_PATTERN, getCommentPayload } from './commentForm.js'
+import './commentForm.css'
 
-export default function CommentForm({
-  category,
-  popularCourse,
-  onCreated,
-}) {
+export default function CommentForm({ category, popularCourse, onCreated }) {
+  const { t } = useTranslation()
+  const [status, setStatus] = useState(null)
   const {
     register,
     handleSubmit,
     reset,
-    formState: {
-      errors,
-      isSubmitting,
-    },
+    formState: { errors, isSubmitting },
   } = useForm()
 
   async function onSubmit(data) {
-    const payload = {
-      full_name: data.full_name,
-      email: data.email,
-      whatsapp: data.whatsapp,
-      text: data.text,
-    }
-
-    if (category) {
-      payload.category = category
-    }
-
-    if (popularCourse) {
-      payload.popular_course = popularCourse
+    setStatus(null)
+    const payload = getCommentPayload(data, category, popularCourse)
+    if (!payload) {
+      setStatus('error')
+      return
     }
 
     try {
       await api.post('/api/comments/', payload)
-
       reset()
-
-      if (onCreated) {
-        onCreated()
-      }
-    } catch (error) {
-      console.error(error)
+      setStatus('success')
+      if (onCreated) onCreated()
+    } catch {
+      setStatus('error')
     }
   }
 
   return (
-    <form
-      className="mx-auto flex w-full max-w-[380px] flex-col gap-5 rounded-[35px] bg-white px-5 pb-[60px] pt-[30px] shadow-[0_15px_35px_rgba(0,0,0,0.12)]"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <input
-        type="text"
-        placeholder="Your name"
-        className="box-border h-[49px] w-full border border-[#888] bg-white px-5 py-3 text-[15px] text-[#333] outline-none placeholder:text-[#b8b8b8] focus:border-[#859c35]"
-        {...register('full_name', {
-          required: 'Name is required',
-        })}
-      />
+    <form className="comment-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <h2 className="comment-form-title">{t('comments.formTitle')}</h2>
+      <p className="comment-form-lead">{t('comments.formLead')}</p>
 
-      {errors.full_name && (
-        <p className="-mt-4 text-xs text-red-500">
-          {errors.full_name.message}
-        </p>
-      )}
+      <label className="comment-field">
+        <span>
+          {t('comments.fullName')}{' '}
+          <span className="comment-required" aria-hidden="true">
+            *
+          </span>
+        </span>
+        <input
+          type="text"
+          autoComplete="name"
+          aria-invalid={errors.full_name ? 'true' : 'false'}
+          {...register('full_name', { required: true })}
+        />
+        {errors.full_name ? <span className="comment-error">{t('comments.required')}</span> : null}
+      </label>
 
-      <input
-        type="email"
-        placeholder="Your email"
-        className="box-border h-[49px] w-full border border-[#888] bg-white px-5 py-3 text-[15px] text-[#333] outline-none placeholder:text-[#b8b8b8] focus:border-[#859c35]"
-        {...register('email', {
-          required: 'Email is required',
-        })}
-      />
+      <label className="comment-field">
+        <span>
+          {t('comments.email')}{' '}
+          <span className="comment-required" aria-hidden="true">
+            *
+          </span>
+        </span>
+        <input
+          type="email"
+          autoComplete="email"
+          aria-invalid={errors.email ? 'true' : 'false'}
+          {...register('email', { required: true, pattern: EMAIL_PATTERN })}
+        />
+        {errors.email ? (
+          <span className="comment-error">
+            {errors.email.type === 'pattern' ? t('comments.invalidEmail') : t('comments.required')}
+          </span>
+        ) : null}
+      </label>
 
-      {errors.email && (
-        <p className="-mt-4 text-xs text-red-500">
-          {errors.email.message}
-        </p>
-      )}
+      <label className="comment-field">
+        <span>{t('comments.whatsapp')}</span>
+        <input type="tel" autoComplete="tel" {...register('whatsapp')} />
+      </label>
 
-      <input
-        type="text"
-        placeholder="Your WhatsApp"
-        className="box-border h-[49px] w-full border border-[#888] bg-white px-5 py-3 text-[15px] text-[#333] outline-none placeholder:text-[#b8b8b8] focus:border-[#859c35]"
-        {...register('whatsapp')}
-      />
+      <label className="comment-field">
+        <span>
+          {t('comments.text')}{' '}
+          <span className="comment-required" aria-hidden="true">
+            *
+          </span>
+        </span>
+        <textarea
+          rows={4}
+          aria-invalid={errors.text ? 'true' : 'false'}
+          {...register('text', { required: true })}
+        />
+        {errors.text ? <span className="comment-error">{t('comments.required')}</span> : null}
+      </label>
 
-      <textarea
-        placeholder="Your message..."
-        className="box-border h-32 w-full resize-none border border-[#888] bg-white px-5 py-3 text-[15px] text-[#333] outline-none placeholder:text-[#b8b8b8] focus:border-[#859c35]"
-        {...register('text', {
-          required: 'Message is required',
-        })}
-      />
-
-      {errors.text && (
-        <p className="-mt-4 text-xs text-red-500">
-          {errors.text.message}
-        </p>
-      )}
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="h-12 w-full cursor-pointer border-0 bg-[#859c35] text-[13px] font-medium uppercase text-white transition-colors duration-300 hover:bg-[#71852d] disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        {isSubmitting ? 'SENDING...' : 'SEND'}
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? t('comments.sending') : t('comments.send')}
       </button>
+
+      {status === 'success' ? (
+        <p className="comment-status comment-status-success" role="status">
+          {t('comments.success')}
+        </p>
+      ) : null}
+      {status === 'error' ? (
+        <p className="comment-status comment-status-error" role="alert">
+          {t('comments.error')}
+        </p>
+      ) : null}
     </form>
   )
 }
