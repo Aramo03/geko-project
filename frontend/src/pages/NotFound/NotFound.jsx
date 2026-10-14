@@ -48,14 +48,11 @@ export default function NotFound() {
         </div>
 
         <h2 className="mb-3 text-[25px] font-bold tracking-tight text-[#0B3928] sm:text-[30px]">
-          {t("notFound.title", "Oops! Page Not Found")}
+          {t("notFound.title")}
         </h2>
 
         <p className="mb-7 max-w-[420px] text-[13px] leading-[1.8] text-[#75877F] sm:text-[14px]">
-          {t(
-            "notFound.description",
-            "The page you're looking for seems to have wandered off. Don't worry, let's get you back on track!"
-          )}
+          {t("notFound.description")}
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-3">
@@ -64,14 +61,14 @@ export default function NotFound() {
             className="flex min-h-[41px] items-center justify-center gap-2 rounded-[5px] bg-[#0B3928] px-5 text-[12px] font-semibold text-white transition-colors duration-200 hover:bg-[#15543C]"
           >
             <Home size={15} strokeWidth={2} />
-            {t("notFound.backHome", "Back to Home")}
+            {t("notFound.backHome")}
           </Link>
 
           <Link
             to={NOT_FOUND_LINKS.courses}
             className="flex min-h-[41px] items-center justify-center rounded-[5px] border border-[#0B3928] bg-transparent px-5 text-[12px] font-semibold text-[#0B3928] transition-colors duration-200 hover:bg-[#E0F4EA]"
           >
-            {t("notFound.exploreCourses", "Explore Courses")}
+            {t("notFound.exploreCourses")}
           </Link>
         </div>
       </div>

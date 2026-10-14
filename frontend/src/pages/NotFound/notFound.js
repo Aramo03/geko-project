@@ -1,7 +1,7 @@
 export const TITLE = 'NotFound'
 export const NOT_FOUND_LINKS = {
   home: "/",
-  courses: "/courses"
+  courses: "/course-category"
 };
 
 export const NOT_FOUND_CONFIG = {

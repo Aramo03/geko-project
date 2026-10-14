@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
+import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 import { api } from "../../api/client.js";
 
 export default function Footer() {
@@ -40,8 +40,13 @@ export default function Footer() {
     (item) => item.key === "contacts_bar" && item.is_visible !== false
   );
 
+  const headerBlock = blocks.find(
+    (item) => item.key === "header" && item.is_visible !== false
+  );
+
   const footerData = footerBlock?.payload || {};
   const contactData = contactBlock?.payload || {};
+  const headerData = headerBlock?.payload || {};
 
  const currentLanguage = i18n.language.split("-")[0];
 
@@ -65,18 +70,29 @@ const phone = getLocalizedValue(
   footerData.phone || contactData.phone
 );
 
+const email = getLocalizedValue(
+  footerData.email || contactData.email
+);
+
 const address = getLocalizedValue(
   footerData.address || contactData.address
 );
 
-const description = getLocalizedValue(
-  footerData.description
-);
+const map = getLocalizedValue(footerData.map);
+
+const description = getLocalizedValue(footerData.description);
+
+const logo =
+  typeof headerData.logo === "string" && headerData.logo.trim()
+    ? headerData.logo.trim()
+    : "/images/logo.webp";
+
   const links = [
-    { to: "/", label: t("nav.home", "Home") },
-    { to: "/courses", label: t("nav.courses", "Courses") },
-    { to: "/events", label: t("nav.events", "Events") },
-    { to: "/contacts", label: t("nav.contacts", "Contacts") }
+    { to: "/", label: t("nav.home") },
+    { to: "/about-us", label: t("nav.about") },
+    { to: "/course-category", label: t("nav.courses") },
+    { to: "/events", label: t("nav.events") },
+    { to: "/contacts", label: t("nav.contacts") }
   ];
 
   return (
@@ -88,26 +104,22 @@ const description = getLocalizedValue(
               to="/"
               className="mb-7 inline-flex items-center gap-3"
             >
-                <img className="h-[60px] w-[60px] object-contain" src="/images/logo.webp" alt="GEKO Logo" />
+                <img className="h-[60px] w-[60px] object-contain" src={logo} alt={t("header.logoAlt")} />
 
             </Link>
 
             <h3 className="mb-5 text-[13px] font-bold text-white">
-              {t("nav.about", "About Us")}``
+              {t("nav.about")}
             </h3>
 
             <p className="max-w-[280px] text-[12px] leading-[1.8] text-white/65">
-              {description ||
-                t(
-                  "footer.description",
-                  "Providing holistic and practical digital pathways for modern technical sciences and analytics foundations."
-                )}
+              {description || t("footer.description")}
             </p>
           </div>
 
           <div className="md:pl-8">
             <h3 className="mb-5 text-[13px] font-bold text-white">
-              {t("footer.quickLinks", "Quick Links")}
+              {t("footer.quickLinks")}
             </h3>
 
             <div className="flex flex-col gap-[14px]">
@@ -125,7 +137,7 @@ const description = getLocalizedValue(
 
           <div>
             <h3 className="mb-5 text-[13px] font-bold text-white">
-              {t("footer.contactInfo", "Contact Info")}
+              {t("footer.contactInfo")}
             </h3>
 
             <div className="flex flex-col gap-5">
@@ -155,16 +167,38 @@ const description = getLocalizedValue(
                   <span>{phone}</span>
                 </a>
               )}
+
+              {email && (
+                <a
+                  href={`mailto:${email}`}
+                  className="flex items-center gap-3 text-[12px] text-white/65 transition-colors hover:text-white"
+                >
+                  <FaEnvelope
+                    size={16}
+                    className="shrink-0 text-white"
+                  />
+
+                  <span>{email}</span>
+                </a>
+              )}
+
+              {map && (
+                <a
+                  href={map}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[12px] text-white/65 transition-colors hover:text-white"
+                >
+                  {t("footer.map")}
+                </a>
+              )}
             </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-5 border-t border-white/10 pb-1 pt-[45px] sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-[300px] text-[11px] leading-[1.5] text-white/45">
-            {t(
-              "footer.copyright",
-              "Copyright © 2026 GEKO Education. All rights reserved."
-            )}
+            {t("footer.copyright")}
           </p>
 
           <div className="flex items-center gap-6">
@@ -172,14 +206,14 @@ const description = getLocalizedValue(
               to="/privacy-policy"
               className="text-[11px] text-white/45 transition-colors hover:text-white"
             >
-              {t("footer.privacyPolicy", "Privacy Policy")}
+              {t("footer.privacyPolicy")}
             </Link>
 
             <Link
               to="/terms"
               className="text-[11px] text-white/45 transition-colors hover:text-white"
             >
-              {t("footer.terms", "Terms & Conditions")}
+              {t("footer.terms")}
             </Link>
           </div>
         </div>
