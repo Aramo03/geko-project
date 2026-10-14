@@ -1,7 +1,6 @@
-from django.db.models import Exists, OuterRef
 from rest_framework import viewsets
 
-from .models import Category, Event, EventTranslation, LessonInfo, Review, UIBlock
+from .models import Category, Event, LessonInfo, Review, UIBlock
 from .serializers import (
     CategorySerializer,
     EventSerializer,
@@ -15,18 +14,9 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
 
     def get_queryset(self):
-        queryset = Category.objects.prefetch_related(
+        return Category.objects.prefetch_related(
             "translations__language"
         ).all()
-
-        language = self.request.query_params.get("language")
-
-        if language:
-            queryset = queryset.filter(
-                translations__language__code=language
-            ).distinct()
-
-        return queryset
 
 
 class EventViewSet(viewsets.ReadOnlyModelViewSet):
@@ -39,20 +29,9 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
         ).all()
 
         status = self.request.query_params.get("status")
-        language = self.request.query_params.get("language")
 
         if status:
             queryset = queryset.filter(status=status)
-
-        if language:
-            has_any_translation = EventTranslation.objects.filter(event_id=OuterRef("pk"))
-            has_language = EventTranslation.objects.filter(
-                event_id=OuterRef("pk"),
-                language__code=language,
-            )
-            queryset = queryset.filter(
-                ~Exists(has_any_translation) | Exists(has_language)
-            ).distinct()
 
         return queryset
 
@@ -68,18 +47,9 @@ class LessonInfoViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LessonInfoSerializer
 
     def get_queryset(self):
-        queryset = LessonInfo.objects.prefetch_related(
+        return LessonInfo.objects.prefetch_related(
             "translations__language"
         ).order_by("order")
-
-        language = self.request.query_params.get("language")
-
-        if language:
-            queryset = queryset.filter(
-                translations__language__code=language
-            ).distinct()
-
-        return queryset
 
 
 class UIBlockViewSet(viewsets.ReadOnlyModelViewSet):

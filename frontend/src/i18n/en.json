@@ -17,7 +17,10 @@
     "memberImageAlt": "Photo of {{name}}"
   },
   "contacts": {
+    "kicker": "GEKO Education",
     "title": "Contact us",
+    "lead": "Write to us and we will get back to you.",
+    "formTitle": "Send a message",
     "fullName": "Full name",
     "email": "Email",
     "phone": "Phone",
@@ -26,22 +29,30 @@
     "category": "Category",
     "selectCategory": "Select category",
     "message": "Message",
+    "address": "Address",
+    "openMap": "Open map",
     "send": "Send",
+    "sending": "Sending…",
     "required": "Required field",
+    "invalidEmail": "Enter a valid email",
     "success": "Your message has been sent successfully",
     "error": "Something went wrong"
   },
   "comments": {
     "title": "Comments",
+    "formTitle": "Leave a comment",
+    "formLead": "Guest comments are published after approval.",
     "fullName": "Full name",
     "email": "Email",
     "whatsapp": "WhatsApp",
     "text": "Comment",
     "send": "Send",
+    "sending": "Sending…",
     "required": "Required field",
+    "invalidEmail": "Enter a valid email",
     "empty": "No comments yet",
-    "success": "Comment added successfully",
-    "error": "Failed to add comment"
+    "success": "Your comment was sent and is waiting for approval.",
+    "error": "Failed to send the comment"
   },
   "events": {
     "title": "Events",
@@ -96,14 +107,28 @@
     "comments": "Comments",
     "untitled": "Untitled"
   },
+  "header": {
+    "followUs": "Follow us:",
+    "enrollNow": "Enroll Now",
+    "selectLanguage": "Select language",
+    "toggleMenu": "Toggle menu",
+    "logoAlt": "GEKO logo"
+  },
   "footer": {
     "navigation": "Navigation",
     "contacts": "Contacts",
-    "map": "Map"
+    "map": "Map",
+    "description": "Providing holistic and practical digital pathways for modern technical sciences and analytics foundations.",
+    "quickLinks": "Quick Links",
+    "contactInfo": "Contact Info",
+    "copyright": "Copyright © 2026 GEKO Education. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms & Conditions"
   },
   "notFound": {
-    "title": "Page not found",
-    "text": "This page does not exist.",
-    "home": "Home"
+    "title": "Oops! Page Not Found",
+    "description": "The page you're looking for seems to have wandered off. Don't worry, let's get you back on track!",
+    "backHome": "Back to Home",
+    "exploreCourses": "Explore Courses"
   }
 }
