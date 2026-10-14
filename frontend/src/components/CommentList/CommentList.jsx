@@ -1,65 +1,98 @@
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
-import { asCommentList, getCommentParams } from './commentList.js'
-import './commentList.css'
 
-export default function CommentList({ category, popularCourse, refreshKey = 0 }) {
-  const { t, i18n } = useTranslation()
+export default function CommentList({
+  category,
+  popularCourse,
+  refreshKey = 0,
+}) {
   const [comments, setComments] = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
 
   useEffect(() => {
-    const params = getCommentParams({ category, popularCourse })
-    if (!params) {
-      setComments([])
-      setLoading(false)
-      setError(true)
-      return undefined
+    const params = {}
+
+    if (category) {
+      params.category = category
     }
 
-    let active = true
+    if (popularCourse) {
+      params.popular_course = popularCourse
+    }
+
     setLoading(true)
-    setError(false)
 
     api
       .get('/api/comments/', { params })
       .then((response) => {
-        if (!active) return
-        const list = asCommentList(response.data)
-        if (!list) {
-          setError(true)
-          return
-        }
-        setComments(list)
+        setComments(response.data)
       })
-      .catch(() => {
-        if (active) setError(true)
+      .catch((error) => {
+        console.error(error)
       })
       .finally(() => {
-        if (active) setLoading(false)
+        setLoading(false)
       })
-
-    return () => {
-      active = false
-    }
-  }, [category, popularCourse, refreshKey, i18n.language])
+  }, [category, popularCourse, refreshKey])
 
   return (
-    <section className="comment-list">
-      <h2>{t('comments.title')}</h2>
-      {loading && <p>{t('common.loading')}</p>}
-      {error && <p className="error">{t('common.error')}</p>}
-      {!loading && !error && comments.length === 0 && <p>{t('comments.empty')}</p>}
-      {!loading && !error &&
-        comments.map((comment) => (
-          <article key={comment.id} className="comment-item">
-            <h3>{comment.full_name}</h3>
-            <p>{comment.text}</p>
-            <small>{new Date(comment.created_at).toLocaleDateString()}</small>
-          </article>
-        ))}
+    <section className="mx-auto w-full max-w-3xl py-10">
+      <h2 className="mb-8 text-2xl font-semibold text-[#333]">
+        Comments
+      </h2>
+
+      {loading ? (
+        <p className="rounded-2xl bg-white px-6 py-5 text-sm text-gray-500 shadow-sm">
+          Loading...
+        </p>
+      ) : comments.length === 0 ? (
+        <p className="rounded-2xl bg-white px-6 py-5 text-sm text-gray-500 shadow-sm">
+          No comments yet.
+        </p>
+      ) : (
+        <div className="flex flex-col gap-5">
+          {comments.map((comment) => (
+            <article
+              key={comment.id}
+              className="rounded-[25px] border border-gray-100 bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,0.07)] transition-shadow duration-300 hover:shadow-[0_15px_35px_rgba(0,0,0,0.10)]"
+            >
+              <div className="mb-4 flex items-start justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#859c35]/15 text-lg font-semibold text-[#859c35]">
+                    {comment.full_name
+                      ? comment.full_name.charAt(0).toUpperCase()
+                      : '?'}
+                  </div>
+
+                  <div>
+                    <h3 className="text-base font-semibold text-[#333]">
+                      {comment.full_name}
+                    </h3>
+
+                    <small className="mt-1 block text-xs text-gray-400">
+                      {comment.created_at
+                        ? new Date(
+                            comment.created_at
+                          ).toLocaleDateString()
+                        : ''}
+                    </small>
+                  </div>
+                </div>
+
+                <span className="text-xl text-[#859c35]">
+                  ❝
+                </span>
+              </div>
+
+              <p className="whitespace-pre-wrap break-words text-sm leading-7 text-gray-600">
+                {comment.text}
+              </p>
+
+              <div className="mt-5 h-1 w-12 rounded-full bg-[#859c35]" />
+            </article>
+          ))}
+        </div>
+      )}
     </section>
   )
 }
