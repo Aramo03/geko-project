@@ -1,56 +1,97 @@
 .event-card {
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border-radius: 10px;
   overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--color-brand-soft);
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(11, 57, 40, 0.05);
 }
-.event-card__media { display: block; }
+
+.event-card__media {
+  display: block;
+}
+
 .event-card__image,
 .event-card__placeholder {
+  display: block;
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  display: block;
-  border-radius: 10px;
 }
+
 .event-card__placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--ev-green, #153f2b), #2f6b4c);
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 3rem;
-  font-weight: 800;
+  background: var(--color-mint);
+  color: var(--color-brand);
+  font-size: 2.4rem;
+  font-weight: 700;
 }
-.event-card__body { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.9rem 0.1rem 0; flex: 1; }
+
+.event-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1.05rem 1.1rem 1.15rem;
+}
+
 .event-card__date {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.8rem;
+  color: var(--color-accent);
+  font-size: 0.78rem;
   font-weight: 600;
-  color: var(--ev-green, #153f2b);
 }
-.event-card__title { font-size: 1.1rem; font-weight: 800; }
-.event-card__title a:hover { text-decoration: underline; }
+
+.event-card__title {
+  margin: 0;
+  color: var(--color-brand);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.event-card__title a:hover {
+  color: var(--color-brand-hover);
+}
+
 .event-card__text {
-  font-size: 0.9rem;
-  color: var(--ev-muted, #6b7280);
+  margin: 0;
+  color: var(--color-copy-muted);
+  font-size: 0.86rem;
+  line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
 .event-card__btn {
   margin-top: auto;
-  padding: 0.6rem 1rem;
-  text-align: center;
-  background: var(--ev-green-btn, #14543a);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.45rem;
+  padding: 0.45rem 1rem;
+  border-radius: 5px;
+  background: var(--color-brand);
   color: #fff;
-  font-weight: 600;
-  border-radius: 6px;
-  transition: filter 0.2s;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  transition: background-color 0.2s ease;
 }
-.event-card__btn:hover { filter: brightness(1.15); }
-.event-card--compact .event-card__body { padding-bottom: 0.25rem; }
+
+.event-card__btn:hover {
+  background: var(--color-brand-hover);
+}
+
+@media (max-width: 375px) {
+  .event-card__body {
+    padding: 0.9rem 0.85rem 1rem;
+  }
+}

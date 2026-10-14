@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { api, pickTranslation } from '../../api/client.js'
+import { api } from '../../api/client.js'
 import EventCard from '../../components/EventCard/EventCard.jsx'
 import EventDetails from '../../components/EventDetails/EventDetails.jsx'
-import EventRegistration from '../../components/EventRegistration/EventRegistration.jsx'
-import { formatDate } from '../../components/EventCard/eventCard.js'
-import { TABS, DEFAULT_TAB, splitEvents, groupEventsByStatus, toRelativeApiPath } from './events.js'
+import {
+  DEFAULT_TAB,
+  TABS,
+  emptyEventsByStatus,
+  fetchEventsByStatus,
+  isEventsTab,
+} from './events.js'
 import './events.css'
 
 export default function Events() {
   const { t, i18n } = useTranslation()
   const { tab, id } = useParams()
-  const [events, setEvents] = useState({ upcoming: [], happening: [], completed: [] })
+  const [events, setEvents] = useState(emptyEventsByStatus())
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
@@ -21,43 +25,33 @@ export default function Events() {
     let cancelled = false
     setLoading(true)
     setError(false)
-    async function loadEvents() {
-      try {
-        const allItems = []
-        let path = '/api/events/'
-        while (path) {
-          const { data } = await api.get(path)
-          if (Array.isArray(data)) {
-            allItems.push(...data)
-            break
-          }
-          if (Array.isArray(data?.results)) {
-            allItems.push(...data.results)
-            path = toRelativeApiPath(data.next, api.defaults.baseURL)
-          } else {
-            break
-          }
+    fetchEventsByStatus(api)
+      .then((grouped) => {
+        if (cancelled) return
+        if (!grouped) {
+          setError(true)
+          return
         }
-        if (!cancelled) setEvents(groupEventsByStatus(allItems))
-      } catch {
+        setEvents(grouped)
+      })
+      .catch(() => {
         if (!cancelled) setError(true)
-      } finally {
+      })
+      .finally(() => {
         if (!cancelled) setLoading(false)
-      }
-    }
-    loadEvents()
+      })
     return () => {
       cancelled = true
     }
   }, [i18n.language, id])
 
-  if (!TABS.includes(tab)) {
+  if (!isEventsTab(tab)) {
     return <Navigate to={`/events/${DEFAULT_TAB}`} replace />
   }
 
   if (id) return <EventDetails />
 
-  const { list, scheduled, past } = splitEvents(events, tab)
+  const list = events[tab] || []
   const ready = !loading && !error
 
   return (
@@ -68,42 +62,51 @@ export default function Events() {
           <span aria-hidden="true">/</span>
           <span>{t(`events.${tab}`)}</span>
         </nav>
+        <p className="events-kicker">{t('events.kicker')}</p>
         <h1 className="events-hero__title">{t(`events.hero.${tab}`)}</h1>
       </section>
 
       <section className="events-section">
-        <div className="events-container">
-          <nav className="events-tabs">
+        <div className="events-shell">
+          <nav className="events-tabs" aria-label={t('events.title')}>
             {TABS.map((status) => {
-              const isEmpty = !loading && events[status].length === 0
-              if (isEmpty) {
+              const label = t(`events.${status}`)
+              const isActive = status === tab
+              const isEmpty = ready && events[status].length === 0
+              const className = [
+                'events-tab',
+                isActive ? 'events-tab--active' : '',
+                isEmpty ? 'events-tab--disabled' : '',
+              ]
+                .filter(Boolean)
+                .join(' ')
+
+              if (!ready || isEmpty) {
                 return (
                   <span
                     key={status}
-                    className="events-tab events-tab--disabled"
-                    aria-disabled="true"
+                    className={className}
+                    aria-current={isActive ? 'page' : undefined}
+                    aria-disabled={!ready || isEmpty ? 'true' : undefined}
                   >
-                    {t(`events.${status}`)}
+                    {label}
                   </span>
                 )
               }
+
               return (
-                <Link
-                  key={status}
-                  to={`/events/${status}`}
-                  className={`events-tab ${status === tab ? 'events-tab--active' : ''}`}
-                >
-                  {t(`events.${status}`)}
+                <Link key={status} to={`/events/${status}`} className={className}>
+                  {label}
                 </Link>
               )
             })}
           </nav>
 
-          {loading && <p className="events-state">{t('common.loading')}</p>}
-          {error && <p className="events-state events-state--error">{t('common.error')}</p>}
-          {ready && list.length === 0 && <p className="events-state">{t('common.empty')}</p>}
+          {loading ? <p className="events-state">{t('common.loading')}</p> : null}
+          {error ? <p className="events-state events-state--error">{t('common.error')}</p> : null}
+          {ready && list.length === 0 ? <p className="events-state">{t('common.empty')}</p> : null}
 
-          {ready && list.length > 0 && (
+          {ready && list.length > 0 ? (
             <>
               <h2 className="events-heading">{t(`events.section.${tab}`)}</h2>
               <div className="events-grid">
@@ -112,46 +115,9 @@ export default function Events() {
                 ))}
               </div>
             </>
-          )}
+          ) : null}
         </div>
       </section>
-
-      {ready && scheduled.length > 0 && (
-        <section className="events-section events-section--tinted">
-          <div className="events-container events-band">
-            <div className="events-calendar">
-              <h2 className="events-heading">{t('events.calendarTitle')}</h2>
-              <ul className="events-calendar__grid">
-                {scheduled.map((event) => {
-                  const tr = pickTranslation(event.translations)
-                  return (
-                    <li key={event.id} className="events-calendar__item">
-                      <Link to={`/events/${event.status}/${event.id}`}>
-                        <strong>{tr?.title || t('events.untitled')}</strong>
-                        {event.date && <span>{formatDate(event.date, i18n.language)}</span>}
-                      </Link>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-            <EventRegistration events={scheduled} />
-          </div>
-        </section>
-      )}
-
-      {ready && past.length > 0 && (
-        <section className="events-section">
-          <div className="events-container">
-            <h2 className="events-heading">{t('events.pastTitle')}</h2>
-            <div className="events-grid">
-              {past.map((event) => (
-                <EventCard key={event.id} event={event} variant="compact" />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
     </main>
   )
 }
