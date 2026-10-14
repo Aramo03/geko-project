@@ -17,7 +17,10 @@
     "memberImageAlt": "Photo of {{name}}"
   },
   "contacts": {
+    "kicker": "GEKO Education",
     "title": "Contact us",
+    "lead": "Write to us and we will get back to you.",
+    "formTitle": "Send a message",
     "fullName": "Full name",
     "email": "Email",
     "phone": "Phone",
@@ -26,22 +29,30 @@
     "category": "Category",
     "selectCategory": "Select category",
     "message": "Message",
+    "address": "Address",
+    "openMap": "Open map",
     "send": "Send",
+    "sending": "Sending…",
     "required": "Required field",
+    "invalidEmail": "Enter a valid email",
     "success": "Your message has been sent successfully",
     "error": "Something went wrong"
   },
   "comments": {
     "title": "Comments",
+    "formTitle": "Leave a comment",
+    "formLead": "Guest comments are published after approval.",
     "fullName": "Full name",
     "email": "Email",
     "whatsapp": "WhatsApp",
     "text": "Comment",
     "send": "Send",
+    "sending": "Sending…",
     "required": "Required field",
+    "invalidEmail": "Enter a valid email",
     "empty": "No comments yet",
-    "success": "Comment added successfully",
-    "error": "Failed to add comment"
+    "success": "Your comment was sent and is waiting for approval.",
+    "error": "Failed to send the comment"
   },
   "events": {
     "title": "Events",
