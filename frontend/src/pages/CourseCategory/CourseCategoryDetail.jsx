@@ -1,152 +1,125 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { api } from '../../api/client';
+import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { api } from '../../api/client'
+import CommentList from '../../components/CommentList/CommentList.jsx'
+import CommentForm from '../../components/CommentForm/CommentForm.jsx'
+import {
+  asList,
+  categoryTitle,
+  courseDescription,
+  courseImage,
+  courseTitle,
+} from './courseCategory.js'
+import './courseCategory.css'
 
-const CourseCategoryDetail = () => {
-  const { id } = useParams();
-  const { t } = useTranslation();
-  const [category, setCategory] = useState(null);
-  const [courses, setCourses] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+export default function CourseCategoryDetail() {
+  const { id } = useParams()
+  const { t, i18n } = useTranslation()
+  const [category, setCategory] = useState(null)
+  const [categories, setCategories] = useState([])
+  const [courses, setCourses] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
-    const fetchCategoryDetails = async () => {
-      try {
-        setIsLoading(true);
-        setIsError(false);
-        
-        // Բեռնում ենք կոնկրետ կատեգորիայի տվյալները
-        const resCategory = await api.get(`/api/categories/${id}/`);
-        setCategory(resCategory.data);
-        
-        // Բեռնում ենք տվյալ կատեգորիային պատկանող դասընթացները
-        const resCourses = await api.get(`/api/courses/?category=${id}`);
-        setCourses(resCourses.data.results || resCourses.data);
-      } catch (error) {
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    let cancelled = false
+    if (!id) return undefined
 
-    if (id) {
-      fetchCategoryDetails();
+    setLoading(true)
+    setError(false)
+    setCategory(null)
+    setCourses([])
+
+    Promise.all([
+      api.get(`/api/categories/${id}/`),
+      api.get(`/api/courses/${id}/`, { params: { category: id } }),
+      api.get('/api/categories/'),
+    ])
+      .then(([categoryRes, coursesRes, categoriesRes]) => {
+        if (cancelled) return
+        const courseList = asList(coursesRes.data)
+        const categoryList = asList(categoriesRes.data)
+        if (!courseList || !categoryList) {
+          setError(true)
+          return
+        }
+        setCategory(categoryRes.data)
+        setCourses(courseList)
+        setCategories(categoryList)
+      })
+      .catch(() => {
+        if (!cancelled) setError(true)
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+
+    return () => {
+      cancelled = true
     }
-  }, [id]);
+  }, [id, i18n.language])
 
-  // DoD վիճակներ (Loading, Error, Empty)
-  if (isLoading) {
-    return <div className="flex justify-center items-center min-h-[50vh] text-gray-600">{t('loading', 'Loading...')}</div>;
-  }
-
-  if (isError) {
-    return <div className="text-red-500 text-center py-20">{t('error', 'Something went wrong. Try again later.')}</div>;
-  }
-
-  if (!category) {
-    return <div className="text-center py-20 text-gray-500">{t('empty', 'Nothing to show yet.')}</div>;
-  }
+  const title = categoryTitle(category) || t('nav.courses')
 
   return (
-    <div className="min-h-screen bg-[#f7f9f8]">
-      <section className="bg-[#f7f9f8] py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          
-          {/* Վերնագրի հատված */}
-          <div className="text-center mb-12">
-            <p className="text-[#0a5c36] text-xs font-bold uppercase tracking-wider mb-2">
-              {t('empowerment_curriculum', 'EMPOWERMENT CURRICULUM')}
-            </p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
-              {category.name || t('popular_courses', 'Popular Courses')}
-            </h2>
-            <p className="text-sm text-gray-500 max-w-2xl mx-auto">
-              {category.description || t('courses_subtitle', 'Explore our most popular educational programs customized for logical, analytical, and digital maturity.')}
-            </p>
-          </div>
-
-          {/* Քարտերի ցանց */}
-          {courses.length === 0 ? (
-            <div className="text-center text-gray-500 py-12">{t('empty', 'Nothing to show yet.')}</div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {courses.map((course) => (
-                <div key={course.id} className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col border border-gray-100">
-                  
-                  {/* Նկար */}
-                  <div className="rounded-xl overflow-hidden mb-4 h-48 bg-gray-200">
-                    <img
-                      src={course.image_url || course.local_image}
-                      alt={course.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Պիտակ (Badge) */}
-                  <div className="mb-3">
-                    <span className="inline-block bg-[#e8f3ee] text-[#0a5c36] text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">
-                      {course.category_name || category.name || 'LANGUAGE ARTS'}
-                    </span>
-                  </div>
-
-                  {/* Վերնագիր և նկարագրություն */}
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">
-                    {course.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 mb-6 line-clamp-2">
-                    {course.desc || course.description || 'Master creative verbal clarity, public speech models, and structured international reading levels.'}
-                  </p>
-
-                  {/* Քարտի ներքևի հատված (Footer) */}
-                  <div className="mt-auto flex justify-between items-end border-t border-gray-50 pt-4">
-                    
-                    {/* Ուսանողների քանակ և Մակարդակ */}
-                    <div className="flex flex-col gap-1.5 text-[11px] text-gray-500 font-medium">
-                      <div className="flex items-center gap-1.5">
-                        {/* User Icon */}
-                        <svg className="w-3.5 h-3.5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
-                        </svg>
-                        <span>{course.students || '148'} Students</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        {/* Document/Level Icon */}
-                        <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                        </svg>
-                        <span>{course.level || 'Beginner to Advanced'}</span>
-                      </div>
-                    </div>
-                    
-                    {/* Learn More Կոճակ */}
-                    <Link 
-                      to={`/courses/${course.id}`} 
-                      className="bg-[#0a5c36] hover:bg-[#074628] text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors"
-                    >
-                      {t('learn_more', 'Learn More')}
-                    </Link>
-                  </div>
-                </div>
+    <main className="page course-category-page">
+      <h1 className="course-category-title">{title}</h1>
+      {loading && <p>{t('common.loading')}</p>}
+      {error && <p className="error">{t('common.error')}</p>}
+      {!loading && !error && (
+        <div className="course-category-layout">
+          <aside className="category-sidebar">
+            <h2>{t('categories.sidebar')}</h2>
+            <ul className="category-sidebar-list">
+              <li>
+                <Link to="/course-category">{t('categories.all')}</Link>
+              </li>
+              {categories.map((item) => (
+                <li key={item.id}>
+                  <Link
+                    to={`/course-category/${item.id}`}
+                    className={String(item.id) === String(id) ? 'active' : ''}
+                  >
+                    {categoryTitle(item) || t('categories.untitled')}
+                  </Link>
+                </li>
               ))}
-            </div>
-          )}
-
-          {/* Բոլոր դասընթացների կոճակ */}
-          <div className="mt-12 text-center">
-            <Link 
-              to="/courses" 
-              className="inline-block bg-[#0a5c36] hover:bg-[#074628] text-white text-xs font-bold uppercase tracking-wide px-8 py-3.5 rounded-lg transition-colors shadow-sm"
-            >
-              {t('view_all_courses', 'VIEW ALL COURSES')}
-            </Link>
+            </ul>
+          </aside>
+          <div className="course-list-wrap">
+            {courses.length === 0 && <p>{t('common.empty')}</p>}
+            {courses.length > 0 && (
+              <ul className="course-grid">
+                {courses.map((course) => {
+                  const name = courseTitle(course) || t('categories.untitled')
+                  const image = courseImage(course)
+                  const description = courseDescription(course)
+                  return (
+                    <li key={course.id}>
+                      <Link to={`/courses/${course.id}`} className="course-card">
+                        <div
+                          className="course-card-image"
+                          style={image ? { backgroundImage: `url(${image})` } : undefined}
+                        />
+                        <div className="course-card-body">
+                          <h3 className="course-card-title">{name}</h3>
+                          {description ? <p className="course-card-desc">{description}</p> : null}
+                          <span className="course-card-link">{t('categories.learnMore')}</span>
+                        </div>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+            <section className="course-category-comments">
+              <CommentList categoryId={id} />
+              <CommentForm categoryId={id} />
+            </section>
           </div>
-
         </div>
-      </section>
-    </div>
-  );
-};
-
-export default CourseCategoryDetail;
+      )}
+    </main>
+  )
+}

@@ -33,7 +33,20 @@
     "lessons": "Lesson info"
   },
   "categories": {
+    "sidebar": "Categories",
+    "all": "All",
     "comments": "Comments",
-    "untitled": "Untitled"
+    "untitled": "Untitled",
+    "learnMore": "Learn more"
+  },
+  "comments": {
+    "fullName": "Full name",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "text": "Comment",
+    "send": "Send",
+    "required": "Required",
+    "success": "Comment sent. It will appear after approval.",
+    "error": "Could not send the comment."
   }
 }

@@ -1,56 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { api } from '../../api/client';
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { api } from '../../api/client'
+import CategoryCard from '../../components/CategoryCard/CategoryCard.jsx'
+import { asList } from './courseCategory.js'
+import './courseCategory.css'
 
-const CourseCategoryList = () => {
-  const { t } = useTranslation();
-  const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+export default function CourseCategoryList() {
+  const { t, i18n } = useTranslation()
+  const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        setIsLoading(true);
-        const response = await client.get('/api/categories/');
-        setCategories(response.data);
-      } catch (error) {
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchCategories();
-  }, [t]);
+    let cancelled = false
+    setLoading(true)
+    setError(false)
+    setCategories([])
 
-  // DoD 4: Loading / error / empty վիճակներ i18n-ից
-  if (isLoading) return <div className="flex justify-center items-center min-h-[50vh]">{t('loading')}</div>;
-  if (isError) return <div className="text-red-500 text-center">{t('error')}</div>;
-  if (!categories || categories.length === 0) return <div className="text-center">{t('empty')}</div>;
+    api
+      .get('/api/categories/')
+      .then((response) => {
+        if (cancelled) return
+        const list = asList(response.data)
+        if (!list) {
+          setError(true)
+          return
+        }
+        setCategories(list)
+      })
+      .catch(() => {
+        if (!cancelled) setError(true)
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [i18n.language])
 
   return (
-    <section className="container mx-auto px-4 py-8">
-      {/* Վերնագիր ըստ Figma-ի */}
-      <h1 className="text-3xl font-bold mb-8">{t('categories')}</h1>
-      
-      {/* Քարտերի ցանց */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {categories.map((category) => (
-          <Link key={category.id} to={`/course-category/${category.id}`} className="block overflow-hidden rounded-lg border shadow-sm transition hover:shadow-md">
-            <img 
-              src={category.image_url || category.local_image} 
-              alt={category.text || category.name} 
-              className="h-48 w-full object-cover"
-            />
-            <div className="p-4">
-              <h2 className="text-xl font-semibold">{category.text || category.name}</h2>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-export default CourseCategoryList;
+    <main className="page course-category-page">
+      <h1 className="course-category-title">{t('nav.courses')}</h1>
+      {loading && <p>{t('common.loading')}</p>}
+      {error && <p className="error">{t('common.error')}</p>}
+      {!loading && !error && categories.length === 0 && <p>{t('common.empty')}</p>}
+      {!loading && !error && categories.length > 0 && (
+        <ul className="category-grid">
+          {categories.map((category) => (
+            <li key={category.id}>
+              <CategoryCard category={category} />
+            </li>
+          ))}
+        </ul>
+      )}
+    </main>
+  )
+}
