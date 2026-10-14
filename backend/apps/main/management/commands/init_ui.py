@@ -37,6 +37,8 @@ DEFAULT_PAYLOADS = {
         "email": "info@geko.am",
         "address": "Yerevan, Armenia",
         "map": "https://maps.google.com/",
+        "facebook": "https://www.facebook.com/GekoOnlineEducation/",
+        "instagram": "https://www.instagram.com/geko_education",
     },
     "contacts_bar": {
         "phone": "+374XXXXXXXX",
