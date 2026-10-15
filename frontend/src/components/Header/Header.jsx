@@ -26,7 +26,7 @@ export default function Header() {
     ru: "/images/flags/Russia-flag.webp"
   };
 
-  const currentLanguage = i18n.language.split("-")[0];
+  const currentLanguage = (i18n.resolvedLanguage || i18n.language || "en").split("-")[0];
 
 
   useEffect(() => {
