@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
+import HeroMedia from '../../components/HeroMedia/HeroMedia.jsx'
 import { asList, blockText, findBlock, lessonContent, lessonTitle } from './home.js'
 import './home.css'
 
@@ -112,6 +113,7 @@ export default function Home() {
       <h1>{t('nav.home')}</h1>
       <section className="home-section">
         <h2>{t('home.hero')}</h2>
+        <HeroMedia />
         {heroLoading && <p>{t('common.loading')}</p>}
         {heroError && <p className="error">{t('common.error')}</p>}
         {!heroLoading && !heroError && !heroTitle && !heroText && <p>{t('common.empty')}</p>}
