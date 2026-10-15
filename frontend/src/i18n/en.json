@@ -68,11 +68,14 @@
   },
   "categories": {
     "comments": "Comments",
-    "untitled": "Untitled"
+    "untitled": "Untitled",
+    "kicker": "GEKO Education",
+    "lead": "Explore our most popular educational programs"
   },
   "course": {
     "comments": "Comments",
-    "untitled": "Untitled"
+    "untitled": "Untitled",
+    "learnMore": "Learn more"
   },
   "header": {
     "followUs": "Follow us:",

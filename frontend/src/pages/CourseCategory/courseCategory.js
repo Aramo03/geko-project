@@ -7,7 +7,3 @@ export function asList(data) {
 export function categoryTitle(category) {
   return pickTranslation(category?.translations)?.text || ''
 }
-
-export function courseTitle(course) {
-  return pickTranslation(course?.translations)?.title || ''
-}

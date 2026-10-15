@@ -68,11 +68,14 @@
   },
   "categories": {
     "comments": "Комментарии",
-    "untitled": "Без названия"
+    "untitled": "Без названия",
+    "kicker": "GEKO Education",
+    "lead": "Познакомьтесь с нашими самыми популярными образовательными программами"
   },
   "course": {
     "comments": "Комментарии",
-    "untitled": "Без названия"
+    "untitled": "Без названия",
+    "learnMore": "Узнать больше"
   },
   "header": {
     "followUs": "Подписывайтесь:",

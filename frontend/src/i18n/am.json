@@ -68,11 +68,14 @@
   },
   "categories": {
     "comments": "Մեկնաբանություններ",
-    "untitled": "Անվերնագիր"
+    "untitled": "Անվերնագիր",
+    "kicker": "GEKO Education",
+    "lead": "Ծանոթացեք մեր ամենահայտնի կրթական ծրագրերին"
   },
   "course": {
     "comments": "Մեկնաբանություններ",
-    "untitled": "Անվերնագիր"
+    "untitled": "Անվերնագիր",
+    "learnMore": "Իմանալ ավելին"
   },
   "header": {
     "followUs": "Հետևեք մեզ՝",

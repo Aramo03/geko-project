@@ -10,7 +10,11 @@ export default function CategoryCard({ category }) {
 
   return (
     <Link to={`/course-category/${category.id}`} className="category-card">
-      {image ? <img src={image} alt={label} /> : null}
+      {image ? (
+        <img src={image} alt={label} />
+      ) : (
+        <div className="category-card__image--empty" aria-hidden="true" />
+      )}
       <span>{label}</span>
     </Link>
   )

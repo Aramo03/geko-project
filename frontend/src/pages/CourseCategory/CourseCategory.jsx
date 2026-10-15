@@ -3,11 +3,11 @@ import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
 import CategoryCard from '../../components/CategoryCard/CategoryCard.jsx'
-import CategoryComments from '../../components/CategoryComments/CategoryComments.jsx'
 import CommentForm from '../../components/CommentForm/CommentForm.jsx'
-import { asList, categoryTitle, courseTitle } from './courseCategory.js'
+import CommentList from '../../components/CommentList/CommentList.jsx'
+import CourseCard from '../../components/CourseCard/CourseCard.jsx'
+import { asList, categoryTitle } from './courseCategory.js'
 import './courseCategory.css'
-
 
 export default function CourseCategory() {
   const { t, i18n } = useTranslation()
@@ -17,6 +17,7 @@ export default function CourseCategory() {
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     let cancelled = false
@@ -63,45 +64,60 @@ export default function CourseCategory() {
     }
   }, [id, i18n.language])
 
+  useEffect(() => {
+    setRefreshKey(0)
+  }, [id])
+
   const loadedTitle = categoryTitle(category)
   const title = !id || loading || error
     ? t('nav.courses')
     : loadedTitle || t('categories.untitled')
 
   return (
-    <main className="page">
-      <h1>{title}</h1>
-      {id && <Link to="/course-category">{t('nav.courses')}</Link>}
-      {loading && <p>{t('common.loading')}</p>}
-      {error && <p className="error">{t('common.error')}</p>}
-      {!loading && !error && !id && categories.length === 0 && <p>{t('common.empty')}</p>}
-      {!loading && !error && !id && categories.length > 0 && (
-        <ul className="category-grid">
-          {categories.map((item) => (
-            <li key={item.id}>
-              <CategoryCard category={item} />
-            </li>
-          ))}
-        </ul>
-      )}
-      {!loading && !error && id && courses.length === 0 && <p>{t('common.empty')}</p>}
-      {!loading && !error && id && courses.length > 0 && (
-        <ul className="course-list">
-          {courses.map((course) => (
-            <li key={course.id}>
-              <Link to={`/courses/${course.id}`}>
-                {courseTitle(course) || t('categories.untitled')}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-      {!loading && !error && id && (
-        <>
-          <CategoryComments categoryId={id} />
-          <CommentForm category={id} />
-        </>
-      )}
+    <main className="page course-category-page">
+      <div className="course-category-shell">
+        {id ? (
+          <Link to="/course-category" className="course-category-back">
+            {t('nav.courses')}
+          </Link>
+        ) : null}
+        <header className="course-category-intro">
+          <p className="course-category-kicker">{t('categories.kicker')}</p>
+          <h1>{title}</h1>
+          {!id ? <p className="course-category-lead">{t('categories.lead')}</p> : null}
+        </header>
+        {loading && <p>{t('common.loading')}</p>}
+        {error && <p className="error">{t('common.error')}</p>}
+        {!loading && !error && !id && categories.length === 0 && <p>{t('common.empty')}</p>}
+        {!loading && !error && !id && categories.length > 0 && (
+          <ul className="category-grid">
+            {categories.map((item) => (
+              <li key={item.id}>
+                <CategoryCard category={item} />
+              </li>
+            ))}
+          </ul>
+        )}
+        {!loading && !error && id && courses.length === 0 && <p>{t('common.empty')}</p>}
+        {!loading && !error && id && courses.length > 0 && (
+          <ul className="course-grid">
+            {courses.map((course) => (
+              <li key={course.id}>
+                <CourseCard course={course} />
+              </li>
+            ))}
+          </ul>
+        )}
+        {!loading && !error && id && (
+          <div className="course-category-comments">
+            <CommentList category={id} refreshKey={refreshKey} />
+            <CommentForm
+              category={id}
+              onCreated={() => setRefreshKey((key) => key + 1)}
+            />
+          </div>
+        )}
+      </div>
     </main>
   )
 }
