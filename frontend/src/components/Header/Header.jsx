@@ -182,9 +182,11 @@ export default function Header() {
             setLanguageOpen(false);
           }}
           aria-label={lang.code}
-          className={`flex items-center justify-center rounded-md p-2 transition hover:bg-gray-100 ${
-            currentLanguage === lang.code ? "bg-gray-100" : ""
-          }`}
+className={`flex cursor-pointer items-center justify-center rounded-md p-2 transition hover:bg-gray-100 ${
+  currentLanguage === lang.code
+    ? "active bg-gray-100 ring-2 ring-amber-600"
+    : ""
+}`}
         >
           <img
             src={flags[lang.code]}
