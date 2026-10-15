@@ -1,3 +1,5 @@
+export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 export function commentTarget(category, popularCourse) {
   const hasCategory = category !== undefined && category !== null && category !== ''
   const hasCourse = popularCourse !== undefined && popularCourse !== null && popularCourse !== ''
