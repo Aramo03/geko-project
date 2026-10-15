@@ -55,10 +55,29 @@
     "error": "Failed to send the comment"
   },
   "events": {
+    "kicker": "GEKO Education",
     "title": "Events",
     "upcoming": "Upcoming",
     "happening": "Happening",
-    "completed": "Completed"
+    "completed": "Completed",
+    "back": "Back to events",
+    "date": "Date",
+    "description": "About the event",
+    "signUp": "Sign up",
+    "untitled": "Untitled event",
+    "more": "Read more",
+    "prev": "Previous photo",
+    "next": "Next photo",
+    "hero": {
+      "upcoming": "Upcoming Events at GEKO",
+      "happening": "Events Happening Now at GEKO",
+      "completed": "Past Events at GEKO"
+    },
+    "section": {
+      "upcoming": "Upcoming events",
+      "happening": "Happening now",
+      "completed": "Past events"
+    }
   },
   "home": {
     "reviews": "Reviews",

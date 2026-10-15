@@ -55,10 +55,29 @@
     "error": "Не удалось отправить комментарий"
   },
   "events": {
+    "kicker": "GEKO Education",
     "title": "События",
     "upcoming": "Предстоящие",
     "happening": "Сейчас",
-    "completed": "Завершённые"
+    "completed": "Завершённые",
+    "back": "Назад к событиям",
+    "date": "Дата",
+    "description": "О событии",
+    "signUp": "Записаться",
+    "untitled": "Событие без названия",
+    "more": "Подробнее",
+    "prev": "Предыдущее фото",
+    "next": "Следующее фото",
+    "hero": {
+      "upcoming": "Предстоящие события в GEKO",
+      "happening": "События в GEKO прямо сейчас",
+      "completed": "Прошедшие события GEKO"
+    },
+    "section": {
+      "upcoming": "Предстоящие события",
+      "happening": "Идут сейчас",
+      "completed": "Прошедшие события"
+    }
   },
   "home": {
     "reviews": "Отзывы",
