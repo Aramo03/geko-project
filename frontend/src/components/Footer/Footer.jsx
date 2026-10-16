@@ -1,128 +1,55 @@
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import {
+  FaEnvelope,
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+} from 'react-icons/fa'
+import { useUiBlocks } from '../../lib/uiBlocks.jsx'
+import { FOOTER_LEGAL_LINKS, NAV_ITEMS } from './footer.js'
+import './footer.css'
 
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { FaEnvelope, FaFacebookF, FaInstagram, FaLinkedinIn, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
-import { api } from "../../api/client.js";
+const SOCIAL_ICONS = {
+  Facebook: FaFacebookF,
+  Instagram: FaInstagram,
+  LinkedIn: FaLinkedinIn,
+}
 
 export default function Footer() {
-  const { t, i18n } = useTranslation();
-  const [blocks, setBlocks] = useState([]);
+  const { t } = useTranslation()
+  const { channels, socials } = useUiBlocks()
 
-  useEffect(() => {
-    let active = true;
+  const { phone, email, map, logo } = channels
+  const addressLine = t('contacts.addressLine')
 
-    api
-      .get("/api/ui-blocks/")
-      .then((res) => {
-        if (!active) return;
-
-        const data = Array.isArray(res.data)
-          ? res.data
-          : res.data?.results || [];
-
-        setBlocks(data);
-      })
-      .catch(() => {
-        if (active) setBlocks([]);
-      });
-
-    return () => {
-      active = false;
-    };
-  }, [i18n.language]);
-
-  const footerBlock = blocks.find(
-    (item) => item.key === "footer" && item.is_visible !== false
-  );
-
-  const contactBlock = blocks.find(
-    (item) => item.key === "contacts_bar" && item.is_visible !== false
-  );
-
-  const headerBlock = blocks.find(
-    (item) => item.key === "header" && item.is_visible !== false
-  );
-
-  const footerData = footerBlock?.payload || {};
-  const contactData = contactBlock?.payload || {};
-  const headerData = headerBlock?.payload || {};
-
- const currentLanguage = i18n.language.split("-")[0];
-
-const getLocalizedValue = (value) => {
-  if (typeof value === "string") return value;
-
-  if (value && typeof value === "object") {
-    return (
-      value[currentLanguage] ||
-      value.en ||
-      value.am ||
-      value.ru ||
-      ""
-    );
-  }
-
-  return "";
-};
-
-const phone = getLocalizedValue(
-  footerData.phone || contactData.phone
-);
-
-const email = getLocalizedValue(
-  footerData.email || contactData.email
-);
-
-const address = getLocalizedValue(
-  footerData.address || contactData.address
-);
-
-const map = getLocalizedValue(footerData.map);
-
-const description = getLocalizedValue(footerData.description);
-
-const logo =
-  typeof headerData.logo === "string" && headerData.logo.trim()
-    ? headerData.logo.trim()
-    : "/images/logo.webp";
-
-const socialLinks = [
-  { name: "Facebook", url: footerData.facebook, Icon: FaFacebookF },
-  { name: "Instagram", url: footerData.instagram, Icon: FaInstagram },
-  { name: "LinkedIn", url: footerData.linkedin, Icon: FaLinkedinIn },
-].filter((item) => typeof item.url === "string" && item.url.trim());
-
-  const links = [
-    { to: "/", label: t("nav.home") },
-    { to: "/about-us", label: t("nav.about") },
-    { to: "/course-category", label: t("nav.courses") },
-    { to: "/events", label: t("nav.events") },
-    { to: "/contacts", label: t("nav.contacts") }
-  ];
+  const socialLinks = socials.map((item) => ({
+    ...item,
+    Icon: SOCIAL_ICONS[item.name],
+  }))
 
   return (
-    <footer className="w-full bg-brand font-sans text-white">
+    <footer className="footer-shell w-full bg-brand font-sans text-white">
       <div className="mx-auto max-w-[var(--container-page)] px-6 pb-5 pt-[60px] sm:px-10 lg:px-[5.5%]">
         <div className="grid grid-cols-1 gap-12 pb-[55px] md:grid-cols-3 md:gap-16">
           <div>
-            <Link
-              to="/"
-              className="mb-7 inline-flex items-center gap-3"
-            >
-                <img className="h-[60px] w-[60px] object-contain" src={logo} alt={t("header.logoAlt")} />
-
+            <Link to="/" className="mb-7 inline-flex items-center gap-3">
+              <img
+                className="h-[60px] w-[60px] object-contain"
+                src={logo}
+                alt={t('header.logoAlt')}
+              />
             </Link>
 
-            <h3 className="mb-5 text-[13px] font-bold text-white">
-              {t("nav.about")}
-            </h3>
+            <h3 className="mb-5 text-[13px] font-bold text-white">{t('nav.about')}</h3>
 
             <p className="max-w-[280px] text-[12px] leading-[1.8] text-white/65">
-              {description || t("footer.description")}
+              {t('footer.description')}
             </p>
 
-            {socialLinks.length > 0 && (
+            {socialLinks.length > 0 ? (
               <div className="mt-5 flex items-center gap-4">
                 {socialLinks.map(({ name, url, Icon }) => (
                   <a
@@ -137,110 +64,98 @@ const socialLinks = [
                   </a>
                 ))}
               </div>
-            )}
+            ) : null}
           </div>
 
           <div className="md:pl-8">
-            <h3 className="mb-5 text-[13px] font-bold text-white">
-              {t("footer.quickLinks")}
-            </h3>
+            <h3 className="mb-5 text-[13px] font-bold text-white">{t('footer.quickLinks')}</h3>
 
             <div className="flex flex-col gap-[14px]">
-              {links.map((link) => (
+              {NAV_ITEMS.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
                   className="w-fit text-[12px] text-white/65 transition-colors hover:text-white"
                 >
-                  {link.label}
+                  {t(link.key)}
                 </Link>
               ))}
             </div>
           </div>
 
           <div>
-            <h3 className="mb-5 text-[13px] font-bold text-white">
-              {t("footer.contactInfo")}
-            </h3>
+            <h3 className="mb-5 text-[13px] font-bold text-white">{t('footer.contactInfo')}</h3>
 
             <div className="flex flex-col gap-5">
-              {address && (
+              {addressLine ? (
                 <div className="flex items-start gap-3">
-                  <FaMapMarkerAlt
-                    size={16}
-                    className="mt-[2px] shrink-0 text-white"
-                  />
-
+                  <FaMapMarkerAlt size={16} className="mt-[2px] shrink-0 text-white" />
                   <p className="max-w-[260px] text-[12px] leading-[1.7] text-white/65">
-                    {address}
+                    {addressLine}
                   </p>
                 </div>
-              )}
+              ) : null}
 
-              {phone && (
+              {phone ? (
                 <a
-                  href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+                  href={`tel:${phone.replace(/[^\d+]/g, '')}`}
                   className="flex items-center gap-3 text-[12px] text-white/65 transition-colors hover:text-white"
                 >
-                  <FaPhoneAlt
-                    size={16}
-                    className="shrink-0 text-white"
-                  />
-
+                  <FaPhoneAlt size={16} className="shrink-0 text-white" />
                   <span>{phone}</span>
                 </a>
-              )}
+              ) : null}
 
-              {email && (
+              {email ? (
                 <a
                   href={`mailto:${email}`}
                   className="flex items-center gap-3 text-[12px] text-white/65 transition-colors hover:text-white"
                 >
-                  <FaEnvelope
-                    size={16}
-                    className="shrink-0 text-white"
-                  />
-
+                  <FaEnvelope size={16} className="shrink-0 text-white" />
                   <span>{email}</span>
                 </a>
-              )}
+              ) : null}
 
-              {map && (
+              {map ? (
                 <a
                   href={map}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[12px] text-white/65 transition-colors hover:text-white"
                 >
-                  {t("footer.map")}
+                  {t('footer.map')}
                 </a>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-5 border-t border-white/10 pb-1 pt-[45px] sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-[300px] text-[11px] leading-[1.5] text-white/45">
-            {t("footer.copyright")}
+            {t('footer.copyright')}
           </p>
 
           <div className="flex items-center gap-6">
-            <Link
-              to="/privacy-policy"
+            <a
+              href={FOOTER_LEGAL_LINKS.privacy}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[11px] text-white/45 transition-colors hover:text-white"
             >
-              {t("footer.privacyPolicy")}
-            </Link>
+              {t('footer.privacyPolicy')}
+            </a>
 
-            <Link
-              to="/terms"
+            <a
+              href={FOOTER_LEGAL_LINKS.terms}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[11px] text-white/45 transition-colors hover:text-white"
             >
-              {t("footer.terms")}
-            </Link>
+              {t('footer.terms')}
+            </a>
           </div>
         </div>
       </div>
     </footer>
-  );
+  )
 }

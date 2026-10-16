@@ -30,6 +30,7 @@
     "selectCategory": "Ընտրեք կատեգորիան",
     "message": "Հաղորդագրություն",
     "address": "Հասցե",
+    "addressLine": "Երևան, Հայաստան — GEKO Education",
     "openMap": "Բացել քարտեզը",
     "send": "Ուղարկել",
     "sending": "Ուղարկվում է…",
@@ -83,7 +84,11 @@
     "reviews": "Կարծիքներ",
     "lessons": "Դասի մասին",
     "untitled": "Անվերնագիր",
-    "hero": "Գլխավոր բաժին"
+    "hero": "Գլխավոր բաժին",
+    "heroKicker": "GEKO Education",
+    "heroTitle": "GEKO",
+    "heroText": "Ժամանակակից տեխնիկական գիտությունների և վերլուծության գործնական ուղիներ։",
+    "heroCta": "Գրանցվել"
   },
   "categories": {
     "comments": "Մեկնաբանություններ",

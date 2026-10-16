@@ -34,77 +34,77 @@ export default function CommentForm({ category, popularCourse, onCreated }) {
   }
 
   return (
-    <form className="comment-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-      <h2 className="comment-form-title">{t('comments.formTitle')}</h2>
+    <form className="contact-form comment-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <h2 className="contact-form-title">{t('comments.formTitle')}</h2>
       <p className="comment-form-lead">{t('comments.formLead')}</p>
 
-      <label className="comment-field">
-        <span>
-          {t('comments.fullName')}{' '}
-          <span className="comment-required" aria-hidden="true">
-            *
+      <div className="contact-form-grid">
+        <label className="contact-field">
+          <span>
+            {t('comments.fullName')}{' '}
+            <span className="contact-required" aria-hidden="true">*</span>
           </span>
-        </span>
-        <input
-          type="text"
-          autoComplete="name"
-          aria-invalid={errors.full_name ? 'true' : 'false'}
-          {...register('full_name', { required: true })}
-        />
-        {errors.full_name ? <span className="comment-error">{t('comments.required')}</span> : null}
-      </label>
+          <input
+            type="text"
+            autoComplete="name"
+            aria-invalid={errors.full_name ? 'true' : 'false'}
+            {...register('full_name', { required: true })}
+          />
+          {errors.full_name ? (
+            <span className="contact-error">{t('comments.required')}</span>
+          ) : null}
+        </label>
 
-      <label className="comment-field">
-        <span>
-          {t('comments.email')}{' '}
-          <span className="comment-required" aria-hidden="true">
-            *
+        <label className="contact-field">
+          <span>
+            {t('comments.email')}{' '}
+            <span className="contact-required" aria-hidden="true">*</span>
           </span>
-        </span>
-        <input
-          type="email"
-          autoComplete="email"
-          aria-invalid={errors.email ? 'true' : 'false'}
-          {...register('email', { required: true, pattern: EMAIL_PATTERN })}
-        />
-        {errors.email ? (
-          <span className="comment-error">
-            {errors.email.type === 'pattern' ? t('comments.invalidEmail') : t('comments.required')}
-          </span>
-        ) : null}
-      </label>
+          <input
+            type="email"
+            autoComplete="email"
+            aria-invalid={errors.email ? 'true' : 'false'}
+            {...register('email', { required: true, pattern: EMAIL_PATTERN })}
+          />
+          {errors.email ? (
+            <span className="contact-error">
+              {errors.email.type === 'pattern'
+                ? t('comments.invalidEmail')
+                : t('comments.required')}
+            </span>
+          ) : null}
+        </label>
 
-      <label className="comment-field">
-        <span>{t('comments.whatsapp')}</span>
-        <input type="tel" autoComplete="tel" {...register('whatsapp')} />
-      </label>
+        <label className="contact-field">
+          <span>{t('comments.whatsapp')}</span>
+          <input type="tel" autoComplete="tel" {...register('whatsapp')} />
+        </label>
 
-      <label className="comment-field">
-        <span>
-          {t('comments.text')}{' '}
-          <span className="comment-required" aria-hidden="true">
-            *
+        <label className="contact-field contact-field-wide">
+          <span>
+            {t('comments.text')}{' '}
+            <span className="contact-required" aria-hidden="true">*</span>
           </span>
-        </span>
-        <textarea
-          rows={4}
-          aria-invalid={errors.text ? 'true' : 'false'}
-          {...register('text', { required: true })}
-        />
-        {errors.text ? <span className="comment-error">{t('comments.required')}</span> : null}
-      </label>
+          <textarea
+            rows={5}
+            aria-invalid={errors.text ? 'true' : 'false'}
+            {...register('text', { required: true })}
+          />
+          {errors.text ? <span className="contact-error">{t('comments.required')}</span> : null}
+        </label>
+      </div>
 
       <button type="submit" disabled={isSubmitting}>
         {isSubmitting ? t('comments.sending') : t('comments.send')}
       </button>
 
       {status === 'success' ? (
-        <p className="comment-status comment-status-success" role="status">
+        <p className="contact-status contact-status-success" role="status">
           {t('comments.success')}
         </p>
       ) : null}
       {status === 'error' ? (
-        <p className="comment-status comment-status-error" role="alert">
+        <p className="contact-status contact-status-error" role="alert">
           {t('comments.error')}
         </p>
       ) : null}

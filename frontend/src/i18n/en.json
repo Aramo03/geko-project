@@ -30,6 +30,7 @@
     "selectCategory": "Select category",
     "message": "Message",
     "address": "Address",
+    "addressLine": "Yerevan, Armenia — GEKO Education campus",
     "openMap": "Open map",
     "send": "Send",
     "sending": "Sending…",
@@ -83,7 +84,11 @@
     "reviews": "Reviews",
     "lessons": "Lesson info",
     "untitled": "Untitled",
-    "hero": "Hero"
+    "hero": "Hero",
+    "heroKicker": "GEKO Education",
+    "heroTitle": "GEKO",
+    "heroText": "Practical pathways for modern technical sciences and analytics.",
+    "heroCta": "Enroll now"
   },
   "categories": {
     "comments": "Comments",
