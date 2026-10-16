@@ -30,6 +30,7 @@
     "selectCategory": "Выберите категорию",
     "message": "Сообщение",
     "address": "Адрес",
+    "addressLine": "Ереван, Армения — кампус GEKO Education",
     "openMap": "Открыть карту",
     "send": "Отправить",
     "sending": "Отправка…",
@@ -83,7 +84,11 @@
     "reviews": "Отзывы",
     "lessons": "О занятиях",
     "untitled": "Без названия",
-    "hero": "Главный экран"
+    "hero": "Главный экран",
+    "heroKicker": "GEKO Education",
+    "heroTitle": "GEKO",
+    "heroText": "Практические направления современных технических наук и аналитики.",
+    "heroCta": "Записаться"
   },
   "categories": {
     "comments": "Комментарии",

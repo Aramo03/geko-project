@@ -1,14 +1,9 @@
 import { pickTranslation } from '../../api/client.js'
+import { contactChannels } from '../../lib/uiBlocks.jsx'
 
 export const TITLE = 'Contacts'
 
 export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-export function asBlockList(data) {
-  if (Array.isArray(data)) return data
-  if (Array.isArray(data?.results)) return data.results
-  return []
-}
 
 export function categoryOptions(data) {
   const list = Array.isArray(data) ? data : data?.results
@@ -19,30 +14,13 @@ export function categoryOptions(data) {
   }))
 }
 
-export function localizedText(value, language) {
-  if (typeof value === 'string') return value.trim()
-  if (!value || typeof value !== 'object') return ''
-  const code = (language || 'en').split('-')[0]
-  const pick = value[code] || value.en || value.am || value.ru || ''
-  return typeof pick === 'string' ? pick.trim() : ''
-}
-
-function payloadOf(blocks, key) {
-  const block = (blocks || []).find(
-    (item) => item?.key === key && item.is_visible !== false,
-  )
-  return block?.payload && typeof block.payload === 'object' ? block.payload : {}
-}
-
-export function contactDetails(blocks, language) {
-  const contacts = payloadOf(blocks, 'contacts_bar')
-  const header = payloadOf(blocks, 'header')
-  const footer = payloadOf(blocks, 'footer')
+export function contactDetails(blocks, addressLine) {
+  const { phone, email, map } = contactChannels(blocks)
   return {
-    phone: localizedText(contacts.phone || header.phone || footer.phone, language),
-    email: localizedText(contacts.email || header.email || footer.email, language),
-    address: localizedText(footer.address || contacts.address, language),
-    map: localizedText(footer.map, language),
+    phone,
+    email,
+    address: typeof addressLine === 'string' ? addressLine.trim() : '',
+    map,
   }
 }
 

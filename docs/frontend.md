@@ -74,7 +74,7 @@ import { useForm } from 'react-hook-form'
 
 ## Оболочка
 
-Header (телефон, email, языки, меню) → страница → Footer (контакты, навигация, карта, соцсети). Телефоны и hero — из API `UIBlock`, не хардкод.
+Header (телефон, email, языки, меню) → страница → Footer (контакты, навигация, карта, соцсети). **Из API `UIBlock`** (после `python manage.py init_ui`): `contacts_bar` / `footer` — phone, email, map URL, соцсети; `header` — logo, `button_link`. **Из i18n:** подписи меню и форм, адрес текстом (`contacts.addressLine`), тексты hero на Home (`home.hero*`), footer description. Хелперы — `frontend/src/lib/uiBlocks.jsx`.
 
 ## English
 

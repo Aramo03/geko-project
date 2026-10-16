@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
 import HeroMedia from '../../components/HeroMedia/HeroMedia.jsx'
-import { asList, blockText, findBlock, lessonContent, lessonTitle } from './home.js'
+import { asList, lessonContent, lessonTitle } from './home.js'
 import './home.css'
 
 export default function Home() {
@@ -13,9 +14,6 @@ export default function Home() {
   const [lessonsLoading, setLessonsLoading] = useState(true)
   const [reviewsError, setReviewsError] = useState(false)
   const [lessonsError, setLessonsError] = useState(false)
-  const [blocks, setBlocks] = useState([])
-  const [heroLoading, setHeroLoading] = useState(true)
-  const [heroError, setHeroError] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -75,80 +73,61 @@ export default function Home() {
     }
   }, [i18n.language])
 
-  useEffect(() => {
-    let cancelled = false
-    setHeroLoading(true)
-    setHeroError(false)
-    setBlocks([])
-
-    api
-      .get('/api/ui-blocks/')
-      .then((res) => {
-        if (cancelled) return
-        const list = asList(res.data)
-        if (!list) {
-          setHeroError(true)
-          return
-        }
-        setBlocks(list)
-      })
-      .catch(() => {
-        if (!cancelled) setHeroError(true)
-      })
-      .finally(() => {
-        if (!cancelled) setHeroLoading(false)
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [i18n.language])
-
-  const hero = findBlock(blocks, 'hero')
-  const heroTitle = blockText(hero?.payload?.title, i18n.language)
-  const heroText = blockText(hero?.payload?.text, i18n.language)
-
   return (
-    <main className="page home-page">
-      <h1>{t('nav.home')}</h1>
-      <section className="home-section">
-        <h2>{t('home.hero')}</h2>
-        <HeroMedia />
-        {heroLoading && <p>{t('common.loading')}</p>}
-        {heroError && <p className="error">{t('common.error')}</p>}
-        {!heroLoading && !heroError && !heroTitle && !heroText && <p>{t('common.empty')}</p>}
-        {heroTitle && <p className="hero-title">{heroTitle}</p>}
-        {heroText && <p>{heroText}</p>}
+    <main className="home-page">
+      <section className="home-hero" aria-labelledby="home-hero-title">
+        <div className="home-hero__shell">
+          <div className="home-hero__copy">
+            <p className="home-hero__kicker">{t('home.heroKicker')}</p>
+            <h1 id="home-hero-title" className="home-hero__title">
+              {t('home.heroTitle')}
+            </h1>
+            <p className="home-hero__text">{t('home.heroText')}</p>
+            <Link className="home-hero__cta" to="/contacts">
+              {t('home.heroCta')}
+            </Link>
+          </div>
+          <div className="home-hero__media">
+            <HeroMedia />
+          </div>
+        </div>
       </section>
-      <section className="home-section">
-        <h2>{t('home.reviews')}</h2>
+
+      <section className="home-section home-shell">
+        <h2 className="home-section__title">{t('home.reviews')}</h2>
         {reviewsLoading && <p>{t('common.loading')}</p>}
         {reviewsError && <p className="error">{t('common.error')}</p>}
-        {!reviewsLoading && !reviewsError && reviews.length === 0 && <p>{t('common.empty')}</p>}
+        {!reviewsLoading && !reviewsError && reviews.length === 0 && (
+          <p>{t('common.empty')}</p>
+        )}
         {!reviewsLoading && !reviewsError && reviews.length > 0 && (
-          <ul>
+          <ul className="home-reviews">
             {reviews.map((review) => (
-              <li key={review.id}>
-                <strong>{review.full_name}</strong> ({review.rating}/5)
+              <li key={review.id} className="home-review-card">
+                <strong>{review.full_name}</strong>
+                <span className="home-review-rating">({review.rating}/5)</span>
                 <p className="review-text">{review.text}</p>
               </li>
             ))}
           </ul>
         )}
       </section>
-      <section className="home-section">
-        <h2>{t('home.lessons')}</h2>
+
+      <section className="home-section home-shell">
+        <h2 className="home-section__title">{t('home.lessons')}</h2>
         {lessonsLoading && <p>{t('common.loading')}</p>}
         {lessonsError && <p className="error">{t('common.error')}</p>}
-        {!lessonsLoading && !lessonsError && lessons.length === 0 && <p>{t('common.empty')}</p>}
+        {!lessonsLoading && !lessonsError && lessons.length === 0 && (
+          <p>{t('common.empty')}</p>
+        )}
         {!lessonsLoading && !lessonsError && lessons.length > 0 && (
-          <ul>
+          <ul className="home-lessons">
             {lessons.map((lesson) => {
               const title = lessonTitle(lesson) || t('home.untitled')
               const content = lessonContent(lesson)
               return (
-                <li key={lesson.id}>
-                  {title}
+                <li key={lesson.id} className="home-lesson-card">
+                  <h3>{title}</h3>
                   {content ? <p className="lesson-content">{content}</p> : null}
                 </li>
               )
