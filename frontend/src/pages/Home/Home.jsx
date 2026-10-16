@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
 import HeroMedia from '../../components/HeroMedia/HeroMedia.jsx'
+import Lessons from '../../components/Lessons/Lessons.jsx'
+import Reviews from '../../components/Reviews/Reviews.jsx'
 import { asList, lessonContent, lessonTitle } from './home.js'
 import './home.css'
 
@@ -94,46 +96,17 @@ export default function Home() {
       </section>
 
       <section className="home-section home-shell">
-        <h2 className="home-section__title">{t('home.reviews')}</h2>
-        {reviewsLoading && <p>{t('common.loading')}</p>}
-        {reviewsError && <p className="error">{t('common.error')}</p>}
-        {!reviewsLoading && !reviewsError && reviews.length === 0 && (
-          <p>{t('common.empty')}</p>
-        )}
-        {!reviewsLoading && !reviewsError && reviews.length > 0 && (
-          <ul className="home-reviews">
-            {reviews.map((review) => (
-              <li key={review.id} className="home-review-card">
-                <strong>{review.full_name}</strong>
-                <span className="home-review-rating">({review.rating}/5)</span>
-                <p className="review-text">{review.text}</p>
-              </li>
-            ))}
-          </ul>
-        )}
+        <Reviews reviews={reviews} loading={reviewsLoading} error={reviewsError} />
       </section>
 
       <section className="home-section home-shell">
-        <h2 className="home-section__title">{t('home.lessons')}</h2>
-        {lessonsLoading && <p>{t('common.loading')}</p>}
-        {lessonsError && <p className="error">{t('common.error')}</p>}
-        {!lessonsLoading && !lessonsError && lessons.length === 0 && (
-          <p>{t('common.empty')}</p>
-        )}
-        {!lessonsLoading && !lessonsError && lessons.length > 0 && (
-          <ul className="home-lessons">
-            {lessons.map((lesson) => {
-              const title = lessonTitle(lesson) || t('home.untitled')
-              const content = lessonContent(lesson)
-              return (
-                <li key={lesson.id} className="home-lesson-card">
-                  <h3>{title}</h3>
-                  {content ? <p className="lesson-content">{content}</p> : null}
-                </li>
-              )
-            })}
-          </ul>
-        )}
+        <Lessons
+          lessons={lessons}
+          loading={lessonsLoading}
+          error={lessonsError}
+          lessonTitle={lessonTitle}
+          lessonContent={lessonContent}
+        />
       </section>
     </main>
   )

@@ -8,18 +8,29 @@ import {
 } from './lessons.js'
 import './lessons.css'
 
-export default function Lessons() {
+export default function Lessons({
+  lessons: suppliedLessons,
+  loading: suppliedLoading,
+  error: suppliedError,
+  lessonTitle: getLessonTitle = lessonTitle,
+  lessonContent: getLessonContent = lessonContent,
+} = {}) {
   const { t, i18n } = useTranslation()
-  const [lessons, setLessons] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [fetchedLessons, setFetchedLessons] = useState([])
+  const [fetchedLoading, setFetchedLoading] = useState(true)
+  const [fetchedError, setFetchedError] = useState(false)
+  const controlled = suppliedLessons !== undefined
+  const lessons = controlled ? suppliedLessons : fetchedLessons
+  const loading = controlled ? suppliedLoading : fetchedLoading
+  const error = controlled ? suppliedError : fetchedError
 
   useEffect(() => {
+    if (controlled) return undefined
     let cancelled = false
 
-    setLoading(true)
-    setError(false)
-    setLessons([])
+    setFetchedLoading(true)
+    setFetchedError(false)
+    setFetchedLessons([])
 
     api
       .get('/api/lesson_info/')
@@ -29,23 +40,23 @@ export default function Lessons() {
         const list = asList(res.data)
 
         if (!list) {
-          setError(true)
+          setFetchedError(true)
           return
         }
 
-        setLessons(list)
+        setFetchedLessons(list)
       })
       .catch(() => {
-        if (!cancelled) setError(true)
+        if (!cancelled) setFetchedError(true)
       })
       .finally(() => {
-        if (!cancelled) setLoading(false)
+        if (!cancelled) setFetchedLoading(false)
       })
 
     return () => {
       cancelled = true
     }
-  }, [i18n.language])
+  }, [controlled, i18n.language])
 
   return (
     <section className="home-lessons">
@@ -62,8 +73,8 @@ export default function Lessons() {
       {!loading && !error && lessons.length > 0 && (
         <div className="home-lessons__list">
           {lessons.map((lesson) => {
-            const title = lessonTitle(lesson) || t('home.untitled')
-            const content = lessonContent(lesson)
+            const title = getLessonTitle(lesson) || t('home.untitled')
+            const content = getLessonContent(lesson)
 
             return (
               <article

@@ -8,18 +8,23 @@ const reviewsApi = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL || 'http://127.0.0.1:8000',
 })
 
-export default function Reviews() {
+export default function Reviews({ reviews: suppliedReviews, loading: suppliedLoading, error: suppliedError } = {}) {
   const { t } = useTranslation()
-  const [reviews, setReviews] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const [fetchedReviews, setFetchedReviews] = useState([])
+  const [fetchedLoading, setFetchedLoading] = useState(true)
+  const [fetchedError, setFetchedError] = useState(false)
+  const controlled = suppliedReviews !== undefined
+  const reviews = controlled ? suppliedReviews : fetchedReviews
+  const loading = controlled ? suppliedLoading : fetchedLoading
+  const error = controlled ? suppliedError : fetchedError
 
   useEffect(() => {
+    if (controlled) return undefined
     let cancelled = false
 
-    setLoading(true)
-    setError(false)
-    setReviews([])
+    setFetchedLoading(true)
+    setFetchedError(false)
+    setFetchedReviews([])
 
     reviewsApi
       .get('/api/reviews/')
@@ -29,23 +34,23 @@ export default function Reviews() {
         const list = asReviewList(res.data)
 
         if (!list) {
-          setError(true)
+          setFetchedError(true)
           return
         }
 
-        setReviews(list)
+        setFetchedReviews(list)
       })
       .catch(() => {
-        if (!cancelled) setError(true)
+        if (!cancelled) setFetchedError(true)
       })
       .finally(() => {
-        if (!cancelled) setLoading(false)
+        if (!cancelled) setFetchedLoading(false)
       })
 
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [controlled])
 
   return (
     <section className="home-reviews">
