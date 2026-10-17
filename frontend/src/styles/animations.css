@@ -1,0 +1,85 @@
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes media-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-rise-in {
+  animation: rise-in 650ms both var(--ease-smooth);
+}
+
+.animate-rise-in-delay-1 {
+  animation-delay: 70ms;
+}
+
+.animate-rise-in-delay-2 {
+  animation-delay: 140ms;
+}
+
+.animate-rise-in-delay-3 {
+  animation-delay: 210ms;
+}
+
+.animate-rise-in-delay-copy {
+  animation-delay: 100ms;
+}
+
+.animate-media-in {
+  animation: media-fade-in 400ms ease both;
+}
+
+.about-hover-lift {
+  transition:
+    transform var(--duration-normal) var(--ease-smooth),
+    box-shadow var(--duration-normal) ease,
+    border-color var(--duration-fast) ease,
+    background-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.about-hover-lift:hover {
+  transform: translateY(-6px);
+}
+
+.about-hover-lift-sm:hover {
+  transform: translateY(-4px);
+}
+
+.about-hover-lift-xs:hover {
+  transform: translateY(-3px);
+}
+
+@media (hover: none) {
+  .about-hover-lift:hover,
+  .about-hover-lift-sm:hover,
+  .about-hover-lift-xs:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise-in,
+  .animate-media-in {
+    animation: none !important;
+  }
+
+  .about-hover-lift,
+  .about-hover-lift-sm,
+  .about-hover-lift-xs {
+    transition: none !important;
+  }
+}
