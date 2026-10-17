@@ -88,6 +88,61 @@
     "heroKicker": "GEKO Education",
     "heroTitle": "GEKO",
     "heroText": "Practical pathways for modern technical sciences and analytics.",
+    "heroCta": "Enroll now",
+    "legacy": {
+      "kicker": "Our Legacy",
+      "title": "About GEKO Educational Center",
+      "lead": "GEKO empowers youngsters through a highly interactive, research-backed learning track model. Designed by certified global educators, our physical and virtual spaces are optimized for self-confidence, cognitive maturity, and computational focus.",
+      "feature1": "Experienced Teachers & Mentor Supervision",
+      "feature2": "Modern Applied Technology Infrastructure",
+      "feature3": "Individual Logical & Creative Milestones",
+      "feature4": "International Exchange & Certificate Programs",
+      "cta": "Learn More About Us"
+    },
+    "philosophy": {
+      "kicker": "Our Philosophy",
+      "title": "Empowerment Curriculum",
+      "lead": "Explore our most popular educational programs customized for logical, analytical, and digital maturity.",
+      "pill1": "Language Arts",
+      "pill2": "Computer Science",
+      "pill3": "Exact Sciences",
+      "pill4": "Applied Tech"
+    },
+    "popularCourses": {
+      "kicker": "Explore our top curriculum",
+      "title": "Popular Courses",
+      "lead": "Hands-on tracks from markup to deployment and AI literacy — each course ships with mentor review and a clear certificate path.",
+      "learnMore": "Learn More",
+      "viewAll": "View all courses",
+      "meta": {
+        "html": { "students": "148 Students", "level": "Beginner to Advanced" },
+        "css": { "students": "142 Students", "level": "Beginner to Advanced" },
+        "javascript": { "students": "210 Students", "level": "Intermediate" },
+        "react": { "students": "185 Students", "level": "Intermediate" },
+        "python": { "students": "176 Students", "level": "All Grades" },
+        "django": { "students": "134 Students", "level": "Intermediate" },
+        "deployment": { "students": "122 Students", "level": "Grade 4 and Up" },
+        "ai": { "students": "190 Students", "level": "Foundational" }
+      }
+    },
+    "why": {
+      "kicker": "Why GEKO",
+      "title": "Unlock Full Potential",
+      "lead": "We provide strategic resources to make education exciting, lasting, and deeply constructive.",
+      "item1Title": "Qualified Teachers",
+      "item1Text": "Taught exclusively by globally certified educators with specialization in cognitive logic and child development metrics.",
+      "item2Title": "Interactive Learning",
+      "item2Text": "Flipped-classroom models, live robotic challenges, and collaborative digital labs that eliminate rote memorization.",
+      "item3Title": "Modern Technology",
+      "item3Text": "Unrestricted access to microchip assembly kits, multi-touch screens, 3D printing cores, and high-performance coding terminals.",
+      "item4Title": "Flexible Programs",
+      "item4Text": "Weekend classes, customized after-school models, and synchronous remote systems designed for busy family schedules."
+    },
+    "successStories": {
+      "kicker": "Success Stories",
+      "title": "What Parents Say About Us",
+      "lead": "Join thousands of inspired families who have observed tangible logic and communication progress."
+    }
     "heroCta": "Enroll now"
   },
   "categories": {

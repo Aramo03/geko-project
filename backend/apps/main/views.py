@@ -1,6 +1,7 @@
+from django.db.models import Exists, OuterRef
 from rest_framework import viewsets
 
-from .models import Category, Event, LessonInfo, Review, UIBlock
+from .models import Category, Event, EventTranslation, LessonInfo, Review, UIBlock
 from .serializers import (
     CategorySerializer,
     EventSerializer,
@@ -32,6 +33,17 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
 
         if status:
             queryset = queryset.filter(status=status)
+
+        language = self.request.query_params.get("language")
+        if language:
+            has_any_translation = EventTranslation.objects.filter(event_id=OuterRef("pk"))
+            has_language = EventTranslation.objects.filter(
+                event_id=OuterRef("pk"),
+                language__code=language,
+            )
+            queryset = queryset.filter(
+                ~Exists(has_any_translation) | Exists(has_language)
+            ).distinct()
 
         return queryset
 

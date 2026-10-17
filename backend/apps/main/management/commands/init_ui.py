@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 
+from apps.main.management.commands.seed_home_demo import seed_home_demo
 from apps.main.models import Language, UIBlock
 
 LANGUAGES = (
@@ -80,3 +81,5 @@ class Command(BaseCommand):
                 self.stdout.write(f"Filled empty UI block {key}")
             else:
                 self.stdout.write(f"UI block {key} already exists")
+
+        seed_home_demo(self.stdout)

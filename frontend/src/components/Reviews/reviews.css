@@ -1,0 +1,121 @@
+.home-reviews {
+  margin-top: 3rem;
+}
+
+.home-reviews--success {
+  margin-top: 0;
+  padding: 2rem 0 3rem;
+}
+
+.home-reviews--success h2 {
+  text-align: center;
+}
+
+.home-reviews__lead {
+  max-width: 38rem;
+  margin: 0 auto 2rem;
+  text-align: center;
+  color: var(--color-copy-muted);
+  line-height: 1.7;
+  font-size: 0.92rem;
+}
+
+.home-reviews h2 {
+  margin: 0 0 1.5rem;
+  color: #103d2e;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.home-reviews__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.home-reviews__card {
+  position: relative;
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid #dfebe3;
+  border-radius: 1.1rem;
+  background: #fff;
+  box-shadow: 0 6px 22px rgb(16 61 46 / 5%);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.home-reviews__card::before {
+  content: "";
+  position: absolute;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  left: 0;
+  width: 3px;
+  border-radius: 0 4px 4px 0;
+  background: #27845c;
+}
+
+.home-reviews__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgb(16 61 46 / 10%);
+}
+
+.home-reviews__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.home-reviews__header h3 {
+  margin: 0;
+  color: #164b39;
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.home-reviews__rating {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid #f3e4b9;
+  border-radius: 999px;
+  background: #fff8e7;
+  color: #e5a11b;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.home-reviews__rating-value {
+  color: #6b604b;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.home-reviews__text {
+  margin: 1rem 0 0;
+  color: #52675c;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .home-reviews__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .home-reviews__list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-reviews__card {
+    transition: none;
+  }
+}
