@@ -47,7 +47,10 @@ def is_empty_payload(payload):
 
 
 class Command(BaseCommand):
-    help = "Seed languages (am, en, ru) and UI blocks (header, hero, footer, contacts_bar)."
+    help = (
+        "Seed languages, UI blocks, and demo content "
+        "(courses, reviews, completed event, free lesson)."
+    )
 
     def handle(self, *args, **options):
         for code, name in LANGUAGES:
