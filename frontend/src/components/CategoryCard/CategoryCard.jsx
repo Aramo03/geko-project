@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import OptimizedImage from '../OptimizedMedia/OptimizedImage.jsx'
 import { categoryImage, categoryLabel } from './categoryCard.js'
 
-export default function CategoryCard({ category }) {
+export default function CategoryCard({ category, className = '' }) {
   const { t } = useTranslation()
   const label = categoryLabel(category) || t('categories.untitled')
   const image = categoryImage(category)
@@ -14,7 +14,7 @@ export default function CategoryCard({ category }) {
 
   return (
     <article
-      className="about-hover-lift flex h-full flex-col justify-between rounded-2xl border border-border bg-surface p-4 shadow-[0_1px_3px_rgb(22_45_34/6%)] animate-rise-in"
+      className={`about-hover-lift ui-rise-in flex h-full flex-col justify-between rounded-2xl border border-border bg-surface p-4 shadow-[0_1px_3px_rgb(22_45_34/6%)] ${className}`}
     >
       <div>
         <div className="mb-4 h-48 w-full overflow-hidden rounded-xl bg-surface-soft">
@@ -31,11 +31,9 @@ export default function CategoryCard({ category }) {
           {tag}
         </span>
         <h2 className="mb-2 text-lg font-extrabold text-text">{label}</h2>
-        {description ? (
-          <p className="mb-6 line-clamp-2 text-xs text-text-muted">{description}</p>
-        ) : (
-          <p className="mb-6 line-clamp-2 text-xs text-text-muted">{label}</p>
-        )}
+        <p className="mb-6 line-clamp-2 text-xs text-text-muted">
+          {description || label}
+        </p>
       </div>
       <div className="mt-auto flex items-center justify-between border-t border-border pt-4">
         <span className="text-xs text-copy-muted">{students}</span>

@@ -195,6 +195,7 @@
     "coursesInCategory": "Courses in this category",
     "comments": "Comments",
     "untitled": "Untitled",
+    "lead": "Explore our most popular educational programs customized for logical, analytical, and digital maturity.",
     "meta": {
       "1": {
         "tag": "Full stack",
@@ -204,8 +205,10 @@
     }
   },
   "course": {
+    "kicker": "Popular course",
     "comments": "Comments",
-    "untitled": "Untitled"
+    "untitled": "Untitled",
+    "learnMore": "Learn more"
   },
   "header": {
     "followUs": "Follow us:",

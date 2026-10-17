@@ -1,0 +1,93 @@
+.course-detail-page {
+  min-height: 60vh;
+  background: var(--color-canvas);
+  padding: 2.5rem 1rem 4rem;
+}
+
+.course-detail-shell {
+  width: min(100%, 48rem);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.course-detail-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.course-detail-crumbs a {
+  color: var(--color-brand);
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+.course-detail-crumbs a:hover {
+  color: var(--color-brand-hover);
+}
+
+.course-detail-state {
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.course-detail-state--error {
+  color: var(--color-error);
+}
+
+.course-detail-hero {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.course-detail-kicker {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.course-detail-copy h1 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+
+.course-detail-lead {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  white-space: pre-wrap;
+}
+
+.course-detail-image {
+  width: 100%;
+  max-height: 22rem;
+  border-radius: 1rem;
+  object-fit: cover;
+  box-shadow: var(--shadow-elevated);
+}
+
+.course-detail-comments {
+  display: grid;
+  gap: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+@media (min-width: 768px) {
+  .course-detail-hero {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}

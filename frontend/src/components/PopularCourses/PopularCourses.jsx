@@ -75,7 +75,7 @@ export default function PopularCourses() {
             const category = courseCategoryLabel(course)
 
             return (
-              <li key={course.id} className="popular-courses__card">
+              <li key={course.id} className="popular-courses__card ui-rise-in about-hover-lift-sm">
                 <div className="popular-courses__media">
                   {image ? (
                     <img src={image} alt="" />

@@ -18,8 +18,9 @@
   }
 }
 
-.animate-rise-in {
-  animation: rise-in 650ms both var(--ease-smooth);
+.animate-rise-in,
+.ui-rise-in {
+  animation: rise-in 520ms both var(--ease-smooth);
 }
 
 .animate-rise-in-delay-1 {
@@ -71,8 +72,21 @@
   }
 }
 
+.ui-rise-in-delay-1 {
+  animation-delay: 60ms;
+}
+
+.ui-rise-in-delay-2 {
+  animation-delay: 120ms;
+}
+
+.ui-rise-in-delay-3 {
+  animation-delay: 180ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-rise-in,
+  .ui-rise-in,
   .animate-media-in {
     animation: none !important;
   }

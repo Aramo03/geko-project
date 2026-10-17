@@ -13,7 +13,7 @@ export default function EventCard({ event }) {
   const href = `/events/${event.status}/${event.id}`
 
   return (
-    <article className="event-card">
+    <article className="event-card ui-rise-in about-hover-lift-sm">
       <Link to={href} className="event-card__media">
         {cover ? (
           <img className="event-card__image" src={cover} alt={title} loading="lazy" />

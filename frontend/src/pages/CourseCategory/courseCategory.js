@@ -29,15 +29,3 @@ export function mediaUrl(raw) {
 export function courseImage(course) {
   return mediaUrl(course?.image_url || course?.local_image)
 }
-
-export function categoryImageSrc(category) {
-  return mediaUrl(category?.image_url || category?.local_image)
-}
-
-export function courseStudents(course) {
-  return course?.students || pickTranslation(course?.translations)?.count || ''
-}
-
-export function courseLevel(course) {
-  return course?.level || pickTranslation(course?.translations)?.level || ''
-}
