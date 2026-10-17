@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa'
 import { api } from '../../api/client.js'
+import { useUiBlocks } from '../../lib/uiBlocks.jsx'
 import {
   EMAIL_PATTERN,
-  asBlockList,
   categoryOptions,
   contactDetails,
   contactPayload,
@@ -15,13 +15,8 @@ import './contacts.css'
 
 export default function Contacts() {
   const { t, i18n } = useTranslation()
+  const { blocks } = useUiBlocks()
   const [categories, setCategories] = useState([])
-  const [details, setDetails] = useState({
-    phone: '',
-    email: '',
-    address: '',
-    map: '',
-  })
   const [status, setStatus] = useState(null)
   const {
     register,
@@ -29,6 +24,8 @@ export default function Contacts() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm()
+
+  const details = contactDetails(blocks, t('contacts.addressLine'))
 
   useEffect(() => {
     let active = true
@@ -39,25 +36,6 @@ export default function Contacts() {
       })
       .catch(() => {
         if (active) setCategories([])
-      })
-    return () => {
-      active = false
-    }
-  }, [i18n.language])
-
-  useEffect(() => {
-    let active = true
-    api
-      .get('/api/ui-blocks/')
-      .then((res) => {
-        if (active) {
-          setDetails(contactDetails(asBlockList(res.data), i18n.language))
-        }
-      })
-      .catch(() => {
-        if (active) {
-          setDetails({ phone: '', email: '', address: '', map: '' })
-        }
       })
     return () => {
       active = false
@@ -137,9 +115,7 @@ export default function Contacts() {
               <label className="contact-field">
                 <span>
                   {t('contacts.fullName')}{' '}
-                  <span className="contact-required" aria-hidden="true">
-                    *
-                  </span>
+                  <span className="contact-required" aria-hidden="true">*</span>
                 </span>
                 <input
                   type="text"
@@ -155,9 +131,7 @@ export default function Contacts() {
               <label className="contact-field">
                 <span>
                   {t('contacts.email')}{' '}
-                  <span className="contact-required" aria-hidden="true">
-                    *
-                  </span>
+                  <span className="contact-required" aria-hidden="true">*</span>
                 </span>
                 <input
                   type="email"
@@ -199,9 +173,7 @@ export default function Contacts() {
               <label className="contact-field contact-field-wide">
                 <span>
                   {t('contacts.message')}{' '}
-                  <span className="contact-required" aria-hidden="true">
-                    *
-                  </span>
+                  <span className="contact-required" aria-hidden="true">*</span>
                 </span>
                 <textarea
                   rows={5}

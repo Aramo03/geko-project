@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { api } from '../../api/client.js'
-import CourseComments from '../../components/CourseComments/CourseComments.jsx'
+import { api, pickTranslation } from '../../api/client.js'
 import CommentForm from '../../components/CommentForm/CommentForm.jsx'
+import CommentList from '../../components/CommentList/CommentList.jsx'
+import OptimizedImage from '../../components/OptimizedMedia/OptimizedImage.jsx'
 import { courseDescription, courseImage, courseTitle } from './courseDetails.js'
 import './courseDetails.css'
 
@@ -13,6 +14,7 @@ export default function CourseDetails() {
   const [course, setCourse] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+  const [commentRefreshKey, setCommentRefreshKey] = useState(0)
 
   useEffect(() => {
     let cancelled = false
@@ -45,20 +47,60 @@ export default function CourseDetails() {
   const title = courseTitle(course) || t('course.untitled')
   const description = courseDescription(course)
   const image = course ? courseImage(course) : ''
+  const categoryId = course?.category?.id
+  const categoryLabel = categoryId
+    ? pickTranslation(course.category?.translations)?.text || ''
+    : ''
 
   return (
-    <main className="page">
-      {loading && <p>{t('common.loading')}</p>}
-      {error && <p className="error">{t('common.error')}</p>}
-      {!loading && !error && course && (
-        <>
-          <h1>{title}</h1>
-          {image ? <img className="course-image" src={image} alt={title} /> : null}
-          {description ? <p className="course-description">{description}</p> : null}
-          <CourseComments courseId={id} />
-          <CommentForm popularCourse={id} />
-        </>
-      )}
+    <main className="course-detail-page">
+      <div className="course-detail-shell ui-rise-in">
+        <nav className="course-detail-crumbs" aria-label="breadcrumb">
+          <Link to="/">{t('nav.home')}</Link>
+          <span aria-hidden="true">/</span>
+          <Link to="/course-category">{t('nav.courses')}</Link>
+          {categoryId ? (
+            <>
+              <span aria-hidden="true">/</span>
+              <Link to={`/course-category/${categoryId}`}>{categoryLabel || t('categories.untitled')}</Link>
+            </>
+          ) : null}
+          <span aria-hidden="true">/</span>
+          <span>{title}</span>
+        </nav>
+
+        {loading && <p className="course-detail-state">{t('common.loading')}</p>}
+        {error && <p className="course-detail-state course-detail-state--error">{t('common.error')}</p>}
+
+        {!loading && !error && course && (
+          <>
+            <header className="course-detail-hero">
+              <div className="course-detail-copy">
+                <p className="course-detail-kicker">{t('course.kicker')}</p>
+                <h1>{title}</h1>
+                {description ? <p className="course-detail-lead">{description}</p> : null}
+              </div>
+              {image ? (
+                <OptimizedImage
+                  src={image}
+                  alt={title}
+                  className="course-detail-image animate-media-in"
+                  sizes="(max-width: 768px) 100vw, 42rem"
+                  priority
+                />
+              ) : null}
+            </header>
+
+            <section className="course-detail-comments" aria-labelledby="course-comments-title">
+              <CommentList popularCourse={id} refreshKey={commentRefreshKey} />
+              <CommentForm
+                popularCourse={id}
+                onCreated={() => setCommentRefreshKey((key) => key + 1)}
+              />
+            </section>
+          </>
+        )}
+      </div>
     </main>
   )
 }

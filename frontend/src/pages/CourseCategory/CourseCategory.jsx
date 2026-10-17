@@ -86,14 +86,17 @@ export default function CourseCategory() {
           <h1>{title}</h1>
           {!id ? <p className="course-category-lead">{t('categories.lead')}</p> : null}
         </header>
-        {loading && <p>{t('common.loading')}</p>}
-        {error && <p className="error">{t('common.error')}</p>}
+        {loading && <p className="course-category-state">{t('common.loading')}</p>}
+        {error && <p className="course-category-state course-category-state--error">{t('common.error')}</p>}
         {!loading && !error && !id && categories.length === 0 && <p>{t('common.empty')}</p>}
         {!loading && !error && !id && categories.length > 0 && (
           <ul className="category-grid">
-            {categories.map((item) => (
+            {categories.map((item, index) => (
               <li key={item.id}>
-                <CategoryCard category={item} />
+                <CategoryCard
+                  category={item}
+                  className={index < 3 ? `ui-rise-in-delay-${index + 1}` : ''}
+                />
               </li>
             ))}
           </ul>
@@ -101,9 +104,12 @@ export default function CourseCategory() {
         {!loading && !error && id && courses.length === 0 && <p>{t('common.empty')}</p>}
         {!loading && !error && id && courses.length > 0 && (
           <ul className="course-grid">
-            {courses.map((course) => (
+            {courses.map((course, index) => (
               <li key={course.id}>
-                <CourseCard course={course} />
+                <CourseCard
+                  course={course}
+                  className={index < 3 ? `ui-rise-in-delay-${index + 1}` : ''}
+                />
               </li>
             ))}
           </ul>

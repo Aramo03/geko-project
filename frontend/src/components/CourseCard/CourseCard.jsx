@@ -1,19 +1,25 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import OptimizedImage from '../OptimizedMedia/OptimizedImage.jsx'
 import { courseDescription, courseImage, courseTitle } from './courseCard.js'
 import './courseCard.css'
 
-export default function CourseCard({ course }) {
+export default function CourseCard({ course, className = '' }) {
   const { t } = useTranslation()
   const title = courseTitle(course) || t('course.untitled')
   const description = courseDescription(course)
   const image = courseImage(course)
 
   return (
-    <article className="course-card">
+    <article className={`course-card ui-rise-in about-hover-lift-sm ${className}`}>
       <Link to={`/courses/${course.id}`} className="course-card__link">
         {image ? (
-          <img className="course-card__image" src={image} alt={title} />
+          <OptimizedImage
+            src={image}
+            alt={title}
+            className="course-card__image animate-media-in"
+            sizes="(max-width: 768px) 100vw, 360px"
+          />
         ) : (
           <div className="course-card__image course-card__image--empty" aria-hidden="true" />
         )}

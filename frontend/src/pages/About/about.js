@@ -1,3 +1,12 @@
+export const ABOUT_VALUES = [
+  { key: 'teachers', icon: 'teachers' },
+  { key: 'learning', icon: 'learning' },
+  { key: 'technology', icon: 'tech' },
+  { key: 'programs', icon: 'programs' },
+]
+
+export const REFERENCE_INSTRUCTORS = ['ananya', 'marcus', 'sophia', 'vikram']
+
 export function teamListFromResponse(data) {
   const list = Array.isArray(data) ? data : data?.results
   if (!Array.isArray(list)) return []

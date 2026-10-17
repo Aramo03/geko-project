@@ -72,9 +72,13 @@ import { useForm } from 'react-hook-form'
 
 Контакт (как в backup): `full_name`, `email`, `whatsapp`, `country`, `category`, `message` → `POST /api/contact/`.
 
+## Цвета и Tailwind
+
+Все UI-цвета — в `:root` ([`frontend/src/index.css`](../frontend/src/index.css)); в разметке используй утилиты Tailwind (`bg-brand`, `text-text-muted`, …) или `var(--color-*)`. Анимации — [`frontend/src/styles/animations.css`](../frontend/src/styles/animations.css) и локальные `*.css` компонентов. Картинки/видео — [`OptimizedImage`](../frontend/src/components/OptimizedMedia/OptimizedImage.jsx) (`loading`, `decoding`, `fetchPriority`).
+
 ## Оболочка
 
-Header (телефон, email, языки, меню) → страница → Footer (контакты, навигация, карта, соцсети). Телефоны и hero — из API `UIBlock`, не хардкод.
+Header (телефон, email, языки, меню) → страница → Footer (контакты, навигация, карта, соцсети). **Из API `UIBlock`** (после `python manage.py init_ui`): `contacts_bar` / `footer` — phone, email, map URL, соцсети; `header` — logo, `button_link`. **Из i18n:** подписи меню и форм, адрес текстом (`contacts.addressLine`), тексты hero на Home (`home.hero*`), footer description. Хелперы — `frontend/src/lib/uiBlocks.jsx`.
 
 ## English
 

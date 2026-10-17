@@ -5,7 +5,8 @@ export function courseTitle(course) {
 }
 
 export function courseDescription(course) {
-  return pickTranslation(course?.translations)?.description || ''
+  const translation = pickTranslation(course?.translations)
+  return translation?.description || translation?.desc || ''
 }
 
 export function courseImage(course) {

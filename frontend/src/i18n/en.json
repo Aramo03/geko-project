@@ -12,6 +12,50 @@
     "empty": "Nothing to show yet."
   },
   "about": {
+    "pageTitle": "About Us",
+    "breadcrumb": "Breadcrumb",
+    "storyEyebrow": "Our story",
+    "storyTitle": "Empowering Minds, Shaping Innovative Futures",
+    "storyImageAlt": "GEKO Education founders",
+    "storyText1": "Founded with the belief that quality education should be accessible, interactive, and aligned with modern technology, GEKO is building a new way to learn.",
+    "storyText2": "We help learners grow through thoughtful programs in technology, languages, and core skills, guided by experienced educators.",
+    "learnMore": "Learn More",
+    "missionEyebrow": "Core intent",
+    "missionHeading": "Our Mission & Vision",
+    "missionIntro": "A balanced guide ensuring both educational rigor and global future readiness.",
+    "missionTitle": "Our Mission",
+    "missionText": "To deliver practical, highly interactive lessons in technology, language, and core sciences. We foster collaborative workspaces that inspire critical reasoning, practical experimentation, and emotional intelligence.",
+    "visionTitle": "Our Vision",
+    "visionText": "To become the leading platform for foundational excellence, where kids and young adults across the region confidently grow as ethical, digitally proficient global citizens.",
+    "valuesEyebrow": "What we stand for",
+    "valuesTitle": "Our Core Values",
+    "valuesIntro": "The foundational principles behind our daily interactions and curriculum design.",
+    "values": {
+      "teachers": { "title": "Qualified Teachers", "text": "Expert certified educators with specialized training in modern student-led teaching styles." },
+      "learning": { "title": "Interactive Learning", "text": "Gamified environments, real-world sandboxes, and highly engaging hands-on challenges." },
+      "technology": { "title": "Modern Tech", "text": "State-of-the-art labs with robotics, AR learning sets, and robust coding interfaces." },
+      "programs": { "title": "Flexible Programs", "text": "Adaptable scheduling formats matching modern families’ dynamic school and holiday routines." }
+    },
+    "statsTitle": "GEKO in numbers",
+    "stats": {
+      "students": { "number": "500+", "label": "Enrolled Students" },
+      "courses": { "number": "20+", "label": "Innovative Courses" },
+      "educators": { "number": "15+", "label": "Expert Educators" },
+      "trust": { "number": "10+", "label": "Years of Trust" }
+    },
+    "teamEyebrow": "Certified mentors",
+    "teamIntro": "Experienced, supportive, and passionate about preparing the next generation.",
+    "instructors": {
+      "ananya": { "name": "Dr. Ananya Roy", "role": "Head of Mathematics", "description": "Ph.D. in Cognitive Development, specialized in conceptual visual algebra for young minds." },
+      "marcus": { "name": "Marcus Chen", "role": "Lead Coding Coach", "description": "Former Silicon Valley engineer turned educator. Believes game development builds logical thinking." },
+      "sophia": { "name": "Sophia Alvarez", "role": "Robotics Instructor", "description": "Robotics systems enthusiast. Guides hands-on circuit prototyping and modular hardware design." },
+      "vikram": { "name": "Vikram Malhotra", "role": "Digital Arts Educator", "description": "Designer with a decade of creative agency experience. Teaches foundational spatial principles and UI craft." }
+    },
+    "ctaEyebrow": "Start your journey",
+    "ctaTitle": "Ready to Start Learning at GEKO?",
+    "ctaText": "Unlock premium educational tracks custom-built for the skills of tomorrow.",
+    "exploreCourses": "Explore Courses",
+    "contactUs": "Contact Us",
     "team": "Our team",
     "empty": "No team members yet.",
     "memberImageAlt": "Photo of {{name}}"
@@ -30,6 +74,7 @@
     "selectCategory": "Select category",
     "message": "Message",
     "address": "Address",
+    "addressLine": "Yerevan, Armenia — GEKO Education campus",
     "openMap": "Open map",
     "send": "Send",
     "sending": "Sending…",
@@ -55,24 +100,112 @@
     "error": "Failed to send the comment"
   },
   "events": {
+    "kicker": "GEKO Education",
     "title": "Events",
     "upcoming": "Upcoming",
     "happening": "Happening",
-    "completed": "Completed"
+    "completed": "Completed",
+    "back": "Back to events",
+    "date": "Date",
+    "description": "About the event",
+    "signUp": "Sign up",
+    "untitled": "Untitled event",
+    "more": "Read more",
+    "prev": "Previous photo",
+    "next": "Next photo",
+    "hero": {
+      "upcoming": "Upcoming Events at GEKO",
+      "happening": "Events Happening Now at GEKO",
+      "completed": "Past Events at GEKO"
+    },
+    "section": {
+      "upcoming": "Upcoming events",
+      "happening": "Happening now",
+      "completed": "Past events"
+    }
   },
   "home": {
     "reviews": "Reviews",
     "lessons": "Lesson info",
     "untitled": "Untitled",
-    "hero": "Hero"
+    "hero": "Hero",
+    "heroKicker": "GEKO Education",
+    "heroTitle": "GEKO",
+    "heroText": "Practical pathways for modern technical sciences and analytics.",
+    "heroCta": "Enroll now",
+    "legacy": {
+      "kicker": "Our Legacy",
+      "title": "About GEKO Educational Center",
+      "lead": "GEKO empowers youngsters through a highly interactive, research-backed learning track model. Designed by certified global educators, our physical and virtual spaces are optimized for self-confidence, cognitive maturity, and computational focus.",
+      "feature1": "Experienced Teachers & Mentor Supervision",
+      "feature2": "Modern Applied Technology Infrastructure",
+      "feature3": "Individual Logical & Creative Milestones",
+      "feature4": "International Exchange & Certificate Programs",
+      "cta": "Learn More About Us"
+    },
+    "philosophy": {
+      "kicker": "Our Philosophy",
+      "title": "Empowerment Curriculum",
+      "lead": "Explore our most popular educational programs customized for logical, analytical, and digital maturity.",
+      "pill1": "Language Arts",
+      "pill2": "Computer Science",
+      "pill3": "Exact Sciences",
+      "pill4": "Applied Tech"
+    },
+    "popularCourses": {
+      "kicker": "Explore our top curriculum",
+      "title": "Popular Courses",
+      "lead": "Hands-on tracks from markup to deployment and AI literacy — each course ships with mentor review and a clear certificate path.",
+      "learnMore": "Learn More",
+      "viewAll": "View all courses",
+      "meta": {
+        "full-stack-program": {
+          "students": "210 Students",
+          "level": "HTML · CSS · JS · React · Python · Django · Deploy · AI"
+        }
+      }
+    },
+    "why": {
+      "kicker": "Why GEKO",
+      "title": "Unlock Full Potential",
+      "lead": "We provide strategic resources to make education exciting, lasting, and deeply constructive.",
+      "item1Title": "Qualified Teachers",
+      "item1Text": "Taught exclusively by globally certified educators with specialization in cognitive logic and child development metrics.",
+      "item2Title": "Interactive Learning",
+      "item2Text": "Flipped-classroom models, live robotic challenges, and collaborative digital labs that eliminate rote memorization.",
+      "item3Title": "Modern Technology",
+      "item3Text": "Unrestricted access to microchip assembly kits, multi-touch screens, 3D printing cores, and high-performance coding terminals.",
+      "item4Title": "Flexible Programs",
+      "item4Text": "Weekend classes, customized after-school models, and synchronous remote systems designed for busy family schedules."
+    },
+    "successStories": {
+      "kicker": "Success Stories",
+      "title": "What Parents Say About Us",
+      "lead": "Join thousands of inspired families who have observed tangible logic and communication progress."
+    }
   },
   "categories": {
+    "kicker": "Empowerment Curriculum",
+    "popularTitle": "Popular Courses",
+    "subtitle": "Explore our most popular educational programs customized for logical, analytical, and digital maturity.",
+    "learnMore": "Learn more",
+    "viewAll": "View all courses",
+    "studentsFallback": "100+ students",
+    "tagDefault": "Course category",
+    "coursesInCategory": "Courses in this category",
     "comments": "Comments",
     "untitled": "Untitled",
-    "kicker": "GEKO Education",
-    "lead": "Explore our most popular educational programs"
+    "lead": "Explore our most popular educational programs customized for logical, analytical, and digital maturity.",
+    "meta": {
+      "1": {
+        "tag": "Full stack",
+        "description": "From HTML and CSS to Django, deployment, and AI-assisted development.",
+        "students": "Open enrollment"
+      }
+    }
   },
   "course": {
+    "kicker": "Popular course",
     "comments": "Comments",
     "untitled": "Untitled",
     "learnMore": "Learn more"

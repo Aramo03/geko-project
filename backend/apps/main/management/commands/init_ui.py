@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 
+from apps.main.management.commands.seed_home_demo import seed_home_demo
 from apps.main.models import Language, UIBlock
 
 LANGUAGES = (
@@ -15,34 +16,28 @@ UI_BLOCKS = (
     ("contacts_bar", "contacts_bar", 3),
 )
 
+# Factual contact data and URLs only (no UI copy). Translatable strings live in frontend i18n.
+CONTACT_PHONE = "(+374) 98 03 33 94"
+CONTACT_EMAIL = "gekoeducation1@gmail.com"
+MAP_URL = "https://www.google.com/maps/search/?api=1&query=40.189774,44.522213"
+
 DEFAULT_PAYLOADS = {
     "header": {
         "logo": "/images/logo.webp",
         "button_link": "/contacts",
     },
-    "hero": {
-        "title": {
-            "am": "GEKO",
-            "en": "GEKO",
-            "ru": "GEKO",
-        },
-        "text": {
-            "am": "Ժամանակակից տեխնիկական գիտությունների և վերլուծության գործնական ուղիներ։",
-            "en": "Practical pathways for modern technical sciences and analytics.",
-            "ru": "Практические направления современных технических наук и аналитики.",
-        },
-    },
+    "hero": {},
     "footer": {
-        "phone": "+374 00 000000",
-        "email": "info@geko.am",
-        "address": "Yerevan, Armenia",
-        "map": "https://maps.google.com/",
+        "phone": CONTACT_PHONE,
+        "email": CONTACT_EMAIL,
+        "map": MAP_URL,
         "facebook": "https://www.facebook.com/GekoOnlineEducation/",
         "instagram": "https://www.instagram.com/geko_education",
+        "linkedin": "https://www.linkedin.com/company/geko-education",
     },
     "contacts_bar": {
-        "phone": "+374XXXXXXXX",
-        "email": "info@example.com",
+        "phone": CONTACT_PHONE,
+        "email": CONTACT_EMAIL,
     },
 }
 
@@ -86,3 +81,5 @@ class Command(BaseCommand):
                 self.stdout.write(f"Filled empty UI block {key}")
             else:
                 self.stdout.write(f"UI block {key} already exists")
+
+        seed_home_demo(self.stdout)

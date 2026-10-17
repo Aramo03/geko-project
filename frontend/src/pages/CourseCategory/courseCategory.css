@@ -1,3 +1,5 @@
+/* Course category — layout; motion via animations.css (.ui-rise-in, .about-hover-lift) */
+
 .course-category-page {
   min-height: 60vh;
   background: var(--color-canvas);
@@ -18,6 +20,7 @@
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
+  transition: color var(--duration-fast) ease;
 }
 
 .course-category-back:hover,
@@ -33,7 +36,7 @@
 
 .course-category-kicker {
   margin: 0 0 0.5rem;
-  color: var(--color-accent);
+  color: var(--color-brand);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -42,18 +45,27 @@
 
 .course-category-intro h1 {
   margin: 0;
-  color: var(--color-brand);
+  color: var(--color-text);
   font-size: clamp(1.75rem, 3vw, 2.35rem);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.15;
 }
 
 .course-category-lead {
   margin: 0.85rem 0 0;
-  color: var(--color-copy-muted);
+  color: var(--color-text-muted);
   font-size: 0.95rem;
   line-height: 1.7;
+}
+
+.course-category-state {
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.course-category-state--error {
+  color: var(--color-error);
 }
 
 .category-grid,
@@ -61,19 +73,17 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
   gap: 1.5rem;
-  list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.course-category-page .error {
-  color: #b42318;
+  list-style: none;
 }
 
 .course-category-comments {
   display: grid;
   gap: 1.5rem;
   margin-top: 2.75rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
 }
 
 @media (max-width: 375px) {
