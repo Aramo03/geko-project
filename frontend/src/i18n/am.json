@@ -115,14 +115,10 @@
       "learnMore": "Կարդալ ավելին",
       "viewAll": "Բոլոր դասընթացները",
       "meta": {
-        "html": { "students": "148 աշակերտ", "level": "Սկսնակ — առաջադեմ" },
-        "css": { "students": "142 աշակերտ", "level": "Սկսնակ — առաջադեմ" },
-        "javascript": { "students": "210 աշակերտ", "level": "Միջին" },
-        "react": { "students": "185 աշակերտ", "level": "Միջին" },
-        "python": { "students": "176 աշակերտ", "level": "Բոլոր դասարաններ" },
-        "django": { "students": "134 աշակերտ", "level": "Միջին" },
-        "deployment": { "students": "122 աշակերտ", "level": "4-րդ դասարանից" },
-        "ai": { "students": "190 աշակերտ", "level": "Հիմնական" }
+        "full-stack-program": {
+          "students": "210 աշակերտ",
+          "level": "HTML · CSS · JS · React · Python · Django · Deploy · AI"
+        }
       }
     },
     "why": {

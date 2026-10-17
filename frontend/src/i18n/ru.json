@@ -115,14 +115,10 @@
       "learnMore": "Подробнее",
       "viewAll": "Все курсы",
       "meta": {
-        "html": { "students": "148 студентов", "level": "Начальный — продвинутый" },
-        "css": { "students": "142 студента", "level": "Начальный — продвинутый" },
-        "javascript": { "students": "210 студентов", "level": "Средний" },
-        "react": { "students": "185 студентов", "level": "Средний" },
-        "python": { "students": "176 студентов", "level": "Все классы" },
-        "django": { "students": "134 студента", "level": "Средний" },
-        "deployment": { "students": "122 студента", "level": "С 4 класса" },
-        "ai": { "students": "190 студентов", "level": "Базовый" }
+        "full-stack-program": {
+          "students": "210 студентов",
+          "level": "HTML · CSS · JS · React · Python · Django · Deploy · AI"
+        }
       }
     },
     "why": {

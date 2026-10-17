@@ -115,14 +115,10 @@
       "learnMore": "Learn More",
       "viewAll": "View all courses",
       "meta": {
-        "html": { "students": "148 Students", "level": "Beginner to Advanced" },
-        "css": { "students": "142 Students", "level": "Beginner to Advanced" },
-        "javascript": { "students": "210 Students", "level": "Intermediate" },
-        "react": { "students": "185 Students", "level": "Intermediate" },
-        "python": { "students": "176 Students", "level": "All Grades" },
-        "django": { "students": "134 Students", "level": "Intermediate" },
-        "deployment": { "students": "122 Students", "level": "Grade 4 and Up" },
-        "ai": { "students": "190 Students", "level": "Foundational" }
+        "full-stack-program": {
+          "students": "210 Students",
+          "level": "HTML · CSS · JS · React · Python · Django · Deploy · AI"
+        }
       }
     },
     "why": {

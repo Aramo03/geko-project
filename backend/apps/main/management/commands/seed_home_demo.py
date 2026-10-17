@@ -1,57 +1,50 @@
-"""Idempotent demo categories, popular courses, and parent reviews for Home UI."""
+"""Idempotent demo category, flagship course, team, and parent reviews for Home UI."""
 
 from apps.courses.models import PopularCourse, PopularCourseTranslation
 from apps.main.models import Category, CategoryTranslation, Language, Review
+from apps.team.models import Team, TeamTranslation
+
+FLAGSHIP_EN_TITLE = "Full-Stack Program"
+
+LEGACY_SPLIT_COURSE_TITLES = (
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "React",
+    "Python",
+    "Django",
+    "Deployment",
+    "AI",
+)
 
 CATEGORY_SEED = (
-    ("language_arts", { "en": "Language Arts", "am": "Լեզվական արվեստ", "ru": "Языковые искусства" }),
-    ("computer_science", { "en": "Computer Science", "am": "Համակարգչային գիտություն", "ru": "Компьютерные науки" }),
-    ("exact_sciences", { "en": "Exact Sciences", "am": "Ճշգրիտ գիտություններ", "ru": "Точные науки" }),
-    ("applied_tech", { "en": "Applied Tech", "am": "Կիրառական տեխնոլոգիա", "ru": "Прикладные технологии" }),
+    (
+        "computer_science",
+        {
+            "en": "Computer Science",
+            "am": "Համակարգչային գիտություն",
+            "ru": "Компьютерные науки",
+        },
+    ),
 )
 
-COURSE_SEED = (
-    ("HTML", "computer_science", 1, {
-        "en": ("HTML", "Structure the web with semantic markup, accessibility patterns, and document architecture."),
-        "am": ("HTML", "Սեմանտիկ նշագրում, հասանելիություն և փաստաթղթի կառուցվածք։"),
-        "ru": ("HTML", "Семантическая разметка, доступность и архитектура документов."),
-    }),
-    ("CSS", "computer_science", 2, {
-        "en": ("CSS", "Layouts, responsive grids, design tokens, and polished interface systems."),
-        "am": ("CSS", "Դասավորություններ, ադապտիվ ցանցեր և ինտերֆեյսի համակարգեր։"),
-        "ru": ("CSS", "Вёрстка, адаптивные сетки и системы интерфейса."),
-    }),
-    ("JavaScript", "computer_science", 3, {
-        "en": ("JavaScript", "DOM logic, async flows, modules, and interactive browser experiences."),
-        "am": ("JavaScript", "DOM տրամաբանություն, ասինխրոն հոսքեր և ինտերակտիվ փորձ։"),
-        "ru": ("JavaScript", "DOM, асинхронность, модули и интерактив в браузере."),
-    }),
-    ("React", "computer_science", 4, {
-        "en": ("React", "Component models, state, hooks, and scalable single-page applications."),
-        "am": ("React", "Կոմպոնենտներ, state, hooks և մասշտաբային SPA."),
-        "ru": ("React", "Компоненты, state, hooks и масштабируемые SPA."),
-    }),
-    ("Python", "exact_sciences", 5, {
-        "en": ("Python", "Readable syntax, data structures, scripting, and problem-solving foundations."),
-        "am": ("Python", "Տվյալների կառուցվածքներ, սկրիպտավորում և լուծումների հիմք։"),
-        "ru": ("Python", "Структуры данных, скрипты и основы решения задач."),
-    }),
-    ("Django", "computer_science", 6, {
-        "en": ("Django", "ORM, REST APIs, auth, admin, and production-ready backend patterns."),
-        "am": ("Django", "ORM, REST API, auth, admin և backend օրինաչափություններ։"),
-        "ru": ("Django", "ORM, REST API, auth, admin и паттерны бэкенда."),
-    }),
-    ("Deployment", "applied_tech", 7, {
-        "en": ("Deployment", "CI/CD, containers, hosting, and shipping full-stack projects safely."),
-        "am": ("Deployment", "CI/CD, կոնտեյներներ, հոսթինգ և ապահով թողարկում։"),
-        "ru": ("Deployment", "CI/CD, контейнеры, хостинг и безопасный релиз."),
-    }),
-    ("AI", "applied_tech", 8, {
-        "en": ("AI", "Prompting, ML basics, automation workflows, and responsible AI literacy."),
-        "am": ("AI", "Prompting, ML հիմքեր, ավտոմատացում և պատասխանատու AI."),
-        "ru": ("AI", "Промпты, основы ML, автоматизация и ответственный AI."),
-    }),
-)
+FLAGSHIP_DESCRIPTION = {
+    "en": (
+        FLAGSHIP_EN_TITLE,
+        "One integrated track: HTML, CSS, JavaScript, React, Python, Django, deployment, and AI. "
+        "Build real projects from markup to production with mentor review at each milestone.",
+    ),
+    "am": (
+        "Full-Stack ծրագիր",
+        "Միասին ուղի՝ HTML, CSS, JavaScript, React, Python, Django, deployment և AI. "
+        "Իրական նախագծեր մենթորի աջակցությամբ։",
+    ),
+    "ru": (
+        "Full-Stack программа",
+        "Единый трек: HTML, CSS, JavaScript, React, Python, Django, deployment и AI. "
+        "Реальные проекты с наставником на каждом этапе.",
+    ),
+}
 
 REVIEW_SEED = (
     (
@@ -71,9 +64,39 @@ REVIEW_SEED = (
     ),
 )
 
+TEAM_SEED = (
+    (
+        "Aram Khalatryan",
+        {
+            "en": (
+                "Aram Khalatryan",
+                "Instructor",
+                "Full-stack mentor: HTML, CSS, JavaScript, React, Python, Django, deployment, and AI.",
+            ),
+            "am": (
+                "Արամ Խալաթրյան",
+                "Դասախոս",
+                "Full-stack մենթոր՝ HTML-ից մինչև AI և deployment։",
+            ),
+            "ru": (
+                "Арам Халатрян",
+                "Преподаватель",
+                "Full-stack наставник: HTML, CSS, JavaScript, React, Python, Django, deployment и AI.",
+            ),
+        },
+    ),
+)
+
 
 def _lang(code):
     return Language.objects.get(code=code)
+
+
+def _find_course_by_en_title(title):
+    return PopularCourse.objects.filter(
+        translations__language__code="en",
+        translations__title=title,
+    ).first()
 
 
 def _ensure_categories(stdout):
@@ -96,27 +119,87 @@ def _ensure_categories(stdout):
     return categories
 
 
-def _ensure_courses(categories, stdout):
-    for en_title, cat_key, order, translations in COURSE_SEED:
-        existing = PopularCourse.objects.filter(
-            translations__language__code="en",
-            translations__title=en_title,
-        ).first()
-        if existing:
+def _prune_legacy_split_courses(stdout):
+    removed = 0
+    for title in LEGACY_SPLIT_COURSE_TITLES:
+        course = _find_course_by_en_title(title)
+        if not course:
             continue
+        course.delete()
+        removed += 1
+        stdout.write(f"Removed legacy demo course {title}")
+    return removed
+
+
+def _ensure_flagship_course(categories, stdout):
+    category = categories["computer_science"]
+    course = _find_course_by_en_title(FLAGSHIP_EN_TITLE)
+
+    if not course:
         course = PopularCourse.objects.create(
-            category=categories[cat_key],
-            order=order,
+            category=category,
+            order=1,
             image_url="",
         )
-        for code, (title, description) in translations.items():
+        for code, (title, description) in FLAGSHIP_DESCRIPTION.items():
             PopularCourseTranslation.objects.create(
                 popular_course=course,
                 language=_lang(code),
                 title=title,
                 description=description,
             )
-        stdout.write(f"Created course {en_title}")
+        stdout.write(f"Created flagship course {FLAGSHIP_EN_TITLE}")
+        return
+
+    course.category = category
+    course.order = 1
+    course.save(update_fields=["category", "order"])
+
+    for code, (title, description) in FLAGSHIP_DESCRIPTION.items():
+        translation = course.translations.filter(language__code=code).first()
+        if translation:
+            translation.title = title
+            translation.description = description
+            translation.save(update_fields=["title", "description"])
+        else:
+            PopularCourseTranslation.objects.create(
+                popular_course=course,
+                language=_lang(code),
+                title=title,
+                description=description,
+            )
+    stdout.write(f"Updated flagship course {FLAGSHIP_EN_TITLE}")
+
+
+def _ensure_team(stdout):
+    for _key, translations in TEAM_SEED:
+        en_name = translations["en"][0]
+        member = Team.objects.filter(
+            translations__language__code="en",
+            translations__name=en_name,
+        ).first()
+        if not member:
+            member = Team.objects.create(order=1, image_url="")
+            stdout.write(f"Created team member {en_name}")
+        else:
+            member.order = 1
+            member.save(update_fields=["order"])
+
+        for code, (name, role, desc) in translations.items():
+            translation = member.translations.filter(language__code=code).first()
+            if translation:
+                translation.name = name
+                translation.role = role
+                translation.desc = desc
+                translation.save(update_fields=["name", "role", "desc"])
+            else:
+                TeamTranslation.objects.create(
+                    team=member,
+                    language=_lang(code),
+                    name=name,
+                    role=role,
+                    desc=desc,
+                )
 
 
 def _ensure_reviews(stdout):
@@ -129,5 +212,7 @@ def _ensure_reviews(stdout):
 
 def seed_home_demo(stdout):
     categories = _ensure_categories(stdout)
-    _ensure_courses(categories, stdout)
+    _prune_legacy_split_courses(stdout)
+    _ensure_flagship_course(categories, stdout)
+    _ensure_team(stdout)
     _ensure_reviews(stdout)

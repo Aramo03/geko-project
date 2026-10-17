@@ -17,6 +17,7 @@ export function courseDescription(course) {
 export function courseSlug(title) {
   if (!title) return ''
   const map = {
+    'Full-Stack Program': 'full-stack-program',
     JavaScript: 'javascript',
     Deployment: 'deployment',
   }
