@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
-import { asList, blockText, findBlock, lessonContent, lessonTitle } from './home.js'
+import HeroMedia from '../../components/HeroMedia/HeroMedia.jsx'
+import HomeLegacy from '../../components/HomeLegacy/HomeLegacy.jsx'
+import HomePhilosophy from '../../components/HomePhilosophy/HomePhilosophy.jsx'
+import PopularCourses from '../../components/PopularCourses/PopularCourses.jsx'
+import WhyGeko from '../../components/WhyGeko/WhyGeko.jsx'
+import Reviews from '../../components/Reviews/Reviews.jsx'
+import { asList } from './home.js'
+import './home.css'
+
 export default function Home() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [reviews, setReviews] = useState([])
-  const [lessons, setLessons] = useState([])
   const [reviewsLoading, setReviewsLoading] = useState(true)
-  const [lessonsLoading, setLessonsLoading] = useState(true)
   const [reviewsError, setReviewsError] = useState(false)
-  const [lessonsError, setLessonsError] = useState(false)
-  const [blocks, setBlocks] = useState([])
-  const [heroLoading, setHeroLoading] = useState(true)
-  const [heroError, setHeroError] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -43,115 +46,38 @@ export default function Home() {
     }
   }, [])
 
-  useEffect(() => {
-    let cancelled = false
-    setLessonsLoading(true)
-    setLessonsError(false)
-    setLessons([])
-
-    api
-      .get('/api/lesson_info/')
-      .then((res) => {
-        if (cancelled) return
-        const list = asList(res.data)
-        if (!list) {
-          setLessonsError(true)
-          return
-        }
-        setLessons(list)
-      })
-      .catch(() => {
-        if (!cancelled) setLessonsError(true)
-      })
-      .finally(() => {
-        if (!cancelled) setLessonsLoading(false)
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [i18n.language])
-
-  useEffect(() => {
-    let cancelled = false
-    setHeroLoading(true)
-    setHeroError(false)
-    setBlocks([])
-
-    api
-      .get('/api/ui-blocks/')
-      .then((res) => {
-        if (cancelled) return
-        const list = asList(res.data)
-        if (!list) {
-          setHeroError(true)
-          return
-        }
-        setBlocks(list)
-      })
-      .catch(() => {
-        if (!cancelled) setHeroError(true)
-      })
-      .finally(() => {
-        if (!cancelled) setHeroLoading(false)
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [i18n.language])
-
-  const hero = findBlock(blocks, 'hero')
-  const heroTitle = blockText(hero?.payload?.title, i18n.language)
-  const heroText = blockText(hero?.payload?.text, i18n.language)
-
   return (
-    <main className="page-shell">
-      <h1 className="mb-8 text-2xl font-bold text-brand">{t('nav.home')}</h1>
-      <section className="mb-8 space-y-3">
-        <h2 className="text-lg font-semibold text-brand-ink">{t('home.hero')}</h2>
-        {heroLoading && <p className="text-text-muted">{t('common.loading')}</p>}
-        {heroError && <p className="text-error">{t('common.error')}</p>}
-        {!heroLoading && !heroError && !heroTitle && !heroText && <p className="text-text-muted">{t('common.empty')}</p>}
-        {heroTitle && <p className="text-2xl font-bold text-brand">{heroTitle}</p>}
-        {heroText && <p className="max-w-2xl text-text-muted">{heroText}</p>}
+    <main className="home-page">
+      <section className="home-hero" aria-labelledby="home-hero-title">
+        <div className="home-hero__shell">
+          <div className="home-hero__copy">
+            <p className="home-hero__kicker">{t('home.heroKicker')}</p>
+            <h1 id="home-hero-title" className="home-hero__title">
+              {t('home.heroTitle')}
+            </h1>
+            <p className="home-hero__text">{t('home.heroText')}</p>
+            <Link className="home-hero__cta" to="/contacts">
+              {t('home.heroCta')}
+            </Link>
+          </div>
+          <div className="home-hero__media">
+            <HeroMedia />
+          </div>
+        </div>
       </section>
-      <section className="mb-8 space-y-3">
-        <h2 className="text-lg font-semibold text-brand-ink">{t('home.reviews')}</h2>
-        {reviewsLoading && <p className="text-text-muted">{t('common.loading')}</p>}
-        {reviewsError && <p className="text-error">{t('common.error')}</p>}
-        {!reviewsLoading && !reviewsError && reviews.length === 0 && <p className="text-text-muted">{t('common.empty')}</p>}
-        {!reviewsLoading && !reviewsError && reviews.length > 0 && (
-          <ul className="list-disc space-y-4 pl-5">
-            {reviews.map((review) => (
-              <li key={review.id} className="animate-rise-in">
-                <strong className="text-text">{review.full_name}</strong>{' '}
-                <span className="text-text-muted">({review.rating}/5)</span>
-                <p className="mt-1 text-text-muted">{review.text}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-      <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-brand-ink">{t('home.lessons')}</h2>
-        {lessonsLoading && <p className="text-text-muted">{t('common.loading')}</p>}
-        {lessonsError && <p className="text-error">{t('common.error')}</p>}
-        {!lessonsLoading && !lessonsError && lessons.length === 0 && <p className="text-text-muted">{t('common.empty')}</p>}
-        {!lessonsLoading && !lessonsError && lessons.length > 0 && (
-          <ul className="list-disc space-y-3 pl-5">
-            {lessons.map((lesson) => {
-              const title = lessonTitle(lesson) || t('home.untitled')
-              const content = lessonContent(lesson)
-              return (
-                <li key={lesson.id} className="text-text">
-                  {title}
-                  {content ? <p className="mt-1 text-sm text-text-muted">{content}</p> : null}
-                </li>
-              )
-            })}
-          </ul>
-        )}
+
+      <HomeLegacy />
+      <HomePhilosophy />
+      <PopularCourses />
+      <WhyGeko />
+
+      <section className="home-section home-shell home-success">
+        <Reviews
+          reviews={reviews}
+          loading={reviewsLoading}
+          error={reviewsError}
+          variant="success"
+        />
       </section>
     </main>
   )

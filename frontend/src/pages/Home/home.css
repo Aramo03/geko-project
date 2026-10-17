@@ -1,0 +1,242 @@
+.home-page {
+  background: var(--color-canvas);
+  color: var(--color-brand-ink);
+}
+
+.home-shell {
+  width: min(100%, var(--container-page));
+  margin: 0 auto;
+  padding: var(--spacing-section) 1rem 2.5rem;
+}
+
+.home-section-kicker {
+  margin: 0 0 0.5rem;
+  color: var(--color-accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.home-section-kicker--center {
+  text-align: center;
+}
+
+.home-section-title {
+  margin: 0 0 1rem;
+  color: var(--color-brand);
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.home-section-title--center {
+  text-align: center;
+}
+
+.home-success {
+  padding-bottom: 3.5rem;
+}
+
+.home-hero {
+  background: linear-gradient(180deg, #fff 0%, var(--color-canvas) 100%);
+  padding: 2.5rem 1rem 2rem;
+}
+
+.home-hero__shell {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  width: min(100%, var(--container-page));
+  margin: 0 auto;
+}
+
+@media (min-width: 900px) {
+  .home-hero__shell {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 2.5rem;
+  }
+}
+
+.home-hero__kicker {
+  margin: 0 0 0.5rem;
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.home-hero__title {
+  margin: 0 0 0.75rem;
+  color: var(--color-brand);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.home-hero__text {
+  margin: 0 0 1.5rem;
+  max-width: 32rem;
+  color: var(--color-copy-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.home-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.7rem;
+  padding: 0 1.35rem;
+  border-radius: 6px;
+  background: var(--color-brand);
+  color: #fff;
+  font-size: 0.78rem;
+}
+
+.home-hero__text {
+  margin: 0 0 1.5rem;
+  max-width: 32rem;
+  color: var(--color-copy-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.home-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.7rem;
+  padding: 0 1.35rem;
+  border-radius: 6px;
+  background: var(--color-brand);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.home-hero__cta:hover {
+  background: var(--color-brand-hover);
+}
+
+.home-hero__media {
+  width: 100%;
+}
+
+.home-section + .home-section {
+  border-top: 1px solid rgba(11, 57, 40, 0.08);
+}
+
+.home-section__title {
+  margin: 0 0 1rem;
+  color: var(--color-brand);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.home-hero__cta:hover {
+  background: var(--color-brand-hover);
+}
+
+.home-hero__media {
+  width: 100%;
+}
+
+.home-section + .home-section {
+  border-top: 1px solid rgba(11, 57, 40, 0.08);
+}
+
+.home-section__title {
+  margin: 0 0 1rem;
+  color: var(--color-brand);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.home-reviews,
+.home-lessons {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-review-card,
+.home-lesson-card {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-brand-soft);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.home-review-rating {
+  margin-left: 0.35rem;
+  color: var(--color-copy-muted);
+  font-size: 0.85rem;
+}
+
+.review-text,
+.lesson-content {
+  margin: 0.5rem 0 0;
+  color: var(--color-copy-muted);
+  line-height: 1.6;
+}
+
+.home-lesson-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-brand-ink);
+}
+
+.error {
+  color: #c24141;
+}
+
+.home-reviews,
+.home-lessons {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-review-card,
+.home-lesson-card {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-brand-soft);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.home-review-rating {
+  margin-left: 0.35rem;
+  color: var(--color-copy-muted);
+  font-size: 0.85rem;
+}
+
+.review-text,
+.lesson-content {
+  margin: 0.5rem 0 0;
+  color: var(--color-copy-muted);
+  line-height: 1.6;
+}
+
+.home-lesson-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-brand-ink);
+}
+
+.error {
+  color: #c24141;
+}

@@ -1,13 +1,21 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { FaEnvelope, FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa'
 import { api } from '../../api/client.js'
-import { categoryOptions, contactPayload } from './contacts.js'
-
-const fieldClass = 'form-input'
+import { useUiBlocks } from '../../lib/uiBlocks.jsx'
+import {
+  EMAIL_PATTERN,
+  categoryOptions,
+  contactDetails,
+  contactPayload,
+  telHref,
+} from './contacts.js'
+import './contacts.css'
 
 export default function Contacts() {
   const { t, i18n } = useTranslation()
+  const { blocks } = useUiBlocks()
   const [categories, setCategories] = useState([])
   const [status, setStatus] = useState(null)
   const {
@@ -16,6 +24,8 @@ export default function Contacts() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm()
+
+  const details = contactDetails(blocks, t('contacts.addressLine'))
 
   useEffect(() => {
     let active = true
@@ -44,57 +54,155 @@ export default function Contacts() {
   }
 
   return (
-    <main className="page-shell max-w-3xl">
-      <h1 className="mb-6 text-2xl font-bold text-brand">{t('contacts.title')}</h1>
-      <form className="grid max-w-xl gap-4" onSubmit={handleSubmit(onSubmit)}>
-        <label className="grid gap-1.5 text-sm font-medium text-text">
-          {t('contacts.fullName')}
-          <input type="text" className={fieldClass} {...register('full_name', { required: true })} />
-          {errors.full_name && <span className="text-sm text-error">{t('contacts.required')}</span>}
-        </label>
-        <label className="grid gap-1.5 text-sm font-medium text-text">
-          {t('contacts.email')}
-          <input type="email" className={fieldClass} {...register('email', { required: true })} />
-          {errors.email && <span className="text-sm text-error">{t('contacts.required')}</span>}
-        </label>
-        <label className="grid gap-1.5 text-sm font-medium text-text">
-          {t('contacts.whatsapp')}
-          <input type="text" className={fieldClass} {...register('whatsapp')} />
-        </label>
-        <label className="grid gap-1.5 text-sm font-medium text-text">
-          {t('contacts.country')}
-          <input type="text" className={fieldClass} {...register('country')} />
-        </label>
-        <label className="grid gap-1.5 text-sm font-medium text-text">
-          {t('contacts.category')}
-          <select className={fieldClass} {...register('category')}>
-            <option value="">{t('contacts.selectCategory')}</option>
-            {categories.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="grid gap-1.5 text-sm font-medium text-text">
-          {t('contacts.message')}
-          <textarea
-            className={`${fieldClass} min-h-[150px] resize-y`}
-            {...register('message', { required: true })}
-            rows={4}
-          />
-          {errors.message && <span className="text-sm text-error">{t('contacts.required')}</span>}
-        </label>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="about-hover-lift-xs w-fit cursor-pointer rounded-md border border-brand bg-brand px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-dark disabled:opacity-60"
-        >
-          {t('contacts.send')}
-        </button>
-      </form>
-      {status === 'success' && <p className="mt-4 text-success">{t('contacts.success')}</p>}
-      {status === 'error' && <p className="mt-4 text-error">{t('contacts.error')}</p>}
+    <main className="contacts-page">
+      <div className="contacts-shell">
+        <header className="contacts-intro">
+          <p className="contacts-kicker">{t('contacts.kicker')}</p>
+          <h1>{t('contacts.title')}</h1>
+          <p className="contacts-lead">{t('contacts.lead')}</p>
+        </header>
+
+        <div className="contacts-layout">
+          <aside className="contacts-aside">
+            {details.phone ? (
+              <article className="contacts-card">
+                <span className="contacts-card-icon" aria-hidden="true">
+                  <FaPhoneAlt size={13} />
+                </span>
+                <div>
+                  <h2>{t('contacts.phone')}</h2>
+                  <a href={telHref(details.phone)}>{details.phone}</a>
+                </div>
+              </article>
+            ) : null}
+            {details.email ? (
+              <article className="contacts-card">
+                <span className="contacts-card-icon" aria-hidden="true">
+                  <FaEnvelope size={14} />
+                </span>
+                <div>
+                  <h2>{t('contacts.email')}</h2>
+                  <a href={`mailto:${details.email}`}>{details.email}</a>
+                </div>
+              </article>
+            ) : null}
+            {details.address ? (
+              <article className="contacts-card">
+                <span className="contacts-card-icon" aria-hidden="true">
+                  <FaMapMarkerAlt size={14} />
+                </span>
+                <div>
+                  <h2>{t('contacts.address')}</h2>
+                  <p>{details.address}</p>
+                  {details.map ? (
+                    <a
+                      className="contacts-map"
+                      href={details.map}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t('contacts.openMap')}
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            ) : null}
+          </aside>
+
+          <form className="contact-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+            <h2 className="contact-form-title">{t('contacts.formTitle')}</h2>
+            <div className="contact-form-grid">
+              <label className="contact-field">
+                <span>
+                  {t('contacts.fullName')}{' '}
+                  <span className="contact-required" aria-hidden="true">*</span>
+                </span>
+                <input
+                  type="text"
+                  autoComplete="name"
+                  aria-invalid={errors.full_name ? 'true' : 'false'}
+                  {...register('full_name', { required: true })}
+                />
+                {errors.full_name ? (
+                  <span className="contact-error">{t('contacts.required')}</span>
+                ) : null}
+              </label>
+
+              <label className="contact-field">
+                <span>
+                  {t('contacts.email')}{' '}
+                  <span className="contact-required" aria-hidden="true">*</span>
+                </span>
+                <input
+                  type="email"
+                  autoComplete="email"
+                  aria-invalid={errors.email ? 'true' : 'false'}
+                  {...register('email', { required: true, pattern: EMAIL_PATTERN })}
+                />
+                {errors.email ? (
+                  <span className="contact-error">
+                    {errors.email.type === 'pattern'
+                      ? t('contacts.invalidEmail')
+                      : t('contacts.required')}
+                  </span>
+                ) : null}
+              </label>
+
+              <label className="contact-field">
+                <span>{t('contacts.whatsapp')}</span>
+                <input type="tel" autoComplete="tel" {...register('whatsapp')} />
+              </label>
+
+              <label className="contact-field">
+                <span>{t('contacts.country')}</span>
+                <input type="text" autoComplete="country-name" {...register('country')} />
+              </label>
+
+              <label className="contact-field contact-field-wide">
+                <span>{t('contacts.category')}</span>
+                <select {...register('category')}>
+                  <option value="">{t('contacts.selectCategory')}</option>
+                  {categories.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="contact-field contact-field-wide">
+                <span>
+                  {t('contacts.message')}{' '}
+                  <span className="contact-required" aria-hidden="true">*</span>
+                </span>
+                <textarea
+                  rows={5}
+                  aria-invalid={errors.message ? 'true' : 'false'}
+                  {...register('message', { required: true })}
+                />
+                {errors.message ? (
+                  <span className="contact-error">{t('contacts.required')}</span>
+                ) : null}
+              </label>
+            </div>
+
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? t('contacts.sending') : t('contacts.send')}
+            </button>
+
+            {status === 'success' ? (
+              <p className="contact-status contact-status-success" role="status">
+                {t('contacts.success')}
+              </p>
+            ) : null}
+            {status === 'error' ? (
+              <p className="contact-status contact-status-error" role="alert">
+                {t('contacts.error')}
+              </p>
+            ) : null}
+          </form>
+        </div>
+      </div>
     </main>
   )
 }

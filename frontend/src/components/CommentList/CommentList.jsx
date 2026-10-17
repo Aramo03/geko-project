@@ -1,9 +1,19 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
-import { asCommentList, getCommentParams } from './commentList.js'
+import {
+  asCommentList,
+  commentInitial,
+  formatCommentDate,
+  getCommentParams,
+} from './commentList.js'
+import './commentList.css'
 
-export default function CommentList({ category, popularCourse, refreshKey = 0 }) {
+export default function CommentList({
+  category,
+  popularCourse,
+  refreshKey = 0,
+}) {
   const { t, i18n } = useTranslation()
   const [comments, setComments] = useState([])
   const [loading, setLoading] = useState(true)
@@ -11,21 +21,21 @@ export default function CommentList({ category, popularCourse, refreshKey = 0 })
 
   useEffect(() => {
     const params = getCommentParams({ category, popularCourse })
+    let cancelled = false
+    setLoading(true)
+    setError(false)
+    setComments([])
+
     if (!params) {
-      setComments([])
       setLoading(false)
       setError(true)
       return undefined
     }
 
-    let active = true
-    setLoading(true)
-    setError(false)
-
     api
       .get('/api/comments/', { params })
       .then((response) => {
-        if (!active) return
+        if (cancelled) return
         const list = asCommentList(response.data)
         if (!list) {
           setError(true)
@@ -34,35 +44,49 @@ export default function CommentList({ category, popularCourse, refreshKey = 0 })
         setComments(list)
       })
       .catch(() => {
-        if (active) setError(true)
+        if (!cancelled) setError(true)
       })
       .finally(() => {
-        if (active) setLoading(false)
+        if (!cancelled) setLoading(false)
       })
 
     return () => {
-      active = false
+      cancelled = true
     }
   }, [category, popularCourse, refreshKey, i18n.language])
 
   return (
-    <section className="flex flex-col gap-4">
-      <h2 className="text-xl font-bold text-brand">{t('comments.title')}</h2>
-      {loading && <p className="text-text-muted">{t('common.loading')}</p>}
-      {error && <p className="text-error">{t('common.error')}</p>}
-      {!loading && !error && comments.length === 0 && <p className="text-text-muted">{t('comments.empty')}</p>}
-      {!loading &&
-        !error &&
-        comments.map((comment) => (
-          <article
-            key={comment.id}
-            className="rounded-[10px] border border-border bg-surface p-4 animate-rise-in"
-          >
-            <h3 className="m-0 mb-2 text-base font-semibold text-text">{comment.full_name}</h3>
-            <p className="m-0 mb-2 text-text-muted">{comment.text}</p>
-            <small className="text-copy-muted">{new Date(comment.created_at).toLocaleDateString()}</small>
-          </article>
-        ))}
+    <section className="comment-list">
+      <h2 className="comment-list-title">{t('comments.title')}</h2>
+
+      {loading ? <p className="comment-list-state">{t('common.loading')}</p> : null}
+      {!loading && error ? (
+        <p className="comment-list-state comment-list-state-error">{t('common.error')}</p>
+      ) : null}
+      {!loading && !error && comments.length === 0 ? (
+        <p className="comment-list-state">{t('comments.empty')}</p>
+      ) : null}
+      {!loading && !error && comments.length > 0 ? (
+        <ul className="comment-list-items">
+          {comments.map((comment) => (
+            <li key={comment.id} className="comment-card">
+              <div className="comment-card-head">
+                <span className="comment-avatar" aria-hidden="true">
+                  {commentInitial(comment.full_name)}
+                </span>
+                <div className="comment-card-meta">
+                  <h3 className="comment-card-name">{comment.full_name}</h3>
+                  <small className="comment-card-date">
+                    {formatCommentDate(comment.created_at, i18n.language)}
+                  </small>
+                </div>
+              </div>
+              <p className="comment-card-text">{comment.text}</p>
+              <div className="comment-card-accent" aria-hidden="true" />
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </section>
   )
 }

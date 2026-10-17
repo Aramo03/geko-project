@@ -2,9 +2,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
-import { getCommentPayload } from './commentForm.js'
-
-const fieldClass = 'form-input'
+import { EMAIL_PATTERN, getCommentPayload } from './commentForm.js'
+import './commentForm.css'
 
 export default function CommentForm({ category, popularCourse, onCreated }) {
   const { t } = useTranslation()
@@ -23,6 +22,7 @@ export default function CommentForm({ category, popularCourse, onCreated }) {
       setStatus('error')
       return
     }
+
     try {
       await api.post('/api/comments/', payload)
       reset()
@@ -34,39 +34,80 @@ export default function CommentForm({ category, popularCourse, onCreated }) {
   }
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <label className="grid gap-1.5 text-sm font-medium text-text">
-        {t('comments.fullName')}
-        <input type="text" className={fieldClass} {...register('full_name', { required: true })} />
-        {errors.full_name && <span className="text-sm text-error">{t('comments.required')}</span>}
-      </label>
-      <label className="grid gap-1.5 text-sm font-medium text-text">
-        {t('comments.email')}
-        <input type="email" className={fieldClass} {...register('email', { required: true })} />
-        {errors.email && <span className="text-sm text-error">{t('comments.required')}</span>}
-      </label>
-      <label className="grid gap-1.5 text-sm font-medium text-text">
-        {t('comments.whatsapp')}
-        <input type="text" className={fieldClass} {...register('whatsapp')} />
-      </label>
-      <label className="grid gap-1.5 text-sm font-medium text-text">
-        {t('comments.text')}
-        <textarea
-          className={`${fieldClass} min-h-[120px] resize-y`}
-          {...register('text', { required: true })}
-          rows={4}
-        />
-        {errors.text && <span className="text-sm text-error">{t('comments.required')}</span>}
-      </label>
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="about-hover-lift-xs w-fit cursor-pointer rounded-md border border-brand bg-brand px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-dark disabled:opacity-60"
-      >
-        {t('comments.send')}
+    <form className="contact-form comment-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <h2 className="contact-form-title">{t('comments.formTitle')}</h2>
+      <p className="comment-form-lead">{t('comments.formLead')}</p>
+
+      <div className="contact-form-grid">
+        <label className="contact-field">
+          <span>
+            {t('comments.fullName')}{' '}
+            <span className="contact-required" aria-hidden="true">*</span>
+          </span>
+          <input
+            type="text"
+            autoComplete="name"
+            aria-invalid={errors.full_name ? 'true' : 'false'}
+            {...register('full_name', { required: true })}
+          />
+          {errors.full_name ? (
+            <span className="contact-error">{t('comments.required')}</span>
+          ) : null}
+        </label>
+
+        <label className="contact-field">
+          <span>
+            {t('comments.email')}{' '}
+            <span className="contact-required" aria-hidden="true">*</span>
+          </span>
+          <input
+            type="email"
+            autoComplete="email"
+            aria-invalid={errors.email ? 'true' : 'false'}
+            {...register('email', { required: true, pattern: EMAIL_PATTERN })}
+          />
+          {errors.email ? (
+            <span className="contact-error">
+              {errors.email.type === 'pattern'
+                ? t('comments.invalidEmail')
+                : t('comments.required')}
+            </span>
+          ) : null}
+        </label>
+
+        <label className="contact-field">
+          <span>{t('comments.whatsapp')}</span>
+          <input type="tel" autoComplete="tel" {...register('whatsapp')} />
+        </label>
+
+        <label className="contact-field contact-field-wide">
+          <span>
+            {t('comments.text')}{' '}
+            <span className="contact-required" aria-hidden="true">*</span>
+          </span>
+          <textarea
+            rows={5}
+            aria-invalid={errors.text ? 'true' : 'false'}
+            {...register('text', { required: true })}
+          />
+          {errors.text ? <span className="contact-error">{t('comments.required')}</span> : null}
+        </label>
+      </div>
+
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? t('comments.sending') : t('comments.send')}
       </button>
-      {status === 'success' && <p className="text-success">{t('comments.success')}</p>}
-      {status === 'error' && <p className="text-error">{t('comments.error')}</p>}
+
+      {status === 'success' ? (
+        <p className="contact-status contact-status-success" role="status">
+          {t('comments.success')}
+        </p>
+      ) : null}
+      {status === 'error' ? (
+        <p className="contact-status contact-status-error" role="alert">
+          {t('comments.error')}
+        </p>
+      ) : null}
     </form>
   )
 }

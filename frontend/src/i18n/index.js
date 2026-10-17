@@ -11,9 +11,16 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
     en: { translation: en },
     ru: { translation: ru }
   },
+  lng: 'en',
   fallbackLng: 'en',
   supportedLngs: ['am', 'en', 'ru'],
+  nonExplicitSupportedLngs: true,
   load: 'languageOnly',
+  detection: {
+    order: ['localStorage'],
+    caches: ['localStorage'],
+    convertDetectedLanguage: (lng) => lng.split('-')[0],
+  },
   interpolation: { escapeValue: false },
 })
 

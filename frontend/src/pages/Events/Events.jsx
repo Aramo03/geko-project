@@ -1,63 +1,123 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { api, pickTranslation } from '../../api/client.js'
-
-const TABS = ['upcoming', 'happening', 'completed']
+import { api } from '../../api/client.js'
+import EventCard from '../../components/EventCard/EventCard.jsx'
+import EventDetails from '../../components/EventDetails/EventDetails.jsx'
+import {
+  DEFAULT_TAB,
+  TABS,
+  emptyEventsByStatus,
+  fetchEventsByStatus,
+  isEventsTab,
+} from './events.js'
+import './events.css'
 
 export default function Events() {
-  const { t } = useTranslation()
-  const { tab } = useParams()
-  const activeTab = TABS.includes(tab) ? tab : 'upcoming'
-  const [events, setEvents] = useState([])
+  const { t, i18n } = useTranslation()
+  const { tab, id } = useParams()
+  const [events, setEvents] = useState(emptyEventsByStatus())
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
   useEffect(() => {
+    if (id) return undefined
+    let cancelled = false
     setLoading(true)
     setError(false)
-    api
-      .get('/api/events/', { params: { status: activeTab } })
-      .then((res) => setEvents(res.data))
-      .catch(() => setError(true))
-      .finally(() => setLoading(false))
-  }, [activeTab])
+    fetchEventsByStatus(api)
+      .then((grouped) => {
+        if (cancelled) return
+        if (!grouped) {
+          setError(true)
+          return
+        }
+        setEvents(grouped)
+      })
+      .catch(() => {
+        if (!cancelled) setError(true)
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [i18n.language, id])
+
+  if (!isEventsTab(tab)) {
+    return <Navigate to={`/events/${DEFAULT_TAB}`} replace />
+  }
+
+  if (id) return <EventDetails />
+
+  const list = events[tab] || []
+  const ready = !loading && !error
 
   return (
-    <main className="page-shell">
-      <h1 className="mb-6 text-2xl font-bold text-brand">{t('events.title')}</h1>
-      <nav className="mb-6 flex flex-wrap gap-3">
-        {TABS.map((status) => (
-          <Link
-            key={status}
-            to={`/events/${status}`}
-            className={`rounded-md px-3 py-1.5 text-sm font-medium no-underline transition-colors ${
-              status === activeTab
-                ? 'bg-brand text-white'
-                : 'border border-border bg-surface text-text hover:bg-surface-soft'
-            }`}
-          >
-            {t(`events.${status}`)}
-          </Link>
-        ))}
-      </nav>
-      {loading && <p className="text-text-muted">{t('common.loading')}</p>}
-      {error && <p className="text-error">{t('common.error')}</p>}
-      {!loading && !error && events.length === 0 && <p className="text-text-muted">{t('common.empty')}</p>}
-      <ul className="list-none space-y-4 p-0">
-        {events.map((event) => {
-          const tr = pickTranslation(event.translations)
-          return (
-            <li
-              key={event.id}
-              className="rounded-[10px] border border-border bg-surface p-4 animate-rise-in"
-            >
-              <strong className="text-text">{tr?.title || `Event ${event.id}`}</strong>
-              {tr?.description && <p className="mt-2 text-text-muted">{tr.description}</p>}
-            </li>
-          )
-        })}
-      </ul>
+    <main className="events-page">
+      <section className="events-hero">
+        <nav className="events-hero__crumbs" aria-label="breadcrumb">
+          <Link to="/">{t('nav.home')}</Link>
+          <span aria-hidden="true">/</span>
+          <span>{t(`events.${tab}`)}</span>
+        </nav>
+        <p className="events-kicker">{t('events.kicker')}</p>
+        <h1 className="events-hero__title">{t(`events.hero.${tab}`)}</h1>
+      </section>
+
+      <section className="events-section">
+        <div className="events-shell">
+          <nav className="events-tabs" aria-label={t('events.title')}>
+            {TABS.map((status) => {
+              const label = t(`events.${status}`)
+              const isActive = status === tab
+              const isEmpty = ready && events[status].length === 0
+              const className = [
+                'events-tab',
+                isActive ? 'events-tab--active' : '',
+                isEmpty ? 'events-tab--disabled' : '',
+              ]
+                .filter(Boolean)
+                .join(' ')
+
+              if (!ready || isEmpty) {
+                return (
+                  <span
+                    key={status}
+                    className={className}
+                    aria-current={isActive ? 'page' : undefined}
+                    aria-disabled={!ready || isEmpty ? 'true' : undefined}
+                  >
+                    {label}
+                  </span>
+                )
+              }
+
+              return (
+                <Link key={status} to={`/events/${status}`} className={className}>
+                  {label}
+                </Link>
+              )
+            })}
+          </nav>
+
+          {loading ? <p className="events-state">{t('common.loading')}</p> : null}
+          {error ? <p className="events-state events-state--error">{t('common.error')}</p> : null}
+          {ready && list.length === 0 ? <p className="events-state">{t('common.empty')}</p> : null}
+
+          {ready && list.length > 0 ? (
+            <>
+              <h2 className="events-heading">{t(`events.section.${tab}`)}</h2>
+              <div className="events-grid">
+                {list.map((event) => (
+                  <EventCard key={event.id} event={event} />
+                ))}
+              </div>
+            </>
+          ) : null}
+        </div>
+      </section>
     </main>
   )
 }

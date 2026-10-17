@@ -61,7 +61,10 @@
     "memberImageAlt": "Photo of {{name}}"
   },
   "contacts": {
+    "kicker": "GEKO Education",
     "title": "Contact us",
+    "lead": "Write to us and we will get back to you.",
+    "formTitle": "Send a message",
     "fullName": "Full name",
     "email": "Email",
     "phone": "Phone",
@@ -70,34 +73,116 @@
     "category": "Category",
     "selectCategory": "Select category",
     "message": "Message",
+    "address": "Address",
+    "addressLine": "Yerevan, Armenia — GEKO Education campus",
+    "openMap": "Open map",
     "send": "Send",
+    "sending": "Sending…",
     "required": "Required field",
+    "invalidEmail": "Enter a valid email",
     "success": "Your message has been sent successfully",
     "error": "Something went wrong"
   },
   "comments": {
     "title": "Comments",
+    "formTitle": "Leave a comment",
+    "formLead": "Guest comments are published after approval.",
     "fullName": "Full name",
     "email": "Email",
     "whatsapp": "WhatsApp",
     "text": "Comment",
     "send": "Send",
+    "sending": "Sending…",
     "required": "Required field",
+    "invalidEmail": "Enter a valid email",
     "empty": "No comments yet",
-    "success": "Comment added successfully",
-    "error": "Failed to add comment"
+    "success": "Your comment was sent and is waiting for approval.",
+    "error": "Failed to send the comment"
   },
   "events": {
+    "kicker": "GEKO Education",
     "title": "Events",
     "upcoming": "Upcoming",
     "happening": "Happening",
-    "completed": "Completed"
+    "completed": "Completed",
+    "back": "Back to events",
+    "date": "Date",
+    "description": "About the event",
+    "signUp": "Sign up",
+    "untitled": "Untitled event",
+    "more": "Read more",
+    "prev": "Previous photo",
+    "next": "Next photo",
+    "hero": {
+      "upcoming": "Upcoming Events at GEKO",
+      "happening": "Events Happening Now at GEKO",
+      "completed": "Past Events at GEKO"
+    },
+    "section": {
+      "upcoming": "Upcoming events",
+      "happening": "Happening now",
+      "completed": "Past events"
+    }
   },
   "home": {
     "reviews": "Reviews",
     "lessons": "Lesson info",
     "untitled": "Untitled",
-    "hero": "Hero"
+    "hero": "Hero",
+    "heroKicker": "GEKO Education",
+    "heroTitle": "GEKO",
+    "heroText": "Practical pathways for modern technical sciences and analytics.",
+    "heroCta": "Enroll now",
+    "legacy": {
+      "kicker": "Our Legacy",
+      "title": "About GEKO Educational Center",
+      "lead": "GEKO empowers youngsters through a highly interactive, research-backed learning track model. Designed by certified global educators, our physical and virtual spaces are optimized for self-confidence, cognitive maturity, and computational focus.",
+      "feature1": "Experienced Teachers & Mentor Supervision",
+      "feature2": "Modern Applied Technology Infrastructure",
+      "feature3": "Individual Logical & Creative Milestones",
+      "feature4": "International Exchange & Certificate Programs",
+      "cta": "Learn More About Us"
+    },
+    "philosophy": {
+      "kicker": "Our Philosophy",
+      "title": "Empowerment Curriculum",
+      "lead": "Explore our most popular educational programs customized for logical, analytical, and digital maturity.",
+      "pill1": "Language Arts",
+      "pill2": "Computer Science",
+      "pill3": "Exact Sciences",
+      "pill4": "Applied Tech"
+    },
+    "popularCourses": {
+      "kicker": "Explore our top curriculum",
+      "title": "Popular Courses",
+      "lead": "Hands-on tracks from markup to deployment and AI literacy — each course ships with mentor review and a clear certificate path.",
+      "learnMore": "Learn More",
+      "viewAll": "View all courses",
+      "meta": {
+        "full-stack-program": {
+          "students": "210 Students",
+          "level": "HTML · CSS · JS · React · Python · Django · Deploy · AI"
+        }
+      }
+    },
+    "why": {
+      "kicker": "Why GEKO",
+      "title": "Unlock Full Potential",
+      "lead": "We provide strategic resources to make education exciting, lasting, and deeply constructive.",
+      "item1Title": "Qualified Teachers",
+      "item1Text": "Taught exclusively by globally certified educators with specialization in cognitive logic and child development metrics.",
+      "item2Title": "Interactive Learning",
+      "item2Text": "Flipped-classroom models, live robotic challenges, and collaborative digital labs that eliminate rote memorization.",
+      "item3Title": "Modern Technology",
+      "item3Text": "Unrestricted access to microchip assembly kits, multi-touch screens, 3D printing cores, and high-performance coding terminals.",
+      "item4Title": "Flexible Programs",
+      "item4Text": "Weekend classes, customized after-school models, and synchronous remote systems designed for busy family schedules."
+    },
+    "successStories": {
+      "kicker": "Success Stories",
+      "title": "What Parents Say About Us",
+      "lead": "Join thousands of inspired families who have observed tangible logic and communication progress."
+    }
   },
   "categories": {
     "comments": "Comments",
@@ -107,14 +192,28 @@
     "comments": "Comments",
     "untitled": "Untitled"
   },
+  "header": {
+    "followUs": "Follow us:",
+    "enrollNow": "Enroll Now",
+    "selectLanguage": "Select language",
+    "toggleMenu": "Toggle menu",
+    "logoAlt": "GEKO logo"
+  },
   "footer": {
     "navigation": "Navigation",
     "contacts": "Contacts",
-    "map": "Map"
+    "map": "Map",
+    "description": "Providing holistic and practical digital pathways for modern technical sciences and analytics foundations.",
+    "quickLinks": "Quick Links",
+    "contactInfo": "Contact Info",
+    "copyright": "Copyright © 2026 GEKO Education. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms & Conditions"
   },
   "notFound": {
-    "title": "Page not found",
-    "text": "This page does not exist.",
-    "home": "Home"
+    "title": "Oops! Page Not Found",
+    "description": "The page you're looking for seems to have wandered off. Don't worry, let's get you back on track!",
+    "backHome": "Back to Home",
+    "exploreCourses": "Explore Courses"
   }
 }

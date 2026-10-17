@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 
+from apps.main.management.commands.seed_home_demo import seed_home_demo
 from apps.main.models import Language, UIBlock
 
 LANGUAGES = (
@@ -14,6 +15,35 @@ UI_BLOCKS = (
     ("footer", "footer", 2),
     ("contacts_bar", "contacts_bar", 3),
 )
+
+# Factual contact data and URLs only (no UI copy). Translatable strings live in frontend i18n.
+CONTACT_PHONE = "(+374) 98 03 33 94"
+CONTACT_EMAIL = "gekoeducation1@gmail.com"
+MAP_URL = "https://www.google.com/maps/search/?api=1&query=40.189774,44.522213"
+
+DEFAULT_PAYLOADS = {
+    "header": {
+        "logo": "/images/logo.webp",
+        "button_link": "/contacts",
+    },
+    "hero": {},
+    "footer": {
+        "phone": CONTACT_PHONE,
+        "email": CONTACT_EMAIL,
+        "map": MAP_URL,
+        "facebook": "https://www.facebook.com/GekoOnlineEducation/",
+        "instagram": "https://www.instagram.com/geko_education",
+        "linkedin": "https://www.linkedin.com/company/geko-education",
+    },
+    "contacts_bar": {
+        "phone": CONTACT_PHONE,
+        "email": CONTACT_EMAIL,
+    },
+}
+
+
+def is_empty_payload(payload):
+    return payload in (None, {}, [])
 
 
 class Command(BaseCommand):
@@ -31,16 +61,25 @@ class Command(BaseCommand):
                 self.stdout.write(f"Language {code} already exists")
 
         for key, section, order in UI_BLOCKS:
-            _, created = UIBlock.objects.get_or_create(
+            payload = DEFAULT_PAYLOADS[key]
+            block, created = UIBlock.objects.get_or_create(
                 key=key,
                 defaults={
                     "section": section,
-                    "payload": {},
+                    "payload": payload,
                     "order": order,
                     "is_visible": True,
                 },
             )
             if created:
                 self.stdout.write(f"Created UI block {key}")
+                continue
+
+            if is_empty_payload(block.payload):
+                block.payload = payload
+                block.save(update_fields=["payload"])
+                self.stdout.write(f"Filled empty UI block {key}")
             else:
                 self.stdout.write(f"UI block {key} already exists")
+
+        seed_home_demo(self.stdout)
