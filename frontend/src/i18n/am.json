@@ -185,8 +185,23 @@
     }
   },
   "categories": {
+    "kicker": "Կրթական ծրագրեր",
+    "popularTitle": "Հայտնի դասընթացներ",
+    "subtitle": "Ընտրեք ուղղություն՝ տրամաբանություն, վերլուծություն և թվային հմտություններ մենթորի աջակցությամբ։",
+    "learnMore": "Ավելին",
+    "viewAll": "Բոլոր դասընթացները",
+    "studentsFallback": "100+ աշակերտ",
+    "tagDefault": "Դասընթացի կատեգորիա",
+    "coursesInCategory": "Դասընթացներ այս կատեգորիայում",
     "comments": "Մեկնաբանություններ",
-    "untitled": "Անվերնագիր"
+    "untitled": "Անվերնագիր",
+    "meta": {
+      "1": {
+        "tag": "Full stack",
+        "description": "HTML-ից մինչև Django, deployment և AI.",
+        "students": "Բաց գրանցում"
+      }
+    }
   },
   "course": {
     "comments": "Մեկնաբանություններ",

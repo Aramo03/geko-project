@@ -1,0 +1,221 @@
+/* Category routes — layout accents; colors via :root / Tailwind utilities in JSX */
+
+.category-page {
+  min-height: 60vh;
+  background: var(--color-canvas);
+  padding: 3.5rem 1rem 4rem;
+}
+
+.category-page__shell {
+  max-width: var(--container-page);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.category-page__shell--narrow {
+  max-width: 56rem;
+}
+
+.category-page__intro {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.category-page__kicker {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.category-page__title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.category-page__title--left {
+  text-align: left;
+}
+
+.category-page__lead {
+  max-width: 36rem;
+  margin: 0 auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.category-page__state {
+  margin: 2rem 0;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.category-page__state--error {
+  color: var(--color-error);
+}
+
+.category-page__grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .category-page__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .category-page__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.category-page__footer-cta {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+.category-page__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.75rem 2rem;
+  border-radius: 0.75rem;
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color var(--duration-fast) ease,
+    transform var(--duration-fast) var(--ease-smooth);
+}
+
+.category-page__cta:hover {
+  background: var(--color-brand-dark);
+}
+
+.category-page__crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.category-page__crumbs a {
+  color: var(--color-brand);
+  text-decoration: none;
+}
+
+.category-page__crumbs a:hover {
+  color: var(--color-brand-hover);
+}
+
+.category-detail__hero {
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.category-detail__hero-image {
+  width: 100%;
+  max-height: 280px;
+  border-radius: 1rem;
+  object-fit: cover;
+  box-shadow: var(--shadow-elevated);
+}
+
+.category-detail__section-title {
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-brand-ink);
+}
+
+.category-detail__course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.category-detail__course-card {
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.category-detail__course-link {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 1rem;
+  padding: 0.75rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .category-detail__course-link {
+    grid-template-columns: 1fr;
+  }
+}
+
+.category-detail__course-thumb {
+  width: 100%;
+  height: 5.5rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  background: var(--color-surface-soft);
+}
+
+.category-detail__course-thumb--empty {
+  display: block;
+}
+
+.category-detail__course-copy h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.category-detail__course-copy p {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.category-detail__course-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--color-copy-muted);
+}
+
+.category-detail__comments {
+  display: grid;
+  gap: 2rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}

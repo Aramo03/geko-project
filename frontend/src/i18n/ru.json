@@ -185,8 +185,23 @@
     }
   },
   "categories": {
+    "kicker": "Программы развития",
+    "popularTitle": "Популярные курсы",
+    "subtitle": "Выберите направление: логика, аналитика и цифровые навыки с поддержкой менторов.",
+    "learnMore": "Подробнее",
+    "viewAll": "Все курсы",
+    "studentsFallback": "100+ студентов",
+    "tagDefault": "Категория курса",
+    "coursesInCategory": "Курсы в категории",
     "comments": "Комментарии",
-    "untitled": "Без названия"
+    "untitled": "Без названия",
+    "meta": {
+      "1": {
+        "tag": "Full stack",
+        "description": "От HTML и CSS до Django, деплоя и работы с AI.",
+        "students": "Набор открыт"
+      }
+    }
   },
   "course": {
     "comments": "Комментарии",

@@ -185,8 +185,23 @@
     }
   },
   "categories": {
+    "kicker": "Empowerment Curriculum",
+    "popularTitle": "Popular Courses",
+    "subtitle": "Explore our most popular educational programs customized for logical, analytical, and digital maturity.",
+    "learnMore": "Learn more",
+    "viewAll": "View all courses",
+    "studentsFallback": "100+ students",
+    "tagDefault": "Course category",
+    "coursesInCategory": "Courses in this category",
     "comments": "Comments",
-    "untitled": "Untitled"
+    "untitled": "Untitled",
+    "meta": {
+      "1": {
+        "tag": "Full stack",
+        "description": "From HTML and CSS to Django, deployment, and AI-assisted development.",
+        "students": "Open enrollment"
+      }
+    }
   },
   "course": {
     "comments": "Comments",
