@@ -1,13 +1,123 @@
-.about-page { padding: 2rem; }
+/* About — motion, layered backgrounds, and effects not covered by Tailwind utilities */
 
-.about-team {
-  margin-top: 2rem;
+.about-banner-bg {
+  background-image:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-brand-dark) 88%, transparent),
+      color-mix(in srgb, var(--color-brand-dark) 78%, transparent)
+    ),
+    url('/images/mer_masin.webp');
+  background-size: cover;
+  background-position: center 38%;
 }
 
-.about-team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 280px));
-  gap: 1.25rem;
-  margin-top: 1rem;
-  justify-content: start;
+.about-cta-bg {
+  background-image:
+    linear-gradient(
+      110deg,
+      color-mix(in srgb, var(--color-brand-dark) 96%, transparent),
+      color-mix(in srgb, var(--color-brand-hover) 94%, transparent)
+    ),
+    url('/images/mer_masin.webp');
+  background-size: cover;
+  background-position: center 47%;
+  transition: background-position 700ms ease;
+}
+
+.about-cta-bg:hover {
+  background-position: center 43%;
+}
+
+.about-eyebrow-line {
+  position: relative;
+  width: fit-content;
+}
+
+.about-eyebrow-line::after {
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+  left: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  content: '';
+  transform: scaleX(0.35);
+  transform-origin: center;
+  opacity: 0.45;
+  transition:
+    transform 220ms var(--ease-smooth),
+    opacity 220ms ease;
+}
+
+.about-eyebrow-line:hover::after,
+.group:hover .about-eyebrow-line::after {
+  transform: scaleX(1);
+  opacity: 0.8;
+}
+
+.about-hover-icon:hover .about-icon-spin {
+  transform: rotate(-8deg) scale(1.12);
+  background: var(--color-brand);
+  color: var(--color-white);
+}
+
+.about-hover-icon:hover .about-icon-spin svg {
+  transform: rotate(8deg);
+}
+
+.about-icon-spin,
+.about-icon-spin svg {
+  transition:
+    transform var(--duration-normal) var(--ease-smooth),
+    background-color 220ms ease,
+    color 220ms ease;
+}
+
+.about-story-image-hover {
+  transition:
+    transform var(--duration-slow) var(--ease-smooth),
+    box-shadow 350ms ease;
+}
+
+.about-story-image-hover:hover {
+  transform: scale(1.025) rotate(-0.35deg);
+  box-shadow: var(--shadow-elevated);
+}
+
+.about-button-arrow span {
+  transition: transform var(--duration-fast) ease;
+}
+
+.about-button-arrow:hover span {
+  transform: translateX(4px);
+}
+
+.about-stat-strong:hover {
+  transform: scale(1.08);
+  color: var(--color-brand);
+}
+
+.about-stat-strong {
+  transition:
+    transform 220ms ease,
+    color 220ms ease;
+}
+
+@media (hover: none) {
+  .about-story-image-hover:hover,
+  .about-stat-strong:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page *,
+  .about-page *::before,
+  .about-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
