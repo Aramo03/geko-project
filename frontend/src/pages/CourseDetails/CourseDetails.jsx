@@ -1,41 +1,71 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { api, pickTranslation } from '../../api/client.js'
-import './courseDetails.css'
+import { api } from '../../api/client.js'
+import CourseComments from '../../components/CourseComments/CourseComments.jsx'
+import CommentForm from '../../components/CommentForm/CommentForm.jsx'
+import OptimizedImage from '../../components/OptimizedMedia/OptimizedImage.jsx'
+import { courseDescription, courseImage, courseTitle } from './courseDetails.js'
 
 export default function CourseDetails() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { id } = useParams()
   const [course, setCourse] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    if (!id) return
+    let cancelled = false
     setLoading(true)
     setError(false)
-    api
-      .get('/api/popular_courses/')
-      .then((res) => {
-        const found = res.data.find((c) => String(c.id) === String(id))
-        setCourse(found || null)
-      })
-      .catch(() => setError(true))
-      .finally(() => setLoading(false))
-  }, [id])
+    setCourse(null)
 
-  const tr = course ? pickTranslation(course.translations) : null
+    api
+      .get(`/api/popular_courses/${id}/`)
+      .then((res) => {
+        if (cancelled) return
+        if (!res.data || Array.isArray(res.data)) {
+          setError(true)
+          return
+        }
+        setCourse(res.data)
+      })
+      .catch(() => {
+        if (!cancelled) setError(true)
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [id, i18n.language])
+
+  const title = courseTitle(course) || t('course.untitled')
+  const description = courseDescription(course)
+  const image = course ? courseImage(course) : ''
 
   return (
-    <main className="page">
-      {loading && <p>{t('common.loading')}</p>}
-      {error && <p className="error">{t('common.error')}</p>}
-      {!loading && !error && !course && <p>{t('common.empty')}</p>}
-      {course && (
+    <main className="page-shell max-w-3xl">
+      {loading && <p className="text-text-muted">{t('common.loading')}</p>}
+      {error && <p className="text-error">{t('common.error')}</p>}
+      {!loading && !error && course && (
         <>
-          <h1>{tr?.title || `Course ${course.id}`}</h1>
-          {tr?.description && <p>{tr.description}</p>}
+          <h1 className="mb-4 text-2xl font-bold text-brand">{title}</h1>
+          {image ? (
+            <OptimizedImage
+              src={image}
+              alt={title}
+              className="my-4 block max-h-80 w-full rounded-lg object-cover"
+              sizes="(max-width: 768px) 100vw, 48rem"
+            />
+          ) : null}
+          {description ? <p className="whitespace-pre-wrap text-text-muted">{description}</p> : null}
+          <div className="mt-8 space-y-8">
+            <CourseComments courseId={id} />
+            <CommentForm popularCourse={id} />
+          </div>
         </>
       )}
     </main>

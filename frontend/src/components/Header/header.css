@@ -1,6 +1,5 @@
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
+.header-shell a:focus-visible,
+.header-shell button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }

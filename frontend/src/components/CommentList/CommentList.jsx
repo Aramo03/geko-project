@@ -1,30 +1,42 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
-import { asCommentList } from './commentList.js'
+import {
+  asCommentList,
+  commentInitial,
+  formatCommentDate,
+  getCommentParams,
+} from './commentList.js'
 import './commentList.css'
 
-export default function CommentList({ categoryId, popularCourseId }) {
+export default function CommentList({
+  category,
+  popularCourse,
+  refreshKey = 0,
+}) {
   const { t, i18n } = useTranslation()
   const [comments, setComments] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
   useEffect(() => {
+    const params = getCommentParams({ category, popularCourse })
     let cancelled = false
     setLoading(true)
     setError(false)
     setComments([])
 
-    const params = {}
-    if (categoryId) params.category = categoryId
-    if (popularCourseId) params.popular_course = popularCourseId
+    if (!params) {
+      setLoading(false)
+      setError(true)
+      return undefined
+    }
 
     api
       .get('/api/comments/', { params })
-      .then((res) => {
+      .then((response) => {
         if (cancelled) return
-        const list = asCommentList(res.data)
+        const list = asCommentList(response.data)
         if (!list) {
           setError(true)
           return
@@ -41,26 +53,40 @@ export default function CommentList({ categoryId, popularCourseId }) {
     return () => {
       cancelled = true
     }
-  }, [categoryId, popularCourseId, i18n.language])
+  }, [category, popularCourse, refreshKey, i18n.language])
 
   return (
-    <section>
-      <h2 className="mb-4 text-xl font-extrabold text-gray-900">{t('categories.comments')}</h2>
-      {loading && <p className="py-6 text-gray-600">{t('common.loading')}</p>}
-      {error && <p className="py-6 text-red-500">{t('common.error')}</p>}
-      {!loading && !error && comments.length === 0 && (
-        <p className="py-6 text-gray-500">{t('common.empty')}</p>
-      )}
-      {!loading && !error && comments.length > 0 && (
-        <ul className="mb-6 flex flex-col gap-3">
+    <section className="comment-list">
+      <h2 className="comment-list-title">{t('comments.title')}</h2>
+
+      {loading ? <p className="comment-list-state">{t('common.loading')}</p> : null}
+      {!loading && error ? (
+        <p className="comment-list-state comment-list-state-error">{t('common.error')}</p>
+      ) : null}
+      {!loading && !error && comments.length === 0 ? (
+        <p className="comment-list-state">{t('comments.empty')}</p>
+      ) : null}
+      {!loading && !error && comments.length > 0 ? (
+        <ul className="comment-list-items">
           {comments.map((comment) => (
-            <li key={comment.id} className="rounded-xl border border-gray-100 bg-[#f7f9f8] px-4 py-3">
-              <strong className="text-sm text-[#0a5c36]">{comment.full_name}</strong>
-              <p className="mt-1 text-sm text-gray-700">{comment.text}</p>
+            <li key={comment.id} className="comment-card">
+              <div className="comment-card-head">
+                <span className="comment-avatar" aria-hidden="true">
+                  {commentInitial(comment.full_name)}
+                </span>
+                <div className="comment-card-meta">
+                  <h3 className="comment-card-name">{comment.full_name}</h3>
+                  <small className="comment-card-date">
+                    {formatCommentDate(comment.created_at, i18n.language)}
+                  </small>
+                </div>
+              </div>
+              <p className="comment-card-text">{comment.text}</p>
+              <div className="comment-card-accent" aria-hidden="true" />
             </li>
           ))}
         </ul>
-      )}
+      ) : null}
     </section>
   )
 }

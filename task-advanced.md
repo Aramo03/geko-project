@@ -1,10 +1,12 @@
 # Task advanced — карта зон и шаги
 
-Короткое задание: [TASK.md](TASK.md). **Сначала читай волну 4**; волны 3 и 2 — архив внизу.
+Короткое задание: [TASK.md](TASK.md). **Сначала читай волну 5**; волны 4, 3 и 2 — архив ниже.
 
-Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md). Фронт: [docs/frontend.md](docs/frontend.md). Долг полей волны 3 закрывает волна 4 — список в [fix.md](fix.md). Backup UI: [backup/geko-front-main](backup/geko-front-main) — смотри, не копируй папками.
+Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md). Фронт: [docs/frontend.md](docs/frontend.md). Ошибки волны 4: [fix.md](fix.md).
 
-**Волна 4 (сейчас)** — страницы и оболочка как backup, Redux-токен, язык UI = API, поля контакта, комментарии на курсах, Docker `migrate`. **Волна 3 закрыта** (2026-10-04). **Волна 2 закрыта** (2026-09-29).
+**Макет волны 5:** [Figma Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0) — файл `dhh8j2e9rBeYrdPmzKz02I`, холст `node-id=0-1`. Backup [backup/geko-front-main](backup/geko-front-main) — только сверить старое поведение, папки не копировать и пиксели оттуда не снимать.
+
+**Волна 5 (сейчас)** — сверстать экраны по этому Figma и закрыть дыры DoD из [fix.md](fix.md). **Волна 4 закрыта** (2026-10-10). **Волна 3 закрыта** (2026-10-04). **Волна 2 закрыта** (2026-09-29).
 
 ---
 
@@ -18,20 +20,299 @@ Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md)
 | **UI-слоты (бэк)** | JSON-блоки шапки, hero, футера | `UIBlock` + `init_ui` | **2 ✓** |
 | **Back — API** | `/api/…`, `?language=`, JWT, Swagger | serializers, views, urls | **3 ✓** |
 | **Back — admin** | Unfold, inlines, inbox заявок | `admin.py` | **3 ✓** |
-| **Serv** | Docker Compose, Postgres, CI, `.env.example` | корень репо, `.github/` | **4 (сейчас)**, Lead |
-| **Front — shell** | роутер, Header, Footer, Redux, axios | `frontend/src/` | **4 (сейчас)** |
-| **Front — страницы** | Home, About, Courses, Events, Contacts | `frontend/src/pages/` | **4 (сейчас)** |
-| **Translation B (UI)** | подписи кнопок и меню | `frontend/src/i18n/am.json` `en.json` `ru.json` | **4 (сейчас)** |
-| **UI / Design / QA** | токены, адаптив, пустые/ошибки | CSS, Tailwind, чеклисты | **4 (сейчас)** |
+| **Serv** | Docker Compose, Postgres, CI, `.env.example` | корень репо, `.github/` | **4** (migrate — долг Lead на **5**) |
+| **Front — shell** | роутер, Header, Footer, Redux, axios | `frontend/src/` | **4 ✓** каркас, **5** вид |
+| **Front — страницы** | Home, About, Courses, Events, Contacts | `frontend/src/pages/` | **4 ✓** данные, **5** макет |
+| **Translation B (UI)** | подписи кнопок и меню | `frontend/src/i18n/am.json` `en.json` `ru.json` | **4 ✓**, новые строки — **5** |
+| **UI / Design / QA** | токены, адаптив, Figma | CSS, Tailwind, чеклисты | **5 (сейчас)** |
 
 Два разных «перевода»:
 
 1. **Контент** — названия категорий, курсов, событий, роли в команде. Живут в Django (`CategoryTranslation`, `EventTranslation`, …). Это **волна 2**.
-2. **Интерфейс** — «Home», «Контакты», кнопки форм. Живут в JSON i18n. Это **волна 4** (все зоны, ключи добавляет тот, чья страница).
+2. **Интерфейс** — «Home», «Контакты», кнопки форм. Живут в JSON i18n. Ключи волны 4 уже в JSON; новые подписи волны 5 добавляет владелец экрана.
 
 ---
 
-## Кто что занимает: волна 4
+## Кто что занимает: волна 5
+
+| # | Имя | Зона | Слой волны 5 | Ключевые файлы |
+|---|-----|------|--------------|----------------|
+| 1 | Lead | Lead | git, Docker migrate | `docker-compose.yml`, ревью PR |
+| 2 | Daniel | User | медиа hero | `frontend/src/components/HeroMedia/`, слот на Home |
+| 3 | Sv | Language | default `en`, queryset | `i18n/index.js`, `backend/apps/main/views.py` |
+| 4 | Karen | Category | макет категорий | `pages/CourseCategory/`, `CommentList` |
+| 5 | Vach | Courses | макет курса | `pages/CourseDetails/`, `apps/courses/views.py` |
+| 6 | Ashot | Events | вкладки, деталь, макет | `pages/Events/`, карточка события |
+| 7 | Hayk | Content | секции Home | `pages/Home/` — reviews, lesson info |
+| 8 | Suren | Team | макет About | `pages/About/`, `apps/team/views.py` |
+| 9 | Mariam | Leads + Comments | макет форм | `Contacts`, `CommentForm`, `CommentList` |
+| 10 | UI / QA | Shell + QA | токены, Header, Footer, 404 | `Header`, `Footer`, `NotFound`, `init_ui` |
+
+Страницы ждут токены и оболочку UI/QA. Karen и Vach вставляют `CommentList` Mariam, свои `CategoryComments` / `CourseComments` удаляют. Hayk не затирает hero (текст — UI/QA, медиа — Daniel).
+
+---
+
+## Порядок мержа волны 5 (строго)
+
+```
+Sv (язык) → UI/QA (токены, Header, Footer, 404) → Daniel (hero media) → Mariam (формы) → Karen → Vach → Ashot → Hayk → Suren
+```
+
+Почему так: без правила языка списки пустеют. Оболочка и CSS-переменные нужны раньше страниц. Медиа hero встаёт в уже сверстанный блок. Форма комментария — до категорий и курса. События не блокируют Home, но Ashot трогает свой маршрут целиком. Suren последний, чтобы About не столкнулся с Home.
+
+Lead держит таблицу «кто мержит и когда». Никто не пушит в `main`.
+
+---
+
+## Общие шаги (волна 5)
+
+Делай **до** вёрстки своей зоны.
+
+1. Прочитай [TASK.md](TASK.md), свой блок ниже и свои строки в [fix.md](fix.md).
+2. Открой [Figma](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0). Найди кадр своего маршрута на холсте `0-1`. Снимай отступы, шрифт, цвета, состояния hover / loading / empty / error. Если кадра нет — остановись и напиши Lead. Не выдумывай второй макет и не переноси JSX из backup.
+3. Обнови `dev` и создай ветку:
+
+```bash
+git checkout dev
+git pull origin dev
+git checkout -b feat/<имя>-<зона>
+```
+
+4. Данные только с текущего API. Модели, имена `PopularCourse` / `ContactMessage` и поле `Event.date` не меняй.
+5. Новый компонент = **три файла**. Подписи — ключи `am.json` / `en.json` / `ru.json`. Медиа — `frontend/public/` и backup, не Unsplash.
+6. Цвета и шрифт бери из переменных, которые выложит UI/QA (после его мержа). До мержа не хардкодь свою палитру в десяти местах.
+7. Проверь ширину кадра desktop и 375px, если оба есть в файле.
+8. Один PR = одна зона, **base = `dev`**. В описании PR: ссылка на кадр Figma и какие пункты из fix.md закрыты.
+9. **Не мержить** `origin/feat/ui`, `origin/feature/events`.
+
+---
+
+## Волна 5 — активные задания
+
+Спека поведения страниц уже в коде волны 4 и в [docs/frontend.md](docs/frontend.md). Вид — только Figma по ссылке выше.
+
+### 1 — Lead
+
+**Слой:** git + Docker. Чужие экраны не рисуешь.
+
+#### Шаги
+
+1. Таблица в чате: имя, ветка, PR, кадр Figma, когда мержить (порядок выше).
+2. Ревью: один PR = одна зона; нет копипасты backup; нет своих цветов мимо токенов UI/QA; дыры из fix.md этой зоны закрыты в том же PR.
+3. В [docker-compose.yml](docker-compose.yml) у `backend` команда должна мигрировать и потом слушать порт (волна 4 это не сделала):
+
+```yaml
+command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+```
+
+4. Не меняй `main`. `feat/ui` и `feature/events` не вливай.
+
+#### DoD
+
+- Контейнер backend применяет миграции сам.
+- PR волны 5 влиты в `dev` в указанном порядке.
+- В каждом PR есть ссылка на кадр.
+
+---
+
+### 2 — Daniel (медиа hero)
+
+**Слой:** картинка или видео первого экрана. Логина для гостей нет. Слайс токена не ломай.
+
+**Файлы:** новая папка `frontend/src/components/HeroMedia/` (три файла). Вставка на Home — только медиа-слот, секции Hayk не переписывай.
+
+#### Шаги
+
+1. Дождись мержа UI/QA, чтобы hero-текст из `UIBlock` уже стоял в макете.
+2. По кадру Figma первого экрана: видео или постер из `frontend/public/` (`/videos/main.webm`, `/videos/main2.mp4`, `/images/mainLoad.webp` — что показывает кадр).
+3. Если в кадре нет медиа — не добавляй чужой ролик. Напиши это в PR.
+4. `setToken` / `clearToken` и ключ `geko_access_token` не меняй.
+
+#### DoD
+
+- На `/` медиа hero совпадает с кадром и грузится из `public`.
+- Отзывы, занятия и текст hero на месте.
+
+---
+
+### 3 — Sv (язык)
+
+**Слой:** старт на `en` и списки, которые не исчезают.
+
+**Файлы:** [`frontend/src/i18n/index.js`](frontend/src/i18n/index.js), [`backend/apps/main/views.py`](backend/apps/main/views.py). Курсы и команду не правь — это Vach и Suren по тому же правилу.
+
+#### Шаги
+
+1. Первый заход без сохранённого выбора: и UI, и следующий GET сходятся на `en`. `fallbackLng` оставь `en`. Детектор браузера не должен подставлять `ru` или `am`, пока пользователь не нажал флаг. Явный выбор по-прежнему пишется и восстанавливается.
+2. Активный флаг сравнивай с кодом `am` / `en` / `ru`, не с `ru-RU`.
+3. В `CategoryViewSet`, `EventViewSet`, `LessonInfoViewSet` убери фильтр queryset по `translations__language__code`. Объект остаётся в списке. Текст по языку по-прежнему режет serializer (если перевода нет — уже есть fallback на любой).
+4. В PR одной фразой запиши правило для Vach и Suren: то же самое в `courses/views.py` и `team/views.py`.
+
+#### DoD
+
+- Чистый браузер на русском всё равно открывает `en`, пока флаг не нажат.
+- Категория и событие без перевода на `en` не пропадают из API.
+- Клик по флагу меняет `?language=`.
+
+---
+
+### 4 — Karen (категории)
+
+**Слой:** вид `/course-category` и `/course-category/:id`.
+
+#### Шаги
+
+1. Дождись UI/QA и Mariam.
+2. Сверстай оба маршрута по своим кадрам: сетка карточек, обложка, название, список курсов выбранной категории, ссылка на `/courses/:id`.
+3. Удали `CategoryComments`. Список — `CommentList` с `category`. Форма — `CommentForm`. После успешной отправки увеличь `refreshKey` (одобренные комментарии подтянутся; новый гостевой останется скрытым, пока admin не поставит `is_approved`).
+4. Loading / error / empty — из i18n, как состояния на кадре.
+
+#### DoD
+
+- Оба маршрута визуально совпадают с кадром на desktop и на 375px.
+- На странице нет второго списка комментариев.
+
+---
+
+### 5 — Vach (курс)
+
+**Слой:** вид `/courses/:id`.
+
+**Файлы:** [`frontend/src/pages/CourseDetails/`](frontend/src/pages/CourseDetails/), [`backend/apps/courses/views.py`](backend/apps/courses/views.py).
+
+#### Шаги
+
+1. Дождись Mariam.
+2. Сверстай кадр курса: название, картинка (`VITE_BASE_URL`, если URL не `https://`), описание, комментарии.
+3. Удали `CourseComments`. Подключи `CommentList` (`popularCourse`) и `CommentForm` с `refreshKey`.
+4. В `popular_course_queryset` убери фильтр, который оставляет только курсы с переводом на `?language=`. Имя класса **PopularCourse** не меняй. Admin не ломай.
+
+#### DoD
+
+- `/courses/:id` открывается и для курса без перевода на текущий язык (текст — fallback serializer).
+- Экран совпадает с кадром. В Unfold курс по-прежнему в списке.
+
+---
+
+### 6 — Ashot (события)
+
+**Слой:** поведение, которое волна 4 не закрыла, плюс кадры списка и детали.
+
+**Маршруты:** `/events` → редирект на `/events/completed`; `/events/:tab`; `/events/:tab/:id`.
+
+#### Шаги
+
+1. Дождись оболочки.
+2. Вкладки ровно `upcoming`, `happening`, `completed`. Список: `GET /api/events/?status=<tab>`. Запрос повторяй при смене `i18n.language`.
+3. Пустая вкладка не ссылка (сначала узнай, есть ли события в статусе).
+4. Деталь `/events/:tab/:id`: заголовок перевода, поле **`date`**, gallery. Не переименовывай `date`.
+5. Карточка — три файла. Запасной заголовок — ключ i18n, не `` `Event ${id}` ``.
+6. Сверстай список и деталь по кадрам Figma.
+
+#### DoD
+
+- `/events` уходит на `/events/completed`.
+- Пустая вкладка не кликается. Деталь открывается по id и показывает дату и галерею.
+- Вид совпадает с кадром.
+
+---
+
+### 7 — Hayk (Home: отзывы и занятия)
+
+**Слой:** только эти две секции на кадре главной. Источник — **`main`**.
+
+#### Шаги
+
+1. Дождись оболочки и не удаляй hero (текст UI/QA, медиа Daniel).
+2. Секция отзывов по кадру: `full_name`, `rating`, `text`. Картинок у Review нет — в модель не добавляй.
+3. Секция занятий: заголовок и текст перевода, порядок как отдаёт API.
+4. `?language=` у reviews не фильтруй. Loading / error / empty оставь.
+
+#### DoD
+
+- Обе секции на `/` выглядят как на кадре Home.
+- Hero и чужие секции на месте.
+
+---
+
+### 8 — Suren (About)
+
+**Слой:** кадр `/about-us`.
+
+**Файлы:** [`frontend/src/pages/About/`](frontend/src/pages/About/), [`backend/apps/team/views.py`](backend/apps/team/views.py).
+
+#### Шаги
+
+1. Мерж после Home.
+2. Сверстай сетку карточек по кадру: фото, `name`, `role`, `desc`. Пустой список — empty из i18n.
+3. В `TeamViewSet.get_queryset` убери фильтр по наличию перевода (правило Sv). Модель и `db_table` не меняй. Unfold не ломай.
+
+#### DoD
+
+- `/about-us` совпадает с кадром или показывает empty.
+- Участник без перевода на `en` всё равно приходит в API.
+- Team открывается в `/api/admin/`.
+
+---
+
+### 9 — Mariam (контакт и комментарии)
+
+**Слой:** вид форм. Поля и API волны 4 не выкидывай. Reply в UI не делай.
+
+#### Шаги
+
+1. Дождись оболочки.
+2. Форма `/contacts` по кадру: `full_name`, `email`, `whatsapp`, `country`, `category`, `message`, `useForm`.
+3. `CommentForm` и `CommentList` по кадру комментариев. Это единственный список: Karen и Vach подключают его и удаляют свои копии.
+4. Текст успеха: комментарий отправлен и ждёт одобрения. Не обещай, что он сразу виден в списке (`is_approved` для гостя остаётся `False`).
+5. Ключи подписей — в `am` / `en` / `ru`.
+
+#### DoD
+
+- Контакт уходит с `country`, `whatsapp`, `category`.
+- Гостевой комментарий создаётся. Чужая страница может вставить `CommentList` и `CommentForm` без своей копии разметки.
+- Успех не пишет, что комментарий уже опубликован.
+
+---
+
+### 10 — UI / QA (оболочка и токены)
+
+**Слой:** Header, Footer, 404, текст hero, переменные макета. Мержится **до** страниц.
+
+#### Шаги
+
+1. Дождись Sv.
+2. Вынеси в `frontend/src/index.css` переменные с кадра (цвета, шрифт, ширина контейнера, отступы секции). Страницы волны 5 берут их, а не случайные hex.
+3. Header по кадру: логотип, меню, флаги, телефон и email из `GET /api/ui-blocks/` (`header`, `contacts_bar`). Номера в JSX не хардкодь.
+4. Footer по кадру: навигация, контакты, карта, соцсети. Подписи — i18n. Ссылки соцсетей — из payload футера, не из чужого домена «на глаз».
+5. NotFound по кадру 404.
+6. Текст hero — блок `hero` из `ui-blocks`. Медиа-слот не занимай: его ставит Daniel. Секции Hayk не удаляй.
+7. В [`init_ui`](backend/apps/main/management/commands/init_ui.py) заполни payload `header`, `hero`, `footer`, `contacts_bar` так, чтобы пустой `{}` не оставлял оболочку без телефона и заголовка. Повторный запуск обновляет пустой payload и не затирает то, что уже вписали в админке. Тексты hero — объекты с ключами `am` / `en` / `ru`, как уже читает `blockText` на Home.
+8. В PR чеклист: 375px и desktop; пустой API; ошибка сети.
+
+#### DoD
+
+- Header, Footer и 404 совпадают с кадрами на маршрутах из `App.jsx`.
+- После `init_ui` в шапке есть телефон и email из API, не из константы в React.
+- Цвета макета лежат в CSS-переменных.
+
+---
+
+## Запрещено в волне 5
+
+- пушить в `main`
+- удалять Django-модели и переименовывать `PopularCourse`, `ContactMessage`, `Event.date`
+- мержить `origin/feat/ui` и `origin/feature/events`
+- копировать backup папками или переносить его CSS как «макет»
+- рисовать экран, если кадра в Figma нет, не спросив Lead
+- картинки не из `frontend/public` / backup
+- публичная регистрация staff
+- показывать гостевой комментарий до `is_approved`
+- добавлять image-поля в `Review`
+
+---
+
+## Архив — кто что занимал: волна 4
 
 | # | Имя | Зона | Слой волны 4 | Ключевые файлы |
 |---|-----|------|--------------|----------------|
@@ -46,7 +327,7 @@ Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md)
 | 9 | Mariam | Leads + Comments | контакт + комментарии UI | `ContactMessage`, `CommentForm` |
 | 10 | UI / QA | Shell + QA | Header, Footer, 404, hero | `components/Header`, `Footer`, `NotFound` |
 
-Страницы Karen и Vach ждут общий `CommentForm` от Mariam. Оболочка (UI/QA) мержится раньше страниц.
+Так зона стояла на волне 4: Karen и Vach ждали `CommentForm` от Mariam, оболочка мержилась раньше страниц. Волна закрыта 2026-10-10 — актуальные дыры в [fix.md](fix.md), не здесь.
 
 ---
 
@@ -87,7 +368,9 @@ git checkout -b feat/<имя>-<зона>
 
 ---
 
-## Волна 4 — активные задания
+## Архив — волна 4 (страницы, закрыта 2026-10-10)
+
+Справочник. **Не начинай отсюда** — активная работа в разделе «Волна 5» выше. Ошибки проверки — [fix.md](fix.md).
 
 Спека страниц: [docs/frontend.md](docs/frontend.md). API уже в `dev`: [docs/backend.md](docs/backend.md).
 
@@ -796,11 +1079,15 @@ python manage.py makemigrations accounts
 
 ## English
 
-Short assignment: [TASK.md](TASK.md). **Read wave 4 first.** Waves 3 and 2 are archives below.
+Short assignment: [TASK.md](TASK.md). **Read wave 5 first.** Waves 4, 3, and 2 are archives below.
 
-**Wave 4 (now):** pages like backup. Merge: Daniel (store) → Sv (language) → UI/QA (Header, Footer, 404) → Mariam (contact + comments) → Karen → Vach → Ashot → Hayk → Suren. Spec: [docs/frontend.md](docs/frontend.md). PR **only to `dev`**.
+**Wave 5 (now):** UI from [Figma Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0). Merge: Sv → UI/QA → Daniel (hero media) → Mariam → Karen → Vach → Ashot → Hayk → Suren. Close your wave 4 gaps in [fix.md](fix.md) in the same PR. PR **only to `dev`**.
 
-Zones: Lead — Docker `migrate` on backend start; Daniel — Redux token `geko_access_token`; Sv — UI and API language both `en` by default; Karen — category pages; Vach — course page; Ashot — event tabs and detail (`date`, not `start_date`); Hayk — Home reviews + lesson info from `main`; Suren — About + Team admin; Mariam — contact fields `country` / `whatsapp` / `category` + guest `CommentForm`; UI/QA — shell and 404.
+Zones: Lead — Figma review + Docker `migrate`; Daniel — hero media from `public`; Sv — default `en`, querysets must not drop rows that lack a translation; Karen — category frames + shared `CommentList`; Vach — course frame + the same queryset fix; Ashot — event redirect, disabled empty tab, detail (`date`, gallery); Hayk — Home reviews and lessons; Suren — About frame; Mariam — contact and comments, success copy says “waiting for approval”; UI/QA — tokens, Header, Footer, 404, `init_ui` payloads.
+
+### Archive — wave 4
+
+Pages and shell. Closed 2026-10-10. Daniel, Hayk, Suren, Mariam met the functional DoD. Lead missed compose `migrate`. Sv left the browser detector. Ashot did not ship event detail. Karen and Vach duplicated comment lists.
 
 ### Archive — wave 3
 
@@ -814,11 +1101,15 @@ Merge order: **User → Language → Category → Courses → Events → Content
 
 ## Հայերեն
 
-Կարճ առաջադրանք՝ [TASK.md](TASK.md)։ **Նախ կարդա ալիք 4**։ Ալիք 3 և 2 — արխիվ ստորև։
+Կարճ առաջադրանք՝ [TASK.md](TASK.md)։ **Նախ կարդա ալիք 5**։ Ալիք 4, 3 և 2 — արխիվ ստորև։
 
-**Ալիք 4 (հիմա)** — էջեր backup-ի պես։ Merge՝ Daniel → Sv → UI/QA → Mariam → Karen → Vach → Ashot → Hayk → Suren։ PR միայն `dev`։
+**Ալիք 5 (հիմա)** — UI ըստ [Figma](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0)։ Merge՝ Sv → UI/QA → Daniel → Mariam → Karen → Vach → Ashot → Hayk → Suren։ Ալիք 4-ի սխալները՝ [fix.md](fix.md)։ PR միայն `dev`։
 
-Գոտիներ՝ Lead (Docker migrate), Daniel (Redux token), Sv (լեզու `en`), Karen (կատեգորիաներ), Vach (դասընթաց), Ashot (իրադարձություններ), Hayk (Home reviews), Suren (About), Mariam (կոնտակտ + մեկնաբանություն), UI/QA (Header, Footer, 404)։
+Գոտիներ՝ Lead (Docker migrate + Figma review), Daniel (hero մեդիա), Sv (լեզու `en`, queryset-ը չի թաքցնում տողը), Karen / Vach (էջ + `CommentList`), Ashot (իրադարձության մանրամասն), Hayk (Home), Suren (About), Mariam (ձևեր), UI/QA (Header, Footer, 404, token-ներ)։
+
+### Արխիվ — ալիք 4
+
+Էջեր և ընդհանուր շրջանակ (Header/Footer)։ Փակված է 2026-10-10։ Սխալները՝ [fix.md](fix.md)։
 
 ### Արխիվ — ալիք 3
 

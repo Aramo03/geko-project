@@ -1,6 +1,8 @@
 # Frontend
 
-Как писать React в этом проекте. Смотри живой пример: [backup/geko-front-main](../backup/geko-front-main). Код оттуда не копируй папками — повтори логику.
+Как писать React в этом проекте. **Волна 5:** вид бери из [Figma Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0) (файл `dhh8j2e9rBeYrdPmzKz02I`, холст `0-1`). Backup [backup/geko-front-main](../backup/geko-front-main) — старое поведение, не макет. Код оттуда не копируй папками.
+
+Кадр своей страницы ищи на холсте. Нет кадра — спроси Lead, не рисуй второй дизайн. Цвета — CSS-переменные оболочки (их выкладывает UI/QA). Новые подписи — в `am.json` / `en.json` / `ru.json`.
 
 ## Стек (обязательно)
 
@@ -70,14 +72,18 @@ import { useForm } from 'react-hook-form'
 
 Контакт (как в backup): `full_name`, `email`, `whatsapp`, `country`, `category`, `message` → `POST /api/contact/`.
 
+## Цвета и Tailwind
+
+Все UI-цвета — в `:root` ([`frontend/src/index.css`](../frontend/src/index.css)); в разметке используй утилиты Tailwind (`bg-brand`, `text-text-muted`, …) или `var(--color-*)`. Анимации — [`frontend/src/styles/animations.css`](../frontend/src/styles/animations.css) и локальные `*.css` компонентов. Картинки/видео — [`OptimizedImage`](../frontend/src/components/OptimizedMedia/OptimizedImage.jsx) (`loading`, `decoding`, `fetchPriority`).
+
 ## Оболочка
 
-Header (телефон, email, языки, меню) → страница → Footer (контакты, навигация, карта, соцсети). Телефоны и hero — из API `UIBlock`, не хардкод.
+Header (телефон, email, языки, меню) → страница → Footer (контакты, навигация, карта, соцсети). **Из API `UIBlock`** (после `python manage.py init_ui`): `contacts_bar` / `footer` — phone, email, map URL, соцсети; `header` — logo, `button_link`. **Из i18n:** подписи меню и форм, адрес текстом (`contacts.addressLine`), тексты hero на Home (`home.hero*`), footer description. Хелперы — `frontend/src/lib/uiBlocks.jsx`.
 
 ## English
 
-Use Tailwind, i18n, react-router-dom, and `useForm`. Media only from `backup/` / `frontend/public/`. Every component folder must contain `Component.jsx`, `component.css`, `component.js`.
+Wave 5 visual source: [Figma Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0). Use Tailwind, i18n, react-router-dom, and `useForm`. Media only from `backup/` / `frontend/public/`. Every component folder must contain `Component.jsx`, `component.css`, `component.js`.
 
 ## Հայերեն
 
-Ամեն կոմպոնենտ՝ 3 ֆայլ։ Նկարները միայն backup-ից։ Ձևերը՝ `useForm`։ Երթուղիները նույնն են, ինչ հին կայքում, գումարած մեկնաբանություններ։
+Ալիք 5-ի տեսքը՝ [Figma](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0)։ Ամեն կոմպոնենտ՝ 3 ֆայլ։ Նկարները միայն backup-ից / `public`-ից։ Ձևերը՝ `useForm`։

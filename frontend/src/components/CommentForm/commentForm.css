@@ -1,43 +1,17 @@
+@import '../../pages/Contacts/contacts.css';
+
 .comment-form {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  max-width: 32rem;
+  max-width: none;
+  width: 100%;
 }
 
-.comment-form label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
+.comment-form-lead {
+  margin: -0.35rem 0 0.25rem;
+  color: var(--color-copy-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
 }
 
-.comment-form input,
-.comment-form textarea {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-}
-
-.comment-form button {
-  align-self: flex-start;
-  background: #0a5c36;
-  color: #fff;
-  border: 0;
-  border-radius: 0.375rem;
-  padding: 0.5rem 1.25rem;
-  cursor: pointer;
-}
-
-.comment-form button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.comment-form .error {
-  color: #b91c1c;
-}
-
-.comment-form .success {
-  color: #0a5c36;
+.comment-form .contact-form-grid {
+  margin-top: 0.5rem;
 }

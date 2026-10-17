@@ -14,18 +14,9 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
 
     def get_queryset(self):
-        queryset = Category.objects.prefetch_related(
+        return Category.objects.prefetch_related(
             "translations__language"
         ).all()
-
-        language = self.request.query_params.get("language")
-
-        if language:
-            queryset = queryset.filter(
-                translations__language__code=language
-            ).distinct()
-
-        return queryset
 
 
 class EventViewSet(viewsets.ReadOnlyModelViewSet):
@@ -38,15 +29,9 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
         ).all()
 
         status = self.request.query_params.get("status")
-        language = self.request.query_params.get("language")
 
         if status:
             queryset = queryset.filter(status=status)
-
-        if language:
-            queryset = queryset.filter(
-                translations__language__code=language
-            ).distinct()
 
         return queryset
 
@@ -62,18 +47,9 @@ class LessonInfoViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LessonInfoSerializer
 
     def get_queryset(self):
-        queryset = LessonInfo.objects.prefetch_related(
+        return LessonInfo.objects.prefetch_related(
             "translations__language"
         ).order_by("order")
-
-        language = self.request.query_params.get("language")
-
-        if language:
-            queryset = queryset.filter(
-                translations__language__code=language
-            ).distinct()
-
-        return queryset
 
 
 class UIBlockViewSet(viewsets.ReadOnlyModelViewSet):

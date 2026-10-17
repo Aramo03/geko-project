@@ -2,63 +2,112 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
-import { commentPayload } from './commentForm.js'
+import { EMAIL_PATTERN, getCommentPayload } from './commentForm.js'
 import './commentForm.css'
 
-export default function CommentForm({ categoryId, popularCourseId }) {
+export default function CommentForm({ category, popularCourse, onCreated }) {
   const { t } = useTranslation()
+  const [status, setStatus] = useState(null)
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
   } = useForm()
-  const [status, setStatus] = useState(null)
 
-  async function onSubmit(values) {
+  async function onSubmit(data) {
     setStatus(null)
+    const payload = getCommentPayload(data, category, popularCourse)
+    if (!payload) {
+      setStatus('error')
+      return
+    }
+
     try {
-      await api.post('/api/comments/', commentPayload({ values, categoryId, popularCourseId }))
-      setStatus('success')
+      await api.post('/api/comments/', payload)
       reset()
+      setStatus('success')
+      if (onCreated) onCreated()
     } catch {
       setStatus('error')
     }
   }
 
-  const fieldClass =
-    'mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-[#0a5c36]'
-
   return (
-    <form className="mt-4 flex max-w-xl flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <label className="flex flex-col text-sm font-medium text-gray-700">
-        {t('comments.fullName')}
-        <input className={fieldClass} {...register('full_name', { required: true })} />
-        {errors.full_name && <span className="mt-1 text-xs text-red-500">{t('comments.required')}</span>}
-      </label>
-      <label className="flex flex-col text-sm font-medium text-gray-700">
-        {t('comments.email')}
-        <input type="email" className={fieldClass} {...register('email', { required: true })} />
-        {errors.email && <span className="mt-1 text-xs text-red-500">{t('comments.required')}</span>}
-      </label>
-      <label className="flex flex-col text-sm font-medium text-gray-700">
-        {t('comments.whatsapp')}
-        <input className={fieldClass} {...register('whatsapp')} />
-      </label>
-      <label className="flex flex-col text-sm font-medium text-gray-700">
-        {t('comments.text')}
-        <textarea rows={4} className={fieldClass} {...register('text', { required: true })} />
-        {errors.text && <span className="mt-1 text-xs text-red-500">{t('comments.required')}</span>}
-      </label>
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-fit rounded-lg bg-[#0a5c36] px-6 py-2.5 text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-[#074628] disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {t('comments.send')}
+    <form className="contact-form comment-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <h2 className="contact-form-title">{t('comments.formTitle')}</h2>
+      <p className="comment-form-lead">{t('comments.formLead')}</p>
+
+      <div className="contact-form-grid">
+        <label className="contact-field">
+          <span>
+            {t('comments.fullName')}{' '}
+            <span className="contact-required" aria-hidden="true">*</span>
+          </span>
+          <input
+            type="text"
+            autoComplete="name"
+            aria-invalid={errors.full_name ? 'true' : 'false'}
+            {...register('full_name', { required: true })}
+          />
+          {errors.full_name ? (
+            <span className="contact-error">{t('comments.required')}</span>
+          ) : null}
+        </label>
+
+        <label className="contact-field">
+          <span>
+            {t('comments.email')}{' '}
+            <span className="contact-required" aria-hidden="true">*</span>
+          </span>
+          <input
+            type="email"
+            autoComplete="email"
+            aria-invalid={errors.email ? 'true' : 'false'}
+            {...register('email', { required: true, pattern: EMAIL_PATTERN })}
+          />
+          {errors.email ? (
+            <span className="contact-error">
+              {errors.email.type === 'pattern'
+                ? t('comments.invalidEmail')
+                : t('comments.required')}
+            </span>
+          ) : null}
+        </label>
+
+        <label className="contact-field">
+          <span>{t('comments.whatsapp')}</span>
+          <input type="tel" autoComplete="tel" {...register('whatsapp')} />
+        </label>
+
+        <label className="contact-field contact-field-wide">
+          <span>
+            {t('comments.text')}{' '}
+            <span className="contact-required" aria-hidden="true">*</span>
+          </span>
+          <textarea
+            rows={5}
+            aria-invalid={errors.text ? 'true' : 'false'}
+            {...register('text', { required: true })}
+          />
+          {errors.text ? <span className="contact-error">{t('comments.required')}</span> : null}
+        </label>
+      </div>
+
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? t('comments.sending') : t('comments.send')}
       </button>
-      {status === 'success' && <p className="text-sm text-[#0a5c36]">{t('comments.success')}</p>}
-      {status === 'error' && <p className="text-sm text-red-500">{t('comments.error')}</p>}
+
+      {status === 'success' ? (
+        <p className="contact-status contact-status-success" role="status">
+          {t('comments.success')}
+        </p>
+      ) : null}
+      {status === 'error' ? (
+        <p className="contact-status contact-status-error" role="alert">
+          {t('comments.error')}
+        </p>
+      ) : null}
     </form>
   )
 }

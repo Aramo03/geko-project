@@ -1,0 +1,7 @@
+/* Team card — motion hooks shared with About (hover via .about-hover-lift in About/about.css) */
+
+@media (prefers-reduced-motion: reduce) {
+  .team-member-card {
+    transition: none !important;
+  }
+}
