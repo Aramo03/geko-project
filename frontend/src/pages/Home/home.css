@@ -9,6 +9,35 @@
   padding: var(--spacing-section) 1rem 2.5rem;
 }
 
+.home-section-kicker {
+  margin: 0 0 0.5rem;
+  color: var(--color-accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.home-section-kicker--center {
+  text-align: center;
+}
+
+.home-section-title {
+  margin: 0 0 1rem;
+  color: var(--color-brand);
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.home-section-title--center {
+  text-align: center;
+}
+
+.home-success {
+  padding-bottom: 3.5rem;
+}
+
 .home-hero {
   background: linear-gradient(180deg, #fff 0%, var(--color-canvas) 100%);
   padding: 2.5rem 1rem 2rem;

@@ -2,6 +2,24 @@
   margin-top: 3rem;
 }
 
+.home-reviews--success {
+  margin-top: 0;
+  padding: 2rem 0 3rem;
+}
+
+.home-reviews--success h2 {
+  text-align: center;
+}
+
+.home-reviews__lead {
+  max-width: 38rem;
+  margin: 0 auto 2rem;
+  text-align: center;
+  color: var(--color-copy-muted);
+  line-height: 1.7;
+  font-size: 0.92rem;
+}
+
 .home-reviews h2 {
   margin: 0 0 1.5rem;
   color: #103d2e;

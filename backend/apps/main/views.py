@@ -34,7 +34,7 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
         if status:
             queryset = queryset.filter(status=status)
 
-<<<<<<< HEAD
+        language = self.request.query_params.get("language")
         if language:
             has_any_translation = EventTranslation.objects.filter(event_id=OuterRef("pk"))
             has_language = EventTranslation.objects.filter(
@@ -45,8 +45,6 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
                 ~Exists(has_any_translation) | Exists(has_language)
             ).distinct()
 
-=======
->>>>>>> 85b115d (fix(i18n): keep the first visit on English and lists complete)
         return queryset
 
 

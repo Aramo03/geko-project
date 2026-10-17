@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
 import HeroMedia from '../../components/HeroMedia/HeroMedia.jsx'
-import Lessons from '../../components/Lessons/Lessons.jsx'
+import HomeLegacy from '../../components/HomeLegacy/HomeLegacy.jsx'
+import HomePhilosophy from '../../components/HomePhilosophy/HomePhilosophy.jsx'
+import PopularCourses from '../../components/PopularCourses/PopularCourses.jsx'
+import WhyGeko from '../../components/WhyGeko/WhyGeko.jsx'
 import Reviews from '../../components/Reviews/Reviews.jsx'
-import { asList, lessonContent, lessonTitle } from './home.js'
+import { asList } from './home.js'
 import './home.css'
 
 export default function Home() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [reviews, setReviews] = useState([])
-  const [lessons, setLessons] = useState([])
   const [reviewsLoading, setReviewsLoading] = useState(true)
-  const [lessonsLoading, setLessonsLoading] = useState(true)
   const [reviewsError, setReviewsError] = useState(false)
-  const [lessonsError, setLessonsError] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -46,35 +46,6 @@ export default function Home() {
     }
   }, [])
 
-  useEffect(() => {
-    let cancelled = false
-    setLessonsLoading(true)
-    setLessonsError(false)
-    setLessons([])
-
-    api
-      .get('/api/lesson_info/')
-      .then((res) => {
-        if (cancelled) return
-        const list = asList(res.data)
-        if (!list) {
-          setLessonsError(true)
-          return
-        }
-        setLessons(list)
-      })
-      .catch(() => {
-        if (!cancelled) setLessonsError(true)
-      })
-      .finally(() => {
-        if (!cancelled) setLessonsLoading(false)
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [i18n.language])
-
   return (
     <main className="home-page">
       <section className="home-hero" aria-labelledby="home-hero-title">
@@ -95,17 +66,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-section home-shell">
-        <Reviews reviews={reviews} loading={reviewsLoading} error={reviewsError} />
-      </section>
+      <HomeLegacy />
+      <HomePhilosophy />
+      <PopularCourses />
+      <WhyGeko />
 
-      <section className="home-section home-shell">
-        <Lessons
-          lessons={lessons}
-          loading={lessonsLoading}
-          error={lessonsError}
-          lessonTitle={lessonTitle}
-          lessonContent={lessonContent}
+      <section className="home-section home-shell home-success">
+        <Reviews
+          reviews={reviews}
+          loading={reviewsLoading}
+          error={reviewsError}
+          variant="success"
         />
       </section>
     </main>
