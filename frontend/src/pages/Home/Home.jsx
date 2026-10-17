@@ -9,6 +9,7 @@ import PopularCourses from '../../components/PopularCourses/PopularCourses.jsx'
 import WhyGeko from '../../components/WhyGeko/WhyGeko.jsx'
 import Reviews from '../../components/Reviews/Reviews.jsx'
 import { asList } from './home.js'
+import { asList, lessonContent, lessonTitle } from './home.js'
 import './home.css'
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
   const [reviews, setReviews] = useState([])
   const [reviewsLoading, setReviewsLoading] = useState(true)
   const [reviewsError, setReviewsError] = useState(false)
+  const [lessonsError, setLessonsError] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -45,6 +47,35 @@ export default function Home() {
       cancelled = true
     }
   }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    setLessonsLoading(true)
+    setLessonsError(false)
+    setLessons([])
+
+    api
+      .get('/api/lesson_info/')
+      .then((res) => {
+        if (cancelled) return
+        const list = asList(res.data)
+        if (!list) {
+          setLessonsError(true)
+          return
+        }
+        setLessons(list)
+      })
+      .catch(() => {
+        if (!cancelled) setLessonsError(true)
+      })
+      .finally(() => {
+        if (!cancelled) setLessonsLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [i18n.language])
 
   return (
     <main className="home-page">
@@ -78,6 +109,49 @@ export default function Home() {
           error={reviewsError}
           variant="success"
         />
+      </section>
+
+      <section className="home-section home-shell">
+        <h2 className="home-section__title">{t('home.reviews')}</h2>
+        {reviewsLoading && <p>{t('common.loading')}</p>}
+        {reviewsError && <p className="error">{t('common.error')}</p>}
+        {!reviewsLoading && !reviewsError && reviews.length === 0 && (
+          <p>{t('common.empty')}</p>
+        )}
+        {!reviewsLoading && !reviewsError && reviews.length > 0 && (
+          <ul className="home-reviews">
+            {reviews.map((review) => (
+              <li key={review.id} className="home-review-card">
+                <strong>{review.full_name}</strong>
+                <span className="home-review-rating">({review.rating}/5)</span>
+                <p className="review-text">{review.text}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="home-section home-shell">
+        <h2 className="home-section__title">{t('home.lessons')}</h2>
+        {lessonsLoading && <p>{t('common.loading')}</p>}
+        {lessonsError && <p className="error">{t('common.error')}</p>}
+        {!lessonsLoading && !lessonsError && lessons.length === 0 && (
+          <p>{t('common.empty')}</p>
+        )}
+        {!lessonsLoading && !lessonsError && lessons.length > 0 && (
+          <ul className="home-lessons">
+            {lessons.map((lesson) => {
+              const title = lessonTitle(lesson) || t('home.untitled')
+              const content = lessonContent(lesson)
+              return (
+                <li key={lesson.id} className="home-lesson-card">
+                  <h3>{title}</h3>
+                  {content ? <p className="lesson-content">{content}</p> : null}
+                </li>
+              )
+            })}
+          </ul>
+        )}
       </section>
     </main>
   )
