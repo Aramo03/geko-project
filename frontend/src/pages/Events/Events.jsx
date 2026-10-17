@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { api, pickTranslation } from '../../api/client.js'
-import './events.css'
 
 const TABS = ['upcoming', 'happening', 'completed']
 
@@ -25,29 +24,36 @@ export default function Events() {
   }, [activeTab])
 
   return (
-    <main className="page events-page">
-      <h1>{t('events.title')}</h1>
-      <nav className="events-tabs">
+    <main className="page-shell">
+      <h1 className="mb-6 text-2xl font-bold text-brand">{t('events.title')}</h1>
+      <nav className="mb-6 flex flex-wrap gap-3">
         {TABS.map((status) => (
           <Link
             key={status}
             to={`/events/${status}`}
-            className={status === activeTab ? 'active' : ''}
+            className={`rounded-md px-3 py-1.5 text-sm font-medium no-underline transition-colors ${
+              status === activeTab
+                ? 'bg-brand text-white'
+                : 'border border-border bg-surface text-text hover:bg-surface-soft'
+            }`}
           >
             {t(`events.${status}`)}
           </Link>
         ))}
       </nav>
-      {loading && <p>{t('common.loading')}</p>}
-      {error && <p className="error">{t('common.error')}</p>}
-      {!loading && !error && events.length === 0 && <p>{t('common.empty')}</p>}
-      <ul>
+      {loading && <p className="text-text-muted">{t('common.loading')}</p>}
+      {error && <p className="text-error">{t('common.error')}</p>}
+      {!loading && !error && events.length === 0 && <p className="text-text-muted">{t('common.empty')}</p>}
+      <ul className="list-none space-y-4 p-0">
         {events.map((event) => {
           const tr = pickTranslation(event.translations)
           return (
-            <li key={event.id}>
-              <strong>{tr?.title || `Event ${event.id}`}</strong>
-              {tr?.description && <p>{tr.description}</p>}
+            <li
+              key={event.id}
+              className="rounded-[10px] border border-border bg-surface p-4 animate-rise-in"
+            >
+              <strong className="text-text">{tr?.title || `Event ${event.id}`}</strong>
+              {tr?.description && <p className="mt-2 text-text-muted">{tr.description}</p>}
             </li>
           )
         })}

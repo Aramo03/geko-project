@@ -27,7 +27,9 @@
   --color-text: #1d2b25;
   --color-text-muted: #63756d;
   --color-error: #c24141;
+  --color-success: #0b6e4f;
   --color-focus: #d7b841;
+  --shadow-elevated: 0 20px 38px rgb(22 45 34 / 18%);
   --color-cta-accent: #f1c84b;
   --color-white: #ffffff;
   --color-surface: #ffffff;
@@ -64,6 +66,7 @@
   --color-text: var(--color-text);
   --color-text-muted: var(--color-text-muted);
   --color-error: var(--color-error);
+  --color-success: var(--color-success);
   --color-focus: var(--color-focus);
   --color-cta-accent: var(--color-cta-accent);
   --color-white: var(--color-white);
@@ -123,5 +126,27 @@
     html {
       scroll-behavior: auto;
     }
+  }
+}
+
+@layer components {
+  .form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+  }
+
+  .form-input:focus-visible {
+    border-color: var(--color-brand);
+    outline: none;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-brand) 25%, transparent);
+  }
+
+  .page-shell {
+    padding: var(--spacing-section);
   }
 }

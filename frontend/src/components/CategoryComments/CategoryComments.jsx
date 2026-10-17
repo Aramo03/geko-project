@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
 import { asCommentList } from './categoryComments.js'
-import './categoryComments.css'
 
 export default function CategoryComments({ categoryId }) {
   const { t, i18n } = useTranslation()
@@ -40,17 +39,17 @@ export default function CategoryComments({ categoryId }) {
   }, [categoryId, i18n.language])
 
   return (
-    <section className="category-comments">
-      <h2>{t('categories.comments')}</h2>
-      {loading && <p>{t('common.loading')}</p>}
-      {error && <p className="error">{t('common.error')}</p>}
-      {!loading && !error && comments.length === 0 && <p>{t('common.empty')}</p>}
+    <section className="space-y-3">
+      <h2 className="text-lg font-semibold text-brand-ink">{t('categories.comments')}</h2>
+      {loading && <p className="text-text-muted">{t('common.loading')}</p>}
+      {error && <p className="text-error">{t('common.error')}</p>}
+      {!loading && !error && comments.length === 0 && <p className="text-text-muted">{t('common.empty')}</p>}
       {!loading && !error && comments.length > 0 && (
-        <ul>
+        <ul className="list-disc space-y-3 pl-5">
           {comments.map((comment) => (
             <li key={comment.id}>
-              <strong>{comment.full_name}</strong>
-              <p>{comment.text}</p>
+              <strong className="text-text">{comment.full_name}</strong>
+              <p className="mt-1 text-text-muted">{comment.text}</p>
             </li>
           ))}
         </ul>

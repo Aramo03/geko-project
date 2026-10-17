@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
 import CourseComments from '../../components/CourseComments/CourseComments.jsx'
 import CommentForm from '../../components/CommentForm/CommentForm.jsx'
+import OptimizedImage from '../../components/OptimizedMedia/OptimizedImage.jsx'
 import { courseDescription, courseImage, courseTitle } from './courseDetails.js'
-import './courseDetails.css'
 
 export default function CourseDetails() {
   const { t, i18n } = useTranslation()
@@ -47,16 +47,25 @@ export default function CourseDetails() {
   const image = course ? courseImage(course) : ''
 
   return (
-    <main className="page">
-      {loading && <p>{t('common.loading')}</p>}
-      {error && <p className="error">{t('common.error')}</p>}
+    <main className="page-shell max-w-3xl">
+      {loading && <p className="text-text-muted">{t('common.loading')}</p>}
+      {error && <p className="text-error">{t('common.error')}</p>}
       {!loading && !error && course && (
         <>
-          <h1>{title}</h1>
-          {image ? <img className="course-image" src={image} alt={title} /> : null}
-          {description ? <p className="course-description">{description}</p> : null}
-          <CourseComments courseId={id} />
-          <CommentForm popularCourse={id} />
+          <h1 className="mb-4 text-2xl font-bold text-brand">{title}</h1>
+          {image ? (
+            <OptimizedImage
+              src={image}
+              alt={title}
+              className="my-4 block max-h-80 w-full rounded-lg object-cover"
+              sizes="(max-width: 768px) 100vw, 48rem"
+            />
+          ) : null}
+          {description ? <p className="whitespace-pre-wrap text-text-muted">{description}</p> : null}
+          <div className="mt-8 space-y-8">
+            <CourseComments courseId={id} />
+            <CommentForm popularCourse={id} />
+          </div>
         </>
       )}
     </main>

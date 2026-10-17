@@ -6,9 +6,6 @@ import CategoryCard from '../../components/CategoryCard/CategoryCard.jsx'
 import CategoryComments from '../../components/CategoryComments/CategoryComments.jsx'
 import CommentForm from '../../components/CommentForm/CommentForm.jsx'
 import { asList, categoryTitle, courseTitle } from './courseCategory.js'
-import './courseCategory.css'
-
-
 export default function CourseCategory() {
   const { t, i18n } = useTranslation()
   const { id } = useParams()
@@ -69,14 +66,18 @@ export default function CourseCategory() {
     : loadedTitle || t('categories.untitled')
 
   return (
-    <main className="page">
-      <h1>{title}</h1>
-      {id && <Link to="/course-category">{t('nav.courses')}</Link>}
-      {loading && <p>{t('common.loading')}</p>}
-      {error && <p className="error">{t('common.error')}</p>}
-      {!loading && !error && !id && categories.length === 0 && <p>{t('common.empty')}</p>}
+    <main className="page-shell">
+      <h1 className="mb-4 text-2xl font-bold text-brand">{title}</h1>
+      {id && (
+        <Link to="/course-category" className="mb-6 inline-block text-sm font-medium text-brand hover:text-brand-hover">
+          {t('nav.courses')}
+        </Link>
+      )}
+      {loading && <p className="text-text-muted">{t('common.loading')}</p>}
+      {error && <p className="text-error">{t('common.error')}</p>}
+      {!loading && !error && !id && categories.length === 0 && <p className="text-text-muted">{t('common.empty')}</p>}
       {!loading && !error && !id && categories.length > 0 && (
-        <ul className="category-grid">
+        <ul className="grid list-none grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4 p-0">
           {categories.map((item) => (
             <li key={item.id}>
               <CategoryCard category={item} />
@@ -84,12 +85,12 @@ export default function CourseCategory() {
           ))}
         </ul>
       )}
-      {!loading && !error && id && courses.length === 0 && <p>{t('common.empty')}</p>}
+      {!loading && !error && id && courses.length === 0 && <p className="text-text-muted">{t('common.empty')}</p>}
       {!loading && !error && id && courses.length > 0 && (
-        <ul className="course-list">
+        <ul className="list-disc space-y-2 pl-5">
           {courses.map((course) => (
             <li key={course.id}>
-              <Link to={`/courses/${course.id}`}>
+              <Link to={`/courses/${course.id}`} className="font-medium text-brand hover:text-brand-hover">
                 {courseTitle(course) || t('categories.untitled')}
               </Link>
             </li>
@@ -97,10 +98,10 @@ export default function CourseCategory() {
         </ul>
       )}
       {!loading && !error && id && (
-        <>
+        <div className="mt-8 space-y-8">
           <CategoryComments categoryId={id} />
           <CommentForm category={id} />
-        </>
+        </div>
       )}
     </main>
   )

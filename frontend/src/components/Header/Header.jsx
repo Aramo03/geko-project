@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
+import OptimizedImage from '../OptimizedMedia/OptimizedImage.jsx'
 import { LANGUAGES, NAV_ITEMS, contactValue } from './header.js'
-import './header.css'
 
 export default function Header() {
   const { t, i18n } = useTranslation()
@@ -42,21 +42,29 @@ export default function Header() {
   const email = contactValue(blocks, 'email')
 
   return (
-    <header className="header">
-      <div className="header-contacts">
-        {loading && <p>{t('common.loading')}</p>}
-        {error && <p className="error">{t('common.error')}</p>}
-        {!loading && !error && !phone && !email && <p>{t('common.empty')}</p>}
-        {phone && <a href={`tel:${phone}`}>{phone}</a>}
-        {email && <a href={`mailto:${email}`}>{email}</a>}
+    <header className="flex flex-col gap-3 px-4 py-4 sm:px-8">
+      <div className="flex flex-wrap items-center gap-4 text-sm text-text-muted">
+        {loading && <p className="m-0">{t('common.loading')}</p>}
+        {error && <p className="m-0 text-error">{t('common.error')}</p>}
+        {!loading && !error && !phone && !email && <p className="m-0">{t('common.empty')}</p>}
+        {phone && (
+          <a className="font-medium text-brand hover:text-brand-hover" href={`tel:${phone}`}>
+            {phone}
+          </a>
+        )}
+        {email && (
+          <a className="font-medium text-brand hover:text-brand-hover" href={`mailto:${email}`}>
+            {email}
+          </a>
+        )}
       </div>
-      <div className="header-bar">
-        <Link to="/">
-          <img src="/images/logo.webp" alt="GEKO" width="120" />
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <Link to="/" className="shrink-0">
+          <OptimizedImage src="/images/logo.webp" alt="GEKO" width={120} height={40} priority />
         </Link>
-        <nav className="flex gap-4">
+        <nav className="flex flex-wrap gap-4 text-sm font-medium text-text">
           {NAV_ITEMS.map((item) => (
-            <Link key={item.to} to={item.to}>
+            <Link key={item.to} to={item.to} className="hover:text-brand">
               {t(item.key)}
             </Link>
           ))}
@@ -67,9 +75,10 @@ export default function Header() {
               key={lang.code}
               type="button"
               onClick={() => i18n.changeLanguage(lang.code)}
-              className={i18n.language === lang.code ? 'active' : ''}
+              className={`rounded border border-transparent p-0.5 transition-colors ${i18n.language === lang.code ? 'border-brand bg-brand-soft' : 'hover:border-border'}`}
+              aria-label={lang.code}
             >
-              <img src={lang.flag} alt={lang.code} width="24" height="16" />
+              <OptimizedImage src={lang.flag} alt="" width={24} height={16} />
             </button>
           ))}
         </div>

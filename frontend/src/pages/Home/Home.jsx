@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
 import { asList, blockText, findBlock, lessonContent, lessonTitle } from './home.js'
-import './home.css'
-
 export default function Home() {
   const { t, i18n } = useTranslation()
   const [reviews, setReviews] = useState([])
@@ -108,46 +106,47 @@ export default function Home() {
   const heroText = blockText(hero?.payload?.text, i18n.language)
 
   return (
-    <main className="page home-page">
-      <h1>{t('nav.home')}</h1>
-      <section className="home-section">
-        <h2>{t('home.hero')}</h2>
-        {heroLoading && <p>{t('common.loading')}</p>}
-        {heroError && <p className="error">{t('common.error')}</p>}
-        {!heroLoading && !heroError && !heroTitle && !heroText && <p>{t('common.empty')}</p>}
-        {heroTitle && <p className="hero-title">{heroTitle}</p>}
-        {heroText && <p>{heroText}</p>}
+    <main className="page-shell">
+      <h1 className="mb-8 text-2xl font-bold text-brand">{t('nav.home')}</h1>
+      <section className="mb-8 space-y-3">
+        <h2 className="text-lg font-semibold text-brand-ink">{t('home.hero')}</h2>
+        {heroLoading && <p className="text-text-muted">{t('common.loading')}</p>}
+        {heroError && <p className="text-error">{t('common.error')}</p>}
+        {!heroLoading && !heroError && !heroTitle && !heroText && <p className="text-text-muted">{t('common.empty')}</p>}
+        {heroTitle && <p className="text-2xl font-bold text-brand">{heroTitle}</p>}
+        {heroText && <p className="max-w-2xl text-text-muted">{heroText}</p>}
       </section>
-      <section className="home-section">
-        <h2>{t('home.reviews')}</h2>
-        {reviewsLoading && <p>{t('common.loading')}</p>}
-        {reviewsError && <p className="error">{t('common.error')}</p>}
-        {!reviewsLoading && !reviewsError && reviews.length === 0 && <p>{t('common.empty')}</p>}
+      <section className="mb-8 space-y-3">
+        <h2 className="text-lg font-semibold text-brand-ink">{t('home.reviews')}</h2>
+        {reviewsLoading && <p className="text-text-muted">{t('common.loading')}</p>}
+        {reviewsError && <p className="text-error">{t('common.error')}</p>}
+        {!reviewsLoading && !reviewsError && reviews.length === 0 && <p className="text-text-muted">{t('common.empty')}</p>}
         {!reviewsLoading && !reviewsError && reviews.length > 0 && (
-          <ul>
+          <ul className="list-disc space-y-4 pl-5">
             {reviews.map((review) => (
-              <li key={review.id}>
-                <strong>{review.full_name}</strong> ({review.rating}/5)
-                <p className="review-text">{review.text}</p>
+              <li key={review.id} className="animate-rise-in">
+                <strong className="text-text">{review.full_name}</strong>{' '}
+                <span className="text-text-muted">({review.rating}/5)</span>
+                <p className="mt-1 text-text-muted">{review.text}</p>
               </li>
             ))}
           </ul>
         )}
       </section>
-      <section className="home-section">
-        <h2>{t('home.lessons')}</h2>
-        {lessonsLoading && <p>{t('common.loading')}</p>}
-        {lessonsError && <p className="error">{t('common.error')}</p>}
-        {!lessonsLoading && !lessonsError && lessons.length === 0 && <p>{t('common.empty')}</p>}
+      <section className="space-y-3">
+        <h2 className="text-lg font-semibold text-brand-ink">{t('home.lessons')}</h2>
+        {lessonsLoading && <p className="text-text-muted">{t('common.loading')}</p>}
+        {lessonsError && <p className="text-error">{t('common.error')}</p>}
+        {!lessonsLoading && !lessonsError && lessons.length === 0 && <p className="text-text-muted">{t('common.empty')}</p>}
         {!lessonsLoading && !lessonsError && lessons.length > 0 && (
-          <ul>
+          <ul className="list-disc space-y-3 pl-5">
             {lessons.map((lesson) => {
               const title = lessonTitle(lesson) || t('home.untitled')
               const content = lessonContent(lesson)
               return (
-                <li key={lesson.id}>
+                <li key={lesson.id} className="text-text">
                   {title}
-                  {content ? <p className="lesson-content">{content}</p> : null}
+                  {content ? <p className="mt-1 text-sm text-text-muted">{content}</p> : null}
                 </li>
               )
             })}

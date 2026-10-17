@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
 import { asCommentList, getCommentParams } from './commentList.js'
-import './commentList.css'
 
 export default function CommentList({ category, popularCourse, refreshKey = 0 }) {
   const { t, i18n } = useTranslation()
@@ -47,17 +46,21 @@ export default function CommentList({ category, popularCourse, refreshKey = 0 })
   }, [category, popularCourse, refreshKey, i18n.language])
 
   return (
-    <section className="comment-list">
-      <h2>{t('comments.title')}</h2>
-      {loading && <p>{t('common.loading')}</p>}
-      {error && <p className="error">{t('common.error')}</p>}
-      {!loading && !error && comments.length === 0 && <p>{t('comments.empty')}</p>}
-      {!loading && !error &&
+    <section className="flex flex-col gap-4">
+      <h2 className="text-xl font-bold text-brand">{t('comments.title')}</h2>
+      {loading && <p className="text-text-muted">{t('common.loading')}</p>}
+      {error && <p className="text-error">{t('common.error')}</p>}
+      {!loading && !error && comments.length === 0 && <p className="text-text-muted">{t('comments.empty')}</p>}
+      {!loading &&
+        !error &&
         comments.map((comment) => (
-          <article key={comment.id} className="comment-item">
-            <h3>{comment.full_name}</h3>
-            <p>{comment.text}</p>
-            <small>{new Date(comment.created_at).toLocaleDateString()}</small>
+          <article
+            key={comment.id}
+            className="rounded-[10px] border border-border bg-surface p-4 animate-rise-in"
+          >
+            <h3 className="m-0 mb-2 text-base font-semibold text-text">{comment.full_name}</h3>
+            <p className="m-0 mb-2 text-text-muted">{comment.text}</p>
+            <small className="text-copy-muted">{new Date(comment.created_at).toLocaleDateString()}</small>
           </article>
         ))}
     </section>

@@ -2,7 +2,11 @@
 
 .about-banner-bg {
   background-image:
-    linear-gradient(90deg, rgb(4 58 39 / 88%), rgb(4 58 39 / 78%)),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-brand-dark) 88%, transparent),
+      color-mix(in srgb, var(--color-brand-dark) 78%, transparent)
+    ),
     url('/images/mer_masin.webp');
   background-size: cover;
   background-position: center 38%;
@@ -10,7 +14,11 @@
 
 .about-cta-bg {
   background-image:
-    linear-gradient(110deg, rgb(5 66 45 / 96%), rgb(17 91 61 / 94%)),
+    linear-gradient(
+      110deg,
+      color-mix(in srgb, var(--color-brand-dark) 96%, transparent),
+      color-mix(in srgb, var(--color-brand-hover) 94%, transparent)
+    ),
     url('/images/mer_masin.webp');
   background-size: cover;
   background-position: center 47%;
@@ -75,7 +83,7 @@
 
 .about-story-image-hover:hover {
   transform: scale(1.025) rotate(-0.35deg);
-  box-shadow: 0 20px 38px rgb(22 45 34 / 18%);
+  box-shadow: var(--shadow-elevated);
 }
 
 .about-button-arrow span {
