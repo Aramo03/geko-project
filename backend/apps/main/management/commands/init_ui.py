@@ -26,7 +26,15 @@ DEFAULT_PAYLOADS = {
         "logo": "/images/logo.webp",
         "button_link": "/contacts",
     },
-    "hero": {},
+    # Hero copy is UI translation (frontend i18n `home.hero*`), not content
+    # translation, so it is not duplicated here. The payload seeds only the
+    # media/CTA slot data that HeroMedia renders on Home.
+    "hero": {
+        "poster": "/images/mainLoad.webp",
+        "video_webm": "/videos/main.webm",
+        "video_mp4": "/videos/main2.mp4",
+        "button_link": "/contacts",
+    },
     "footer": {
         "phone": CONTACT_PHONE,
         "email": CONTACT_EMAIL,

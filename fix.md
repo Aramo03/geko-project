@@ -1,12 +1,63 @@
 # Статус проекта GEKO
 
-**Обновлено:** 2026-10-10 · **Ветка:** `dev`  
-**Волна 4:** закрыта (страницы и оболочка, проверка ниже). **Волна 5:** UI по [Figma](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0).  
-**Волна 3** закрыта 2026-10-04. **Волна 2** закрыта 2026-09-29.
+**Обновлено:** 2026-10-19 · **Ветка:** `dev`  
+**Волна 5:** закрыта (UI по Figma, проверка ниже). **Волна 6:** QA/тесты, production, polish — [TASK.md](TASK.md).  
+**Волна 4** закрыта 2026-10-10. **Волна 3** закрыта 2026-10-04. **Волна 2** закрыта 2026-09-29.
 
 Задания: [TASK.md](TASK.md) · шаги: [task-advanced.md](task-advanced.md) · API: [docs/backend.md](docs/backend.md)
 
-Проверка волны 4 — по текущему дереву и DoD из task-advanced. Макет Figma на ревью не открывался: файл просит вход. Визуал в эту волну не входил в DoD пиксель-в-пиксель; его забирает волна 5.
+Проверка волны 5 — по текущему дереву, DoD из task-advanced и строгому аудиту закрытия (см. раздел ниже). Макет Figma на автоматическом ревью не открывался: файл просит вход, поэтому пиксель-в-пиксель остаётся ручной подписью Lead, а не подтверждённым из репозитория фактом.
+
+---
+
+## Волна 5 — закрыта (2026-10-19)
+
+Все 10 зон влиты в `dev`: порядок Sv → UI/QA → Daniel → Mariam → Ashot → Hayk (PR #60) → Suren (PR #62) → Karen (PR #63) → Vach (PR #64), плюс seed-правки поверх. Экраны сверстаны по Figma, дыры волны 4 закрыты в своих зонах.
+
+### Аудит закрытия (2026-10-19)
+
+| Проверка | Результат |
+|----------|-----------|
+| `python manage.py check` | чисто, 0 issues |
+| `python manage.py test` | 12 тестов, OK (`main` 2, `courses` 4, `leads` 6) |
+| `python manage.py init_ui` (×2) | идемпотентно; пустой payload `hero` дозаполняется |
+| `npm run build` | проходит; warning: главный JS-чанк 532.90 kB (>500 kB) — долг волны 6 |
+| `docker compose up` | локально не проверено: Docker daemon не запущен. В compose `migrate` перед `runserver` есть, CI делает `docker compose build` |
+| Figma desktop + 375px | из репозитория не подтверждается (файл просит вход) — ручная подпись Lead |
+
+### Сводка по зонам
+
+| # | Зона | DoD волны 5 | Итог |
+|---|------|-------------|------|
+| 1 | Lead | закрыт по коду | `migrate` в compose есть; docker `up` и Figma — ручная проверка, см. ошибки |
+| 2 | Daniel | закрыт | `HeroMedia` на Home, медиа из `frontend/public` |
+| 3 | Sv | закрыт | `lng: 'en'`, детектор только `localStorage`; queryset не режет объект без перевода |
+| 4 | Karen | закрыт | оба маршрута категорий, только `CommentList` + `refreshKey` |
+| 5 | Vach | закрыт | `/courses/:id` по кадру, `CommentList`, queryset-фикс в `courses` |
+| 6 | Ashot | закрыт | редирект на `completed`, пустая вкладка не ссылка, деталь с `date` и gallery, запрос по `i18n.language` |
+| 7 | Hayk | закрыт | секции reviews и lesson info на Home по кадру |
+| 8 | Suren | закрыт | `/about-us` по кадру, queryset команды без фильтра перевода |
+| 9 | Mariam | закрыт | контакт и комментарии по кадру; успех — «отправлен и ждёт одобрения» (`am`/`en`/`ru`) |
+| 10 | UI / QA | в основном | токены, Header, Footer с соцсетями, 404; payload `hero` — см. ошибки |
+
+### Ошибки и хвосты волны 5
+
+**Karen / Vach (исправлено при закрытии).** После перехода страниц на общий `CommentList` в дереве остался мёртвый `frontend/src/components/CourseComments/` — всего 2 файла вместо положенных трёх, никем не импортировался. DoD требовал удалить дубль, а не только перестать им пользоваться. Удалён при закрытии волны; сборка после удаления проходит.
+
+**UI / QA (исправлено при закрытии).** В `init_ui` payload блока `hero` оставался пустым `{}`: повторный запуск честно писал «Filled empty UI block hero», но заполнять было нечем. Текст hero при этом живёт в i18n (`home.hero*` в `am`/`en`/`ru`) — это UI-подписи (Translation B), а не контент из БД, поэтому дублировать тексты в payload не стали. Payload `hero` теперь сидирует медиа/CTA слота (`poster`, `video_webm`, `video_mp4`, `button_link` — те же пути, что рендерит `HeroMedia`), пустым не остаётся.
+
+**Lead (принято как ограничение закрытия).** `docker compose up` на машине закрытия не прогнан — Docker daemon был выключен, проверен только код compose (`migrate && runserver`) и CI-шаг `docker compose build`. Полный подъём стека — первый smoke волны 6. Пиксель-в-пиксель с Figma из репозитория не верифицируется: файл требует вход. Волна закрыта по коду и аудиту выше; визуальная подпись Lead по кадрам desktop + 375px фиксируется в чате команды, а не в этом файле.
+
+**CI (не ошибка волны 5, долг).** В `.github/workflows/ci.yml` нет `python manage.py test`: бэкенд ограничивается `migrate` + `init_ui` + `check`, фронт — `build`, docker — `build` без `up`. Регрессия в тестах сейчас не ловится пайплайном. Уходит в волну 6.
+
+**Frontend bundle (не ошибка волны 5, долг).** `npm run build` предупреждает: главный чанк 532.90 kB при лимите 500 kB. Code-splitting маршрутов — волна 6 (polish/perf).
+
+### Долг после волны 5 (делает волна 6)
+
+1. **QA** — `python manage.py test` и API-smoke в CI; тесты на правила волны 5: объект без перевода не пропадает, `/events` → `completed`, пустая вкладка неактивна, гостевой комментарий скрыт до `is_approved`, контакт с `country`/`whatsapp`/`category`.
+2. **Production** — `gunicorn` вместо `runserver` (в `requirements.txt` уже есть, в `backend/Dockerfile` остался TODO), `collectstatic`, `DEBUG=False`, секреты из env, прод-сборка фронта вместо `npm run dev`, `docker compose up` smoke в CI.
+3. **Polish** — code-splitting чанка >500 kB, проход маршрутов на 375px, accessibility (alt, aria, фокус), lazy-медиа, SEO (`title`, meta, `lang`).
+4. **Git** — не мержить `origin/feat/ui`, `origin/feature/events`; PR только в `dev`.
 
 ---
 
@@ -142,7 +193,7 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py init_ui
 python manage.py check
-python manage.py test apps.leads apps.courses
+python manage.py test
 ```
 
 ```bash

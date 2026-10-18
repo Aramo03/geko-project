@@ -1,12 +1,10 @@
 # Task advanced — карта зон и шаги
 
-Короткое задание: [TASK.md](TASK.md). **Сначала читай волну 5**; волны 4, 3 и 2 — архив ниже.
+Короткое задание: [TASK.md](TASK.md). **Сначала читай волну 6**; волны 5, 4, 3 и 2 — архив ниже.
 
-Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md). Фронт: [docs/frontend.md](docs/frontend.md). Ошибки волны 4: [fix.md](fix.md).
+Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md). Фронт: [docs/frontend.md](docs/frontend.md). Ошибки и долг волны 5: [fix.md](fix.md).
 
-**Макет волны 5:** [Figma Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0) — файл `dhh8j2e9rBeYrdPmzKz02I`, холст `node-id=0-1`. Backup [backup/geko-front-main](backup/geko-front-main) — только сверить старое поведение, папки не копировать и пиксели оттуда не снимать.
-
-**Волна 5 (сейчас)** — сверстать экраны по этому Figma и закрыть дыры DoD из [fix.md](fix.md). **Волна 4 закрыта** (2026-10-10). **Волна 3 закрыта** (2026-10-04). **Волна 2 закрыта** (2026-09-29).
+**Волна 6 (сейчас)** — QA/тесты, production/deploy и polish/UX. Новых функций нет: доводим текущий сайт (экраны по [Figma волны 5](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0), данные с API) до прода. **Волна 5 закрыта** (2026-10-19). **Волна 4 закрыта** (2026-10-10). **Волна 3 закрыта** (2026-10-04). **Волна 2 закрыта** (2026-09-29).
 
 ---
 
@@ -20,11 +18,11 @@ Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md)
 | **UI-слоты (бэк)** | JSON-блоки шапки, hero, футера | `UIBlock` + `init_ui` | **2 ✓** |
 | **Back — API** | `/api/…`, `?language=`, JWT, Swagger | serializers, views, urls | **3 ✓** |
 | **Back — admin** | Unfold, inlines, inbox заявок | `admin.py` | **3 ✓** |
-| **Serv** | Docker Compose, Postgres, CI, `.env.example` | корень репо, `.github/` | **4** (migrate — долг Lead на **5**) |
-| **Front — shell** | роутер, Header, Footer, Redux, axios | `frontend/src/` | **4 ✓** каркас, **5** вид |
-| **Front — страницы** | Home, About, Courses, Events, Contacts | `frontend/src/pages/` | **4 ✓** данные, **5** макет |
-| **Translation B (UI)** | подписи кнопок и меню | `frontend/src/i18n/am.json` `en.json` `ru.json` | **4 ✓**, новые строки — **5** |
-| **UI / Design / QA** | токены, адаптив, Figma | CSS, Tailwind, чеклисты | **5 (сейчас)** |
+| **Serv** | Docker Compose, Postgres, CI, `.env.example` | корень репо, `.github/` | **4 ✓** каркас, **5 ✓** migrate, **6** production |
+| **Front — shell** | роутер, Header, Footer, Redux, axios | `frontend/src/` | **4 ✓** каркас, **5 ✓** вид, **6** prod-build |
+| **Front — страницы** | Home, About, Courses, Events, Contacts | `frontend/src/pages/` | **4 ✓** данные, **5 ✓** макет, **6** polish |
+| **Translation B (UI)** | подписи кнопок и меню | `frontend/src/i18n/am.json` `en.json` `ru.json` | **4 ✓**, **5 ✓**, **6** SEO `lang` |
+| **UI / Design / QA** | токены, адаптив, Figma | CSS, Tailwind, чеклисты | **5 ✓**, **6 (сейчас)** QA и polish |
 
 Два разных «перевода»:
 
@@ -33,7 +31,218 @@ Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md)
 
 ---
 
-## Кто что занимает: волна 5
+## Кто что занимает: волна 6
+
+| # | Имя | Зона | Трек волны 6 | Ключевые файлы |
+|---|-----|------|--------------|----------------|
+| 1 | Lead | Lead | CI тесты + docker smoke, финальный QA | `.github/workflows/ci.yml`, `docker-compose.yml` |
+| 2 | Daniel | User | prod backend, hero media perf | `backend/Dockerfile`, `config/settings.py`, `HeroMedia` |
+| 3 | Sv | Language | тесты языка, SEO `lang` | `apps/main/tests.py`, `frontend/src/i18n/` |
+| 4 | Karen | Category | тесты и polish категорий | `pages/CourseCategory/`, тесты API категорий |
+| 5 | Vach | Courses | тесты и polish курса | `apps/courses/tests.py`, `pages/CourseDetails/` |
+| 6 | Ashot | Events | тесты событий | `pages/Events/`, тесты API событий |
+| 7 | Hayk | Content | Home polish, code-splitting | `pages/Home/`, роутер в `App.jsx` |
+| 8 | Suren | Team | тесты и polish About | `pages/About/`, тесты API команды |
+| 9 | Mariam | Leads + Comments | тесты форм, a11y форм | `apps/leads/tests.py`, `Contacts`, `CommentForm` |
+| 10 | UI / QA | Shell + QA | prod frontend, чеклист polish | `frontend/Dockerfile`, Header, Footer, NotFound |
+
+Владельцы страниц не ждут друг друга: каркас прода (Lead, Daniel, UI/QA) мержится первым, дальше каждый чинит тесты и polish только своей зоны.
+
+---
+
+## Порядок мержа волны 6 (строго)
+
+```
+Lead (CI: test + docker up smoke) → Daniel (prod backend) → UI/QA (prod frontend + чеклист) → Karen → Vach → Ashot → Hayk → Suren → Mariam → Sv (SEO lang, финальный i18n-проход)
+```
+
+Почему так: без тестов в CI polish нечем ловить. Prod-каркас бэка и фронта нужен раньше постраничных правок, чтобы все проверяли один и тот же режим (`DEBUG=False`, собранный фронт). Sv последний — `lang` и мета правятся по готовым страницам.
+
+Lead держит таблицу «кто мержит и когда». Никто не пушит в `main`.
+
+---
+
+## Общие шаги (волна 6)
+
+Делай **до** правок своей зоны.
+
+1. Прочитай [TASK.md](TASK.md), свой блок ниже и свой долг в [fix.md](fix.md) (раздел «Долг после волны 5»).
+2. Обнови `dev` и создай ветку:
+
+```bash
+git checkout dev
+git pull origin dev
+git checkout -b feat/<имя>-<зона>
+```
+
+3. Новые функции не добавляем. API, модели, имена `PopularCourse` / `ContactMessage` и поле `Event.date` не меняем.
+4. Ломающий тест сначала, фикс потом: если нашёл регрессию своей зоны — тест, который её ловит, идёт в том же PR первым коммитом.
+5. Проверки локально перед PR: `python manage.py test` (своё приложение минимум), `npm run build`, ширина 375px и desktop на своих маршрутах.
+6. Один PR = одна зона, **base = `dev`**. В описании PR: какие пункты долга из fix.md закрыты и вывод проверок.
+7. **Не мержить** `origin/feat/ui`, `origin/feature/events`.
+
+---
+
+## Волна 6 — активные задания
+
+Долг и контекст — [fix.md](fix.md), раздел «Долг после волны 5». Поведение страниц не меняем: только тесты, прод-режим и polish.
+
+### 1 — Lead
+
+**Слой:** CI и финальный QA. Чужие зоны не переписываешь.
+
+#### Шаги
+
+1. Таблица в чате: имя, ветка, PR, трек, когда мержить (порядок выше).
+2. В [.github/workflows/ci.yml](.github/workflows/ci.yml) добавь `python manage.py test` в backend job (после `migrate` + `init_ui`) — сейчас пайплайн тесты не запускает вообще.
+3. Docker job: после `docker compose build` — smoke `docker compose up -d` и проверка, что backend применил миграции и отвечает (при закрытии волны 5 локальный `up` не гонялся: daemon был выключен).
+4. Финальный проход перед закрытием волны: все маршруты desktop + 375px, пустой API, ошибка сети — по чеклисту UI/QA.
+
+#### DoD
+
+- CI красный, если падает любой из 12+ тестов бэкенда.
+- Docker smoke в CI поднимает стек без ручного `migrate`.
+- В каждом PR есть вывод локальных проверок.
+
+### 2 — Daniel (production backend + hero media)
+
+**Слой:** прод-режим Django и медиа первого экрана. JWT и слайс токена не ломай.
+
+#### Шаги
+
+1. В [backend/Dockerfile](backend/Dockerfile) убери TODO: сервер — `gunicorn` (уже в `requirements.txt`), а не `manage.py runserver`. Миграции по-прежнему применяет compose-команда до старта.
+2. `python manage.py collectstatic` в прод-пути; `STATIC_ROOT` уже задан в [settings.py](backend/config/settings.py). Статика и `media` не теряются при пересоздании контейнера (тома в compose).
+3. Прод-конфиг только из env: `DEBUG=False`, настоящий `SECRET_KEY`, `ALLOWED_HOSTS` домена. Дефолт `dev-only-change-me` в проде не живёт — падай с понятной ошибкой или документируй в `.env.example`.
+4. Пароль Postgres в [docker-compose.yml](docker-compose.yml) — не `change_me` в прод-конфиге: вынеси в env с примером в `.env.example`.
+5. Hero media perf: видео hero — `preload="metadata"`, постер webp уже есть; не добавляй медиа не из `frontend/public`.
+
+#### DoD
+
+- Стек поднимается с `DEBUG=False` через gunicorn, админка и `/api/schema/swagger-ui/` отвечают.
+- `collectstatic` проходит, статика Unfold видна.
+- Секретов и боевых паролей в репозитории нет.
+
+### 3 — Sv (тесты языка + SEO `lang`)
+
+**Слой:** регрессии правила «объект без перевода не пропадает» и язык документа.
+
+#### Шаги
+
+1. Backend-тесты в `apps/main`: категория, событие и занятие без перевода на `?language=en` остаются в list/detail, текст — fallback serializer. Тот же сценарий для detail (не 404).
+2. Проверь, что старт UI по-прежнему `en` без сохранённого выбора, а клик по флагу меняет `?language=` (см. закрытие волны 5).
+3. SEO: `<html lang>` следует за `i18n.language` (`am`/`en`/`ru`), не застревает на стартовом значении.
+
+#### DoD
+
+- Тесты языка зелёные в CI.
+- `document.documentElement.lang` равен активному языку после переключения.
+
+### 4 — Karen (категории: тесты и polish)
+
+#### Шаги
+
+1. Тесты API категорий своей зоны: список, курсы категории, объект без перевода (правило Sv на своём эндпоинте, если применимо).
+2. Polish `/course-category` и `/course-category/:id`: 375px без горизонтального скролла, состояния loading/error/empty одинаковы с остальными страницами, фокус виден на карточках-ссылках.
+3. Второй список комментариев не возвращать: только `CommentList` + `CommentForm` с `refreshKey`.
+
+#### DoD
+
+- Тесты категорий в CI, маршруты чисты на 375px.
+
+### 5 — Vach (курс: тесты и polish)
+
+#### Шаги
+
+1. Тесты в `apps/courses`: курс без перевода на текущий язык открывается в detail (не 404), список по категории отдаёт курс.
+2. Polish `/courses/:id`: картинка (`VITE_BASE_URL` для не-`https://`), 375px, alt у изображений, состояния как везде.
+3. Admin `PopularCourse` не ломать.
+
+#### DoD
+
+- Тесты курсов в CI, detail не 404 без перевода.
+
+### 6 — Ashot (события: тесты)
+
+#### Шаги
+
+1. Тесты API событий: фильтр по трём статусам, событие без перевода не пропадает, gallery отдаётся в detail.
+2. Фронт-поведение волны 5 не откатывать: `/events` → `/events/completed`, пустая вкладка не ссылка, список обновляется по `i18n.language`, в детали есть `date` и gallery.
+3. Polish списка и детали на 375px.
+
+#### DoD
+
+- Тесты событий в CI, вкладки и деталь на 375px чисты.
+
+### 7 — Hayk (Home: polish и code-splitting)
+
+#### Шаги
+
+1. Закрой warning сборки: главный JS-чанк 532.90 kB при лимите 500 kB (аудит закрытия волны 5). Маршруты — ленивая загрузка (`React.lazy` / dynamic import), тяжёлое не тянется на Home.
+2. Секции reviews и lesson info не переписывай по данным: только polish 375px, alt/aria, lazy-медиа вне первого экрана.
+3. Hero не затирать (текст — i18n, медиа — Daniel, payload слота — `init_ui`).
+
+#### DoD
+
+- `npm run build` без warning про чанк >500 kB.
+- Home на 375px и desktop без регрессий секций.
+
+### 8 — Suren (About: тесты и polish)
+
+#### Шаги
+
+1. Тесты API команды: участник без перевода на `en` приходит в списке (правило Sv в `apps/team`).
+2. Polish `/about-us`: сетка карточек на 375px, фото с alt, empty из i18n.
+3. Unfold Team не ломать.
+
+#### DoD
+
+- Тесты команды в CI, About чист на 375px.
+
+### 9 — Mariam (контакт и комментарии: тесты и a11y форм)
+
+#### Шаги
+
+1. Расширь `apps/leads/tests.py`: контакт принимает `country`, `whatsapp`, `category`; гостевой комментарий создаётся с `is_approved=False` и не виден в списке; xor category/popular_course по-прежнему работает; reply без JWT запрещён.
+2. A11y форм: у каждого поля есть подпись (`label`/`aria-label`), ошибки `useForm` озвучиваются (`aria-invalid`, текст ошибки рядом с полем), фокус после отправки не теряется.
+3. Текст успеха «отправлен и ждёт одобрения» не откатывать ни в одном из трёх языков.
+
+#### DoD
+
+- Тесты leads/comments в CI, формы проходят a11y-чеклист UI/QA.
+
+### 10 — UI / QA (production frontend + чеклист polish)
+
+**Слой:** прод-сборка фронта и общий чеклист качества. Мержится **до** постраничного polish.
+
+#### Шаги
+
+1. Дождись Lead и Daniel (CI и prod backend).
+2. В [frontend/Dockerfile](frontend/Dockerfile): production build вместо dev-сервера — `npm run build` и раздача собранного (не `npm run dev`). Прод-окружение не должно зависеть от Vite dev server.
+3. Чеклист polish для всех зон (в описание своего PR и ревью чужих): 375px без скролла; alt у картинок; видимый фокус; контраст по токенам из `index.css`; loading/error/empty везде одинаковые; `title` страниц по маршрутам.
+4. SEO-база: `title` и meta description в `index.html`, дальше по маршрутам — если делов на один PR много, отдельным пунктом долга, а не молча.
+5. Токены не раздувать: новые hex вне переменных `index.css` в ревью не пропускать.
+
+#### DoD
+
+- Фронт в Docker — собранный прод, не dev-сервер.
+- Чеклист polish опубликован, страницы зон 4–9 проходят его в своих PR.
+
+---
+
+## Запрещено в волне 6
+
+- пушить в `main`
+- новые функции и новые страницы (волна закрывает долг, а не расширяет сайт)
+- удалять Django-модели и переименовывать `PopularCourse`, `ContactMessage`, `Event.date`
+- мержить `origin/feat/ui` и `origin/feature/events`
+- секреты, боевые пароли и `DEBUG=True` в прод-конфиге
+- картинки не из `frontend/public` / backup
+- показывать гостевой комментарий до `is_approved`
+- откатывать поведение волны 5 (язык `en`, CommentList, события, hero)
+
+---
+
+## Архив — кто что занимал: волна 5
 
 | # | Имя | Зона | Слой волны 5 | Ключевые файлы |
 |---|-----|------|--------------|----------------|
@@ -52,7 +261,7 @@ Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md)
 
 ---
 
-## Порядок мержа волны 5 (строго)
+### Порядок мержа волны 5 (архив)
 
 ```
 Sv (язык) → UI/QA (токены, Header, Footer, 404) → Daniel (hero media) → Mariam (формы) → Karen → Vach → Ashot → Hayk → Suren
@@ -64,7 +273,7 @@ Lead держит таблицу «кто мержит и когда». Никт
 
 ---
 
-## Общие шаги (волна 5)
+### Общие шаги (волна 5, архив)
 
 Делай **до** вёрстки своей зоны.
 
@@ -87,7 +296,7 @@ git checkout -b feat/<имя>-<зона>
 
 ---
 
-## Волна 5 — активные задания
+## Архив — волна 5 (UI по Figma, закрыта 2026-10-19)
 
 Спека поведения страниц уже в коде волны 4 и в [docs/frontend.md](docs/frontend.md). Вид — только Figma по ссылке выше.
 
@@ -298,7 +507,7 @@ command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8
 
 ---
 
-## Запрещено в волне 5
+### Запрещено в волне 5 (архив)
 
 - пушить в `main`
 - удалять Django-модели и переименовывать `PopularCourse`, `ContactMessage`, `Event.date`
@@ -1079,11 +1288,15 @@ python manage.py makemigrations accounts
 
 ## English
 
-Short assignment: [TASK.md](TASK.md). **Read wave 5 first.** Waves 4, 3, and 2 are archives below.
+Short assignment: [TASK.md](TASK.md). **Read wave 6 first.** Waves 5, 4, 3, and 2 are archives below.
 
-**Wave 5 (now):** UI from [Figma Untitled](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0). Merge: Sv → UI/QA → Daniel (hero media) → Mariam → Karen → Vach → Ashot → Hayk → Suren. Close your wave 4 gaps in [fix.md](fix.md) in the same PR. PR **only to `dev`**.
+**Wave 6 (now):** QA/tests, production, polish. No new features. Merge: Lead (CI tests + docker smoke) → Daniel (prod backend) → UI/QA (prod frontend + checklist) → Karen → Vach → Ashot → Hayk → Suren → Mariam → Sv. Wave 5 debt: [fix.md](fix.md). PR **only to `dev`**.
 
-Zones: Lead — Figma review + Docker `migrate`; Daniel — hero media from `public`; Sv — default `en`, querysets must not drop rows that lack a translation; Karen — category frames + shared `CommentList`; Vach — course frame + the same queryset fix; Ashot — event redirect, disabled empty tab, detail (`date`, gallery); Hayk — Home reviews and lessons; Suren — About frame; Mariam — contact and comments, success copy says “waiting for approval”; UI/QA — tokens, Header, Footer, 404, `init_ui` payloads.
+Zones: Lead — CI `manage.py test`, docker `up` smoke, final QA; Daniel — gunicorn, `collectstatic`, env secrets, hero media perf; Sv — language regression tests, SEO `lang`; Karen / Vach / Ashot / Hayk / Suren — zone tests + 375px polish (Hayk also code-splitting, chunk was 532.90 kB); Mariam — leads/comments tests, form a11y; UI/QA — production frontend build, polish checklist.
+
+### Archive — wave 5
+
+UI from Figma. Closed 2026-10-19. All zones merged; dead `CourseComments` removed and empty `hero` payload filled at closure. Docker `up` and Figma pixel-check remain Lead manual sign-off — see [fix.md](fix.md).
 
 ### Archive — wave 4
 
@@ -1101,11 +1314,15 @@ Merge order: **User → Language → Category → Courses → Events → Content
 
 ## Հայերեն
 
-Կարճ առաջադրանք՝ [TASK.md](TASK.md)։ **Նախ կարդա ալիք 5**։ Ալիք 4, 3 և 2 — արխիվ ստորև։
+Կարճ առաջադրանք՝ [TASK.md](TASK.md)։ **Նախ կարդա ալիք 6**։ Ալիք 5, 4, 3 և 2 — արխիվ ստորև։
 
-**Ալիք 5 (հիմա)** — UI ըստ [Figma](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0)։ Merge՝ Sv → UI/QA → Daniel → Mariam → Karen → Vach → Ashot → Hayk → Suren։ Ալիք 4-ի սխալները՝ [fix.md](fix.md)։ PR միայն `dev`։
+**Ալիք 6 (հիմա)** — QA/թեստեր, production, polish։ Նոր ֆունկցիաներ չկան։ Merge՝ Lead (CI թեստեր + docker smoke) → Daniel (prod backend) → UI/QA (prod frontend) → Karen → Vach → Ashot → Hayk → Suren → Mariam → Sv։ Ալիք 5-ի պարտքը՝ [fix.md](fix.md)։ PR միայն `dev`։
 
-Գոտիներ՝ Lead (Docker migrate + Figma review), Daniel (hero մեդիա), Sv (լեզու `en`, queryset-ը չի թաքցնում տողը), Karen / Vach (էջ + `CommentList`), Ashot (իրադարձության մանրամասն), Hayk (Home), Suren (About), Mariam (ձևեր), UI/QA (Header, Footer, 404, token-ներ)։
+Գոտիներ՝ Lead (CI, վերջնական QA), Daniel (gunicorn, `collectstatic`, hero media), Sv (լեզվի թեստեր, SEO `lang`), Karen / Vach / Ashot / Hayk / Suren (գոտու թեստեր + 375px polish), Mariam (ձևերի թեստեր և a11y), UI/QA (production build, polish չեկլիստ)։
+
+### Արխիվ — ալիք 5
+
+UI ըստ Figma։ Փակված է 2026-10-19։ Բոլոր գոտիները մերջված են, մեռած `CourseComments`-ը հեռացված է, դատարկ `hero` payload-ը լրացված է։ Մանրամասները՝ [fix.md](fix.md)։
 
 ### Արխիվ — ալիք 4
 
