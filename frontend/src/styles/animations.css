@@ -20,7 +20,7 @@
 
 .animate-rise-in,
 .ui-rise-in {
-  animation: rise-in 520ms both var(--ease-smooth);
+  animation: rise-in 580ms both var(--ease-smooth);
 }
 
 .animate-rise-in-delay-1 {
@@ -40,7 +40,7 @@
 }
 
 .animate-media-in {
-  animation: media-fade-in 400ms ease both;
+  animation: media-fade-in 450ms ease both;
 }
 
 .about-hover-lift {

@@ -29,6 +29,19 @@
   background-position: center 43%;
 }
 
+.about-cta-bg .about-cta-primary,
+.about-cta-bg .about-cta-primary:hover {
+  color: var(--color-brand-dark);
+  background-color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.about-cta-bg .about-cta-primary:hover {
+  color: var(--color-white);
+  background-color: var(--color-brand-dark);
+  border-color: var(--color-brand-dark);
+}
+
 .about-eyebrow-line {
   position: relative;
   width: fit-content;

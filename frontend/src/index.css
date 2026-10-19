@@ -42,9 +42,9 @@
   --spacing-section: 2rem;
 
   --ease-smooth: cubic-bezier(0.2, 0.75, 0.25, 1);
-  --duration-fast: 180ms;
-  --duration-normal: 260ms;
-  --duration-slow: 500ms;
+  --duration-fast: 200ms;
+  --duration-normal: 290ms;
+  --duration-slow: 560ms;
 }
 
 @theme inline {

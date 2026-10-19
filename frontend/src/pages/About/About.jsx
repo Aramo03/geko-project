@@ -14,7 +14,7 @@ function SectionHeading({ eyebrow, title, text }) {
   const { t } = useTranslation()
   return (
     <header className="group mx-auto mb-10 max-w-[440px] text-center">
-      <span className="about-eyebrow-line mb-1 block text-[0.66rem] font-extrabold uppercase tracking-[0.045em] text-brand">
+      <span className="about-eyebrow-line mx-auto mb-1 block text-[0.66rem] font-extrabold uppercase tracking-[0.045em] text-brand">
         {t(eyebrow)}
       </span>
       <h2 className="my-2 text-[clamp(1.55rem,3vw,2rem)] font-[750] leading-tight text-text">
@@ -299,7 +299,7 @@ export default function About() {
           <p className="mx-auto mb-5 max-w-[400px] text-[0.88rem] leading-relaxed text-white/78">{t('about.ctaText')}</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link
-              className={`${btnPrimary} border-white bg-white text-brand-dark hover:text-white`}
+              className={`${btnPrimary} about-cta-primary border-white bg-white`}
               to="/course-category"
             >
               {t('about.exploreCourses')} <span aria-hidden="true">→</span>
