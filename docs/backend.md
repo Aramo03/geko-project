@@ -38,7 +38,7 @@ GET  /api/schema/swagger-ui/
 
 Админка: `/api/admin/`.
 
-**ContactMessage (факт):** `full_name`, `email`, `phone`, `message`. В backup у формы ещё `country`, `category`, `whatsapp` — см. [fix.md](../fix.md).
+**ContactMessage:** `full_name`, `email`, `phone`, `whatsapp`, `country`, `category`, `message`. `POST /api/contact/` принимает `country`, `whatsapp` и `category` (id категории или пусто). Поле `phone` остаётся.
 
 ## JWT
 
@@ -132,7 +132,7 @@ python manage.py init_ui
 python manage.py create_admin
 ```
 
-Compose по умолчанию только `runserver` — миграции выполняются вручную один раз.
+Сейчас compose запускает только `runserver` — это незакрытый пункт волны 4. Волна 5, зона Lead: команда `migrate && runserver`. Пока PR Lead не влит, миграции в контейнере по-прежнему вручную один раз.
 
 ## English
 

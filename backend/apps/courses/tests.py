@@ -63,13 +63,17 @@ class PopularCourseApiTests(APITestCase):
         response = self.client.get("/api/popular_courses/", {"language": "ru"})
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]["translations"][0]["language"], "ru")
-        self.assertEqual(response.data[0]["translations"][0]["title"], "Фигма")
+        self.assertEqual(len(response.data), 2)
+        figma = next(item for item in response.data if item["id"] == self.figma.id)
+        python = next(item for item in response.data if item["id"] == self.python.id)
+        self.assertEqual(figma["translations"][0]["language"], "ru")
+        self.assertEqual(figma["translations"][0]["title"], "Фигма")
         self.assertEqual(
-            response.data[0]["category"]["translations"][0]["language"],
+            figma["category"]["translations"][0]["language"],
             "ru",
         )
+        self.assertEqual(python["translations"][0]["language"], "en")
+        self.assertEqual(python["translations"][0]["title"], "Python")
 
     def test_courses_by_category(self):
         url = reverse("courses-by-category", args=[self.design.id])

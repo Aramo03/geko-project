@@ -1,1 +1,102 @@
-.page { padding: 2rem; }
+/* Course category — layout; motion via animations.css (.ui-rise-in, .about-hover-lift) */
+
+.course-category-page {
+  min-height: 60vh;
+  background: var(--color-canvas);
+  color: var(--color-brand-ink);
+  padding: 3rem 1rem 4.5rem;
+}
+
+.course-category-shell {
+  width: min(100%, var(--container-page));
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.course-category-back {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  color: var(--color-brand);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+.course-category-back:hover,
+.course-category-back:focus-visible {
+  color: var(--color-accent);
+}
+
+.course-category-intro {
+  max-width: 40rem;
+  margin: 0 auto 2.25rem;
+  text-align: center;
+}
+
+.course-category-kicker {
+  margin: 0 0 0.5rem;
+  color: var(--color-brand);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.course-category-intro h1 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.course-category-lead {
+  margin: 0.85rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.course-category-state {
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.course-category-state--error {
+  color: var(--color-error);
+}
+
+.category-grid,
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.course-category-comments {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2.75rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 375px) {
+  .course-category-page {
+    padding: 2rem 0.75rem 3rem;
+  }
+
+  .course-category-shell {
+    padding: 0 0.5rem;
+  }
+
+  .category-grid,
+  .course-grid {
+    gap: 1rem;
+  }
+}

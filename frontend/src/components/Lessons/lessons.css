@@ -1,0 +1,95 @@
+.home-lessons {
+  margin-top: 3.5rem;
+}
+
+.home-lessons h2 {
+  margin: 0 0 1.5rem;
+  color: #103d2e;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.home-lessons__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.home-lessons__card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid #dce9e1;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 6px 22px rgb(16 61 46 / 5%);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+.home-lessons__card::before {
+  content: "";
+  display: block;
+  height: 6px;
+  background: linear-gradient(90deg, #0b4935 0%, #27845c 65%, #a5d6b5 100%);
+}
+
+.home-lessons__card:hover {
+  transform: translateY(-4px);
+  border-color: #b8d6c4;
+  box-shadow: 0 14px 32px rgb(16 61 46 / 10%);
+}
+
+.home-lessons__card h3 {
+  margin: 0;
+  padding: 1.5rem 1.5rem 1.1rem;
+  color: #124530;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
+}
+
+.home-lessons__content {
+  position: relative;
+  margin: 0 1.5rem 1.5rem;
+  padding: 1rem 1.1rem;
+  border-left: 3px solid #58a77a;
+  border-radius: 0 0.65rem 0.65rem 0;
+  background: #f1f7f3;
+  color: #53685b;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .home-lessons {
+    margin-top: 2.5rem;
+  }
+
+  .home-lessons__list {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .home-lessons__card h3 {
+    padding: 1.25rem 1.25rem 0.9rem;
+    font-size: 1.15rem;
+  }
+
+  .home-lessons__content {
+    margin: 0 1.25rem 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-lessons__card {
+    transition: none;
+  }
+}

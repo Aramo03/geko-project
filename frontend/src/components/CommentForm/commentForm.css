@@ -1,0 +1,17 @@
+@import '../../pages/Contacts/contacts.css';
+
+.comment-form {
+  max-width: none;
+  width: 100%;
+}
+
+.comment-form-lead {
+  margin: -0.35rem 0 0.25rem;
+  color: var(--color-copy-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.comment-form .contact-form-grid {
+  margin-top: 0.5rem;
+}

@@ -45,7 +45,10 @@ class ContactMessageViewSet(viewsets.GenericViewSet):
                 message=(
                     f"Name: {contact.full_name}\n"
                     f"Email: {contact.email}\n"
-                    f"Phone: {contact.phone or '-'}\n\n"
+                    f"Phone: {contact.phone or '-'}\n"
+                    f"WhatsApp: {contact.whatsapp or '-'}\n"
+                    f"Country: {contact.country or '-'}\n"
+                    f"Category: {contact.category_id or '-'}\n\n"
                     f"Message:\n{contact.message}"
                 ),
                 from_email=settings.DEFAULT_FROM_EMAIL,

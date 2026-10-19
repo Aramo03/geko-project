@@ -15,12 +15,6 @@ def popular_course_queryset(request, category_id=None):
     if category_id is not None:
         queryset = queryset.filter(category_id=category_id)
 
-    language = request.query_params.get("language")
-    if language:
-        queryset = queryset.filter(
-            translations__language__code=language
-        ).distinct()
-
     return queryset
 
 

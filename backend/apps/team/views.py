@@ -12,11 +12,4 @@ class TeamViewSet(viewsets.ReadOnlyModelViewSet):
             "translations__language"
         ).all()
 
-        language = self.request.query_params.get("language")
-
-        if language:
-            queryset = queryset.filter(
-                translations__language__code=language
-            ).distinct()
-
         return queryset

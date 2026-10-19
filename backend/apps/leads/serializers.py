@@ -5,6 +5,12 @@ from apps.main.models import Category, CategoryTranslation, ContactMessage, Comm
 
 
 class ContactMessageSerializer(serializers.ModelSerializer):
+    category = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(),
+        required=False,
+        allow_null=True,
+    )
+
     class Meta:
         model = ContactMessage
         fields = [
@@ -12,10 +18,22 @@ class ContactMessageSerializer(serializers.ModelSerializer):
             "full_name",
             "email",
             "phone",
+            "whatsapp",
+            "country",
+            "category",
             "message",
             "created_at",
         ]
-        read_only_fields = ["id","created_at"]
+        read_only_fields = ["id", "created_at"]
+
+    def to_internal_value(self, data):
+        if hasattr(data, "copy"):
+            data = data.copy()
+        else:
+            data = dict(data)
+        if data.get("category") == "":
+            data["category"] = None
+        return super().to_internal_value(data)
 
 
 class CommentSerializer(serializers.ModelSerializer):
