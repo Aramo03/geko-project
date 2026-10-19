@@ -41,10 +41,10 @@
   --container-page: 90rem;
   --spacing-section: 2rem;
 
-  --ease-smooth: cubic-bezier(0.2, 0.75, 0.25, 1);
-  --duration-fast: 200ms;
-  --duration-normal: 290ms;
-  --duration-slow: 560ms;
+  --ease-smooth: cubic-bezier(0.16, 0.7, 0.2, 1);
+  --duration-fast: 320ms;
+  --duration-normal: 480ms;
+  --duration-slow: 900ms;
 }
 
 @theme inline {

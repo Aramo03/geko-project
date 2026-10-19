@@ -108,14 +108,14 @@
 }
 
 .about-stat-strong:hover {
-  transform: scale(1.08);
+  transform: scale(1.04);
   color: var(--color-brand);
 }
 
 .about-stat-strong {
   transition:
-    transform 220ms ease,
-    color 220ms ease;
+    transform 650ms var(--ease-smooth),
+    color 650ms var(--ease-smooth);
 }
 
 @media (hover: none) {

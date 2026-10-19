@@ -1,7 +1,31 @@
-/* Team card — motion hooks shared with About (hover via .about-hover-lift in About/about.css) */
+/* Team card motion complements the shared lift and scale hover. */
+
+.team-member-card {
+  transition:
+    box-shadow var(--duration-slow) ease,
+    border-color var(--duration-normal) ease;
+}
+
+.team-member-card:hover {
+  border-color: color-mix(in srgb, var(--color-brand) 22%, var(--color-border));
+  box-shadow: var(--shadow-elevated);
+}
+
+.team-member-card__image {
+  transition: transform var(--duration-slow) var(--ease-smooth);
+}
+
+.team-member-card:hover .team-member-card__image {
+  transform: scale(1.04);
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .team-member-card {
+  .team-member-card,
+  .team-member-card__image {
     transition: none !important;
+  }
+
+  .team-member-card:hover .team-member-card__image {
+    transform: none;
   }
 }

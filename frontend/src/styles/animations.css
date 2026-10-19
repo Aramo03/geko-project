@@ -1,7 +1,7 @@
 @keyframes rise-in {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -20,7 +20,7 @@
 
 .animate-rise-in,
 .ui-rise-in {
-  animation: rise-in 580ms both var(--ease-smooth);
+  animation: rise-in 900ms both var(--ease-smooth);
 }
 
 .animate-rise-in-delay-1 {
@@ -40,12 +40,13 @@
 }
 
 .animate-media-in {
-  animation: media-fade-in 450ms ease both;
+  animation: media-fade-in 700ms ease both;
 }
 
 .about-hover-lift {
   transition:
-    transform var(--duration-normal) var(--ease-smooth),
+    translate var(--duration-normal) var(--ease-smooth),
+    scale var(--duration-normal) var(--ease-smooth),
     box-shadow var(--duration-normal) ease,
     border-color var(--duration-fast) ease,
     background-color var(--duration-fast) ease,
@@ -53,22 +54,26 @@
 }
 
 .about-hover-lift:hover {
-  transform: translateY(-6px);
+  translate: 0 -7px;
+  scale: 1.015;
 }
 
 .about-hover-lift-sm:hover {
-  transform: translateY(-4px);
+  translate: 0 -5px;
+  scale: 1.015;
 }
 
 .about-hover-lift-xs:hover {
-  transform: translateY(-3px);
+  translate: 0 -3px;
+  scale: 1.025;
 }
 
 @media (hover: none) {
   .about-hover-lift:hover,
   .about-hover-lift-sm:hover,
   .about-hover-lift-xs:hover {
-    transform: none;
+    translate: none;
+    scale: none;
   }
 }
 
@@ -95,5 +100,12 @@
   .about-hover-lift-sm,
   .about-hover-lift-xs {
     transition: none !important;
+  }
+
+  .about-hover-lift:hover,
+  .about-hover-lift-sm:hover,
+  .about-hover-lift-xs:hover {
+    translate: none;
+    scale: none;
   }
 }
