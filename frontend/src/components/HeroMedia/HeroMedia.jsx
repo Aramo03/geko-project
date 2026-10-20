@@ -8,7 +8,7 @@ export default function HeroMedia() {
   if (videoFailed) {
     return (
       <div className="hero-media">
-        <img className="hero-media__visual" src={HERO_POSTER} alt="" />
+        <img className="hero-media__visual" src={HERO_POSTER} alt="" loading="eager" />
       </div>
     )
   }
@@ -21,7 +21,7 @@ export default function HeroMedia() {
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
         poster={HERO_POSTER}
         onError={() => setVideoFailed(true)}
       >
