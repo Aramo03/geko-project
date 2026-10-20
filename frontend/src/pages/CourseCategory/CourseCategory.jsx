@@ -76,15 +76,18 @@ export default function CourseCategory() {
   return (
     <main className="page course-category-page">
       <div className="course-category-shell">
-        {id ? (
-          <Link to="/course-category" className="course-category-back">
-            {t('nav.courses')}
-          </Link>
-        ) : null}
         <header className="course-category-intro">
+          {id ? (
+            <Link to="/course-category" className="course-category-back">
+              {t('nav.courses')}
+            </Link>
+          ) : null}
           <p className="course-category-kicker">{t('categories.kicker')}</p>
           <h1>{title}</h1>
           {!id ? <p className="course-category-lead">{t('categories.lead')}</p> : null}
+          {id && !loading && !error ? (
+            <p className="course-category-count">{t('categories.coursesInCategory')}</p>
+          ) : null}
         </header>
         {loading && <p className="course-category-state">{t('common.loading')}</p>}
         {error && <p className="course-category-state course-category-state--error">{t('common.error')}</p>}
@@ -92,11 +95,11 @@ export default function CourseCategory() {
         {!loading && !error && !id && categories.length > 0 && (
           <ul className="category-grid">
             {categories.map((item, index) => (
-              <li key={item.id}>
-                <CategoryCard
-                  category={item}
-                  className={index < 3 ? `ui-rise-in-delay-${index + 1}` : ''}
-                />
+              <li
+                key={item.id}
+                className={index < 3 ? `ui-rise-in ui-rise-in-delay-${index + 1}` : 'ui-rise-in'}
+              >
+                <CategoryCard category={item} />
               </li>
             ))}
           </ul>
@@ -105,11 +108,11 @@ export default function CourseCategory() {
         {!loading && !error && id && courses.length > 0 && (
           <ul className="course-grid">
             {courses.map((course, index) => (
-              <li key={course.id}>
-                <CourseCard
-                  course={course}
-                  className={index < 3 ? `ui-rise-in-delay-${index + 1}` : ''}
-                />
+              <li
+                key={course.id}
+                className={index < 3 ? `ui-rise-in ui-rise-in-delay-${index + 1}` : 'ui-rise-in'}
+              >
+                <CourseCard course={course} />
               </li>
             ))}
           </ul>

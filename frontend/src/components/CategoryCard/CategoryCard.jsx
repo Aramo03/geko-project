@@ -14,7 +14,7 @@ export default function CategoryCard({ category, className = '' }) {
 
   return (
     <article
-      className={`about-hover-lift ui-rise-in flex h-full flex-col justify-between rounded-2xl border border-border bg-surface p-4 shadow-[0_1px_3px_rgb(22_45_34/6%)] ${className}`}
+      className={`about-hover-lift flex h-full flex-col justify-between rounded-2xl border border-border bg-surface p-4 shadow-[0_1px_3px_rgb(22_45_34/6%)] ${className}`}
     >
       <div>
         <div className="mb-4 h-48 w-full overflow-hidden rounded-xl bg-surface-soft">
