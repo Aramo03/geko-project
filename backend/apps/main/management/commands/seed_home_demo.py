@@ -260,12 +260,12 @@ def _ensure_team(stdout):
                 )
 
 
-def _ensure_default_comment(categories, stdout):
-    category = categories["computer_science"]
+def _ensure_sample_comment(stdout, *, category=None, popular_course=None):
     comment = Comment.objects.filter(
         full_name=DEFAULT_COMMENT["full_name"],
         email=DEFAULT_COMMENT["email"],
         category=category,
+        popular_course=popular_course,
         parent__isnull=True,
     ).first()
     if comment:
@@ -280,9 +280,18 @@ def _ensure_default_comment(categories, stdout):
         email=DEFAULT_COMMENT["email"],
         text=DEFAULT_COMMENT["text"],
         category=category,
+        popular_course=popular_course,
         is_approved=True,
     )
     stdout.write(f"Created sample comment by {DEFAULT_COMMENT['full_name']}")
+
+
+def _ensure_default_comment(categories, stdout):
+    category = categories["computer_science"]
+    _ensure_sample_comment(stdout, category=category)
+    course = _find_course_by_en_title(FLAGSHIP_EN_TITLE)
+    if course:
+        _ensure_sample_comment(stdout, popular_course=course)
 
 
 def _ensure_reviews(stdout):
