@@ -18,6 +18,7 @@ export default function CourseCategory() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [refreshKey, setRefreshKey] = useState(0)
+  const [commentCategoryId, setCommentCategoryId] = useState('')
 
   useEffect(() => {
     let cancelled = false
@@ -49,6 +50,10 @@ export default function CourseCategory() {
             return
           }
           setCategories(list)
+          setCommentCategoryId((current) => {
+            const stillThere = list.some((item) => String(item.id) === String(current))
+            return stillThere ? String(current) : String(list[0]?.id || '')
+          })
         })
 
     request
@@ -117,6 +122,30 @@ export default function CourseCategory() {
             ))}
           </ul>
         )}
+        {!loading && !error && !id && commentCategoryId ? (
+          <div className="course-category-comments">
+            {categories.length > 1 ? (
+              <label className="course-category-comment-target">
+                <span>{t('contacts.category')}</span>
+                <select
+                  value={commentCategoryId}
+                  onChange={(event) => setCommentCategoryId(event.target.value)}
+                >
+                  {categories.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {categoryTitle(item) || t('categories.untitled')}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ) : null}
+            <CommentList category={commentCategoryId} refreshKey={refreshKey} />
+            <CommentForm
+              category={commentCategoryId}
+              onCreated={() => setRefreshKey((key) => key + 1)}
+            />
+          </div>
+        ) : null}
         {!loading && !error && id && (
           <div className="course-category-comments">
             <CommentList category={id} refreshKey={refreshKey} />
