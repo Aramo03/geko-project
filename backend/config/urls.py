@@ -20,6 +20,8 @@ urlpatterns = [
     ),
     path("api/", include("apps.main.urls")),
     path("api/", include("apps.leads.urls")),
+ 
+
 ]
 
 if settings.DEBUG:

@@ -91,13 +91,25 @@ export default function CourseDetails() {
               ) : null}
             </header>
 
-            <section className="course-detail-comments" aria-labelledby="course-comments-title">
-              <CommentList popularCourse={id} refreshKey={commentRefreshKey} />
-              <CommentForm
-                popularCourse={id}
-                onCreated={() => setCommentRefreshKey((key) => key + 1)}
-              />
-            </section>
+           
+<section
+  className="course-detail-comments"
+  aria-labelledby="course-comments-title"
+>
+  {course?.id && (
+    <>
+      <CommentList
+        popularCourse={course.id}
+        refreshKey={commentRefreshKey}
+      />
+
+      <CommentForm
+        popularCourse={course.id}
+        onCreated={() => setCommentRefreshKey((key) => key + 1)}
+      />
+    </>
+  )}
+</section>
           </>
         )}
       </div>
