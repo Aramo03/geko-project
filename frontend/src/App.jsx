@@ -9,8 +9,16 @@ import CourseDetails from './pages/CourseDetails/CourseDetails.jsx'
 import Events from './pages/Events/Events.jsx'
 import Contacts from './pages/Contacts/Contacts.jsx'
 import NotFound from './pages/NotFound/NotFound.jsx'
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+
 
 export default function App() {
+  const { i18n } = useTranslation()
+
+useEffect(() => {
+  document.documentElement.lang = i18n.language.split('-')[0]
+}, [i18n.language])
   return (
     <UiBlocksProvider>
       <Header />

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown, Menu, X } from 'lucide-react'
 import {
@@ -15,6 +15,7 @@ import './header.css'
 
 export default function Header() {
   const { t, i18n } = useTranslation()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { channels, socials } = useUiBlocks()
 
   const [menuOpen, setMenuOpen] = useState(false)
@@ -119,9 +120,14 @@ export default function Header() {
                       key={lang.code}
                       type="button"
                       onClick={() => {
-                        i18n.changeLanguage(lang.code)
-                        setLanguageOpen(false)
-                      }}
+  i18n.changeLanguage(lang.code)
+
+  const params = new URLSearchParams(searchParams)
+  params.set('language', lang.code)
+  setSearchParams(params)
+
+  setLanguageOpen(false)
+}}
                       aria-label={lang.code}
                       className={`flex items-center justify-center rounded-md p-2 transition hover:bg-gray-100 ${
                         currentLanguage === lang.code ? 'bg-gray-100' : ''

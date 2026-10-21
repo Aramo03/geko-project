@@ -76,3 +76,48 @@ class MissingTranslationListTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual([item["id"] for item in response.data], [self.event.id])
+
+
+
+    def test_details_without_english_translation_still_exist(self):
+        category_response = self.client.get(
+            f"/api/categories/{self.category.id}/",
+            {"language": "en"},
+        )
+        event_response = self.client.get(
+            f"/api/events/{self.event.id}/",
+            {"language": "en"},
+        )
+        lesson_response = self.client.get(
+            f"/api/lesson_info/{self.lesson.id}/",
+            {"language": "en"},
+        )
+
+        self.assertEqual(
+            category_response.status_code,
+            status.HTTP_200_OK,
+        )
+        self.assertEqual(
+            event_response.status_code,
+            status.HTTP_200_OK,
+        )
+        self.assertEqual(
+            lesson_response.status_code,
+            status.HTTP_200_OK,
+        )
+
+        self.assertEqual(
+            category_response.data["translations"][0]["text"],
+            self.category.translations.first().text,
+        )
+
+        self.assertEqual(
+            event_response.data["translations"][0]["title"],
+            self.event.translations.first().title,
+        )
+
+        self.assertEqual(
+            lesson_response.data["translations"][0]["title"],
+            self.lesson.translations.first().title,
+        )
+        
