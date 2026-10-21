@@ -1,13 +1,6 @@
 .home-reviews {
-  --review-green: #103d2e;
-  --review-accent: #27845c;
-  --review-gold: #d99a17;
-  --review-text: #53665a;
-  --review-border: #e1e9e3;
-  --review-transition: 220ms ease;
-
   margin-top: 5rem;
-  color: var(--review-green);
+  color: var(--color-brand);
 }
 
 .home-reviews--success {
@@ -17,7 +10,7 @@
 
 .home-reviews h2 {
   margin: 0 0 1.75rem;
-  color: var(--review-green);
+  color: var(--color-brand);
   font-size: clamp(1.8rem, 3vw, 2.5rem);
   font-weight: 800;
   line-height: 1.15;
@@ -32,7 +25,7 @@
 .home-reviews__lead {
   max-width: 38rem;
   margin: 0 auto 2.5rem;
-  color: var(--review-text);
+  color: var(--color-text-muted);
   font-size: 1rem;
   line-height: 1.8;
   text-align: center;
@@ -52,42 +45,40 @@
   min-width: 0;
   padding: 1.6rem;
   overflow: hidden;
-  border: 1px solid var(--review-border);
+  border: 1px solid var(--color-border);
   border-radius: 1.4rem;
-  background: #fff;
-  box-shadow: 0 5px 18px rgb(16 61 46 / 3%);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-elevated);
   transition:
-    transform var(--review-transition),
-    border-color var(--review-transition),
-    box-shadow var(--review-transition);
+    transform var(--duration-normal) var(--ease-smooth),
+    border-color var(--duration-normal) var(--ease-smooth),
+    box-shadow var(--duration-normal) var(--ease-smooth);
 }
 
-/* Большая декоративная кавычка */
 .home-reviews__card::before {
   content: "“";
   display: block;
   height: 3.5rem;
   margin-bottom: 0.8rem;
-  color: #c8e4d0;
+  color: var(--color-mint);
   font-family: Georgia, serif;
   font-size: 5rem;
   font-weight: 700;
   line-height: 1;
 }
 
-/* Верхняя строка: автор и рейтинг */
 .home-reviews__header {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: 0.65rem;
 }
 
 .home-reviews__header h3 {
   min-width: 0;
   margin: 0;
-  color: var(--review-green);
+  color: var(--color-brand);
   font-size: 1.05rem;
   font-weight: 750;
   line-height: 1.5;
@@ -96,15 +87,15 @@
 
 .home-reviews__rating {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 0.25rem;
-  flex-shrink: 0;
   max-width: 100%;
   padding: 0.45rem 0.65rem;
-  border: 1px solid #f0e4c7;
+  border: 1px solid var(--color-border);
   border-radius: 0.8rem;
-  background: #fff9eb;
-  color: var(--review-gold);
+  background: var(--color-surface-soft);
+  color: var(--color-focus);
   font-size: 0.85rem;
   font-weight: 800;
   line-height: 1.2;
@@ -112,7 +103,7 @@
 }
 
 .home-reviews__rating-value {
-  color: #6b604b;
+  color: var(--color-text-muted);
   font-size: 0.78rem;
   font-weight: 650;
 }
@@ -120,14 +111,13 @@
 .home-reviews__text {
   flex: 1;
   margin: 1.1rem 0 0;
-  color: var(--review-text);
+  color: var(--color-text-muted);
   font-size: 0.96rem;
   line-height: 1.85;
   overflow-wrap: anywhere;
   white-space: pre-line;
 }
 
-/* Небольшой акцент внизу карточки */
 .home-reviews__card::after {
   content: "";
   display: block;
@@ -135,14 +125,13 @@
   height: 3px;
   margin-top: 1.5rem;
   border-radius: 99px;
-  background: #b9ddc4;
+  background: var(--color-accent);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .home-reviews__card:hover {
     transform: translateY(-5px);
-    border-color: #b7d5c0;
-    box-shadow: 0 18px 38px rgb(16 61 46 / 8%);
+    border-color: var(--color-accent);
   }
 }
 
@@ -187,33 +176,14 @@
     font-size: 4.2rem;
   }
 
-  .home-reviews__header {
-    gap: 0.6rem;
-  }
-
-  .home-reviews__header h3 {
-    font-size: 1rem;
-  }
-
   .home-reviews__rating {
-    padding: 0.4rem 0.55rem;
-    font-size: 0.82rem;
-  }
-
-  .home-reviews__text {
-    margin-top: 0.85rem;
-    font-size: 0.93rem;
-    line-height: 1.75;
+    white-space: normal;
   }
 }
 
 @media (max-width: 375px) {
   .home-reviews__card {
     padding: 1.1rem;
-  }
-
-  .home-reviews__header {
-    align-items: flex-start;
   }
 }
 

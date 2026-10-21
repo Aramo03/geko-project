@@ -24,7 +24,7 @@ GET  /api/courses/<category_id>/
 GET  /api/events/?language=
 GET  /api/events/<id>/?language=
 GET  /api/reviews/?language=
-GET  /api/lesson_info/?language=
+GET  /api/lesson_info/?language=   optional `local_image` / `image_url`; `image` is the resolved URL (upload wins)
 GET  /api/teams/?language=
 GET  /api/ui-blocks/
 POST /api/contact/

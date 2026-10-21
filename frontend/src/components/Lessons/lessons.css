@@ -1,20 +1,12 @@
 .home-lessons {
-  --lesson-green: #103d2e;
-  --lesson-green-light: #27845c;
-  --lesson-mint: #e8f4ec;
-  --lesson-border: #e1e9e3;
-  --lesson-text: #53665a;
-  --lesson-radius: 1.5rem;
-  --lesson-transition: 220ms ease;
-
   margin-top: 5rem;
-  color: var(--lesson-green);
+  color: var(--color-brand);
 }
 
 .home-lessons h2 {
   position: relative;
   margin: 0 0 2rem;
-  color: var(--lesson-green);
+  color: var(--color-brand);
   font-size: clamp(1.8rem, 3vw, 2.5rem);
   font-weight: 800;
   line-height: 1.15;
@@ -29,7 +21,7 @@
   height: 5px;
   margin-top: 1rem;
   border-radius: 10px;
-  background: var(--lesson-green-light);
+  background: var(--color-accent);
 }
 
 .home-lessons__list {
@@ -45,18 +37,16 @@
   min-height: 14rem;
   padding: 2rem;
   overflow: hidden;
-  border: 1px solid var(--lesson-border);
-  border-radius: var(--lesson-radius);
-  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+  background: var(--color-surface);
   counter-increment: lesson;
   transition:
-    transform var(--lesson-transition),
-    border-color var(--lesson-transition),
-    box-shadow var(--lesson-transition),
-    background-color var(--lesson-transition);
+    transform var(--duration-normal) var(--ease-smooth),
+    border-color var(--duration-normal) var(--ease-smooth),
+    box-shadow var(--duration-normal) var(--ease-smooth);
 }
 
-/* Нумерация занятий */
 .home-lessons__card::before {
   content: counter(lesson, decimal-leading-zero);
   display: flex;
@@ -64,17 +54,25 @@
   justify-content: center;
   width: 3rem;
   height: 3rem;
-  margin-bottom: 2rem;
-  border: 1px solid #d7e9dc;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--color-border);
   border-radius: 1rem;
-  background: var(--lesson-mint);
-  color: var(--lesson-green-light);
+  background: var(--color-mint);
+  color: var(--color-success);
   font-size: 0.85rem;
   font-weight: 800;
   letter-spacing: 0.04em;
 }
 
-/* Первый блок — главный визуальный акцент */
+.home-lessons__image {
+  display: block;
+  width: 100%;
+  max-height: 14rem;
+  margin-bottom: 1rem;
+  object-fit: cover;
+  border-radius: 0.85rem;
+}
+
 .home-lessons__card:first-child {
   grid-row: span 2;
   display: flex;
@@ -82,31 +80,28 @@
   justify-content: flex-end;
   min-height: 29rem;
   padding: 2.25rem;
-  border-color: var(--lesson-green);
-  background:
-    radial-gradient(
-      circle at 100% 0%,
-      rgb(93 157 116 / 28%),
-      transparent 42%
-    ),
-    var(--lesson-green);
-  box-shadow: 0 18px 45px rgb(16 61 46 / 13%);
+  border-color: var(--color-brand);
+  background: var(--color-brand);
+  box-shadow: var(--shadow-elevated);
 }
 
 .home-lessons__card:first-child::before {
   width: 4rem;
   height: 4rem;
   margin-bottom: auto;
-  border-color: rgb(255 255 255 / 22%);
-  border-radius: 1.2rem;
-  background: rgb(255 255 255 / 10%);
-  color: #d3f0dc;
-  font-size: 1rem;
+  border-color: color-mix(in srgb, var(--color-white) 22%, transparent);
+  background: color-mix(in srgb, var(--color-white) 10%, transparent);
+  color: var(--color-white);
+}
+
+.home-lessons__card:first-child .home-lessons__image {
+  max-height: 16rem;
+  margin-top: 1.25rem;
 }
 
 .home-lessons__card h3 {
   margin: 0;
-  color: var(--lesson-green);
+  color: var(--color-brand);
   font-size: clamp(1.15rem, 1.8vw, 1.4rem);
   font-weight: 750;
   line-height: 1.4;
@@ -116,15 +111,14 @@
 
 .home-lessons__card:first-child h3 {
   max-width: 24rem;
-  color: #fff;
+  color: var(--color-white);
   font-size: clamp(1.5rem, 2.5vw, 2rem);
   line-height: 1.25;
-  letter-spacing: -0.035em;
 }
 
 .home-lessons__content {
   margin: 1rem 0 0;
-  color: var(--lesson-text);
+  color: var(--color-text-muted);
   font-size: 0.98rem;
   line-height: 1.8;
   overflow-wrap: anywhere;
@@ -133,21 +127,19 @@
 
 .home-lessons__card:first-child .home-lessons__content {
   padding-top: 1.1rem;
-  border-top: 1px solid rgb(255 255 255 / 20%);
-  color: #d5e6db;
-  line-height: 1.85;
+  border-top: 1px solid color-mix(in srgb, var(--color-white) 20%, transparent);
+  color: color-mix(in srgb, var(--color-white) 82%, transparent);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .home-lessons__card:not(:first-child):hover {
     transform: translateY(-4px);
-    border-color: #a9cbb4;
-    box-shadow: 0 16px 35px rgb(16 61 46 / 8%);
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-elevated);
   }
 
   .home-lessons__card:first-child:hover {
     transform: translateY(-3px);
-    box-shadow: 0 24px 50px rgb(16 61 46 / 20%);
   }
 }
 
@@ -177,22 +169,16 @@
   .home-lessons__card:first-child::before {
     width: 2.7rem;
     height: 2.7rem;
-    margin: 0 0 1.5rem;
-    border-radius: 0.85rem;
-  }
-
-  .home-lessons__card h3 {
-    font-size: 1.15rem;
+    margin: 0 0 1rem;
   }
 
   .home-lessons__card:first-child h3 {
     font-size: 1.5rem;
   }
 
-  .home-lessons__content {
-    margin-top: 0.8rem;
-    font-size: 0.93rem;
-    line-height: 1.75;
+  .home-lessons__image,
+  .home-lessons__card:first-child .home-lessons__image {
+    max-height: 12rem;
   }
 }
 
