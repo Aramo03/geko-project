@@ -66,9 +66,13 @@ class ReviewAdmin(ModelAdmin):
 
 @admin.register(LessonInfo)
 class LessonInfoAdmin(ModelAdmin):
-    list_display = ("id", "order")
+    list_display = ("id", "order", "image_url", "has_image")
     ordering = ("order",)
     inlines = [LessonInfoTranslationInline]
+
+    @admin.display(boolean=True, description="Image")
+    def has_image(self, obj):
+        return bool(obj.get_image())
 
 
 @admin.register(ContactMessage)

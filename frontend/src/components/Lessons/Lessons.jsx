@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api } from '../../api/client.js'
+import OptimizedImage from '../OptimizedMedia/OptimizedImage.jsx'
 import {
   asList,
   lessonTitle,
   lessonContent,
+  lessonImage,
 } from './lessons.js'
 import './lessons.css'
 
@@ -59,12 +61,12 @@ export default function Lessons({
   }, [controlled, i18n.language])
 
   return (
-    <section className="home-lessons">
-      <h2>{t('home.lessons')}</h2>
+    <section className="home-lessons" aria-labelledby="home-lessons-title">
+      <h2 id="home-lessons-title">{t('home.lessons')}</h2>
 
-      {loading && <p>{t('common.loading')}</p>}
+      {loading && <p role="status">{t('common.loading')}</p>}
 
-      {error && <p className="error">{t('common.error')}</p>}
+      {error && <p className="error" role="alert">{t('common.error')}</p>}
 
       {!loading && !error && lessons.length === 0 && (
         <p>{t('common.empty')}</p>
@@ -75,12 +77,21 @@ export default function Lessons({
           {lessons.map((lesson) => {
             const title = getLessonTitle(lesson) || t('home.untitled')
             const content = getLessonContent(lesson)
+            const image = lessonImage(lesson)
 
             return (
               <article
                 className="home-lessons__card"
                 key={lesson.id}
               >
+                {image ? (
+                  <OptimizedImage
+                    src={image}
+                    alt={t('home.lessonImageAlt', { title })}
+                    className="home-lessons__image"
+                    sizes="(max-width: 700px) 100vw, 40vw"
+                  />
+                ) : null}
                 <h3>{title}</h3>
 
                 {content && (
