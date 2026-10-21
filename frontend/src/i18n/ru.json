@@ -6,6 +6,16 @@
     "events": "События",
     "contacts": "Контакты"
   },
+  "pageTitles": {
+    "home": "GEKO | Курсы, команда и события",
+    "about": "О нас | GEKO",
+    "categories": "Курсы | GEKO",
+    "category": "Категория курса | GEKO",
+    "course": "Курс | GEKO",
+    "events": "События | GEKO",
+    "contacts": "Контакты | GEKO",
+    "notFound": "Страница не найдена | GEKO"
+  },
   "common": {
     "loading": "Загрузка…",
     "error": "Ошибка. Попробуйте позже.",

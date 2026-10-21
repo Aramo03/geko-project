@@ -25,10 +25,13 @@ export default function Footer() {
   const { phone, email, map, logo } = channels
   const addressLine = t('contacts.addressLine')
 
-  const socialLinks = socials.map((item) => ({
-    ...item,
-    Icon: SOCIAL_ICONS[item.name],
-  }))
+  // An API social without a known icon must not crash the shell.
+  const socialLinks = socials
+    .map((item) => ({
+      ...item,
+      Icon: SOCIAL_ICONS[item.name],
+    }))
+    .filter((item) => item.Icon)
 
   return (
     <footer className="footer-shell w-full bg-brand font-sans text-white">
