@@ -1,4 +1,6 @@
-import { Route, Routes } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Route, Routes, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import Header from './components/Header/Header.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import { UiBlocksProvider } from './lib/uiBlocks.jsx'
@@ -10,7 +12,27 @@ import Events from './pages/Events/Events.jsx'
 import Contacts from './pages/Contacts/Contacts.jsx'
 import NotFound from './pages/NotFound/NotFound.jsx'
 
+// Per-route <title> keys (SEO base, wave 6 zone 10). The static fallback
+// for crawlers / no-JS lives in index.html; Sv owns the final <html lang> pass.
+function pageTitleKey(pathname) {
+  if (pathname === '/') return 'pageTitles.home'
+  if (pathname === '/about-us') return 'pageTitles.about'
+  if (pathname === '/course-category') return 'pageTitles.categories'
+  if (pathname.startsWith('/course-category/')) return 'pageTitles.category'
+  if (pathname.startsWith('/courses/')) return 'pageTitles.course'
+  if (pathname.startsWith('/events')) return 'pageTitles.events'
+  if (pathname === '/contacts') return 'pageTitles.contacts'
+  return 'pageTitles.notFound'
+}
+
 export default function App() {
+  const { t, i18n } = useTranslation()
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    document.title = t(pageTitleKey(pathname))
+  }, [pathname, t, i18n.language])
+
   return (
     <UiBlocksProvider>
       <Header />

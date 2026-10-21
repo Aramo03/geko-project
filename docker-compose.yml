@@ -29,14 +29,15 @@ services:
       - db
 
   frontend:
-    build: ./frontend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+    # Production image: `npm run build` + nginx (see frontend/Dockerfile).
+    # No bind mounts / dev server — the container serves the built bundle.
+    # VITE_BASE_URL is baked in at build time, so it is a build arg, not env.
+    build:
+      context: ./frontend
+      args:
+        VITE_BASE_URL: ${VITE_BASE_URL:-http://127.0.0.1:8000}
     ports:
       - "3000:3000"
-    environment:
-      VITE_BASE_URL: http://127.0.0.1:8000
 
 volumes:
   pgdata:

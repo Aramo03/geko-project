@@ -6,6 +6,16 @@
     "events": "Events",
     "contacts": "Contacts"
   },
+  "pageTitles": {
+    "home": "GEKO | Courses, Team & Events",
+    "about": "About us | GEKO",
+    "categories": "Courses | GEKO",
+    "category": "Course category | GEKO",
+    "course": "Course | GEKO",
+    "events": "Events | GEKO",
+    "contacts": "Contacts | GEKO",
+    "notFound": "Page not found | GEKO"
+  },
   "common": {
     "loading": "Loading…",
     "error": "Something went wrong. Try again later.",
