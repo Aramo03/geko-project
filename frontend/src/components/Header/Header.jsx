@@ -35,13 +35,24 @@ export default function Header() {
     LinkedIn: FaLinkedinIn,
   }
 
-  const socialLinks = socials.map((item) => ({
-    ...item,
-    Icon: socialIcons[item.name],
-  }))
+  // An API social without a known icon must not crash the shell.
+  const socialLinks = socials
+    .map((item) => ({
+      ...item,
+      Icon: socialIcons[item.name],
+    }))
+    .filter((item) => item.Icon)
 
   return (
-    <header className="header-shell w-full bg-white font-sans">
+    <header
+      className="header-shell w-full bg-white font-sans"
+      onKeyDown={(event) => {
+        if (event.key === 'Escape') {
+          setMenuOpen(false)
+          setLanguageOpen(false)
+        }
+      }}
+    >
       <div className="bg-brand text-white">
         <div className="mx-auto flex min-h-[34px] max-w-[var(--container-page)] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 text-[11px] sm:px-8 lg:px-[5.5%]">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
@@ -100,7 +111,7 @@ export default function Header() {
               >
                 <img
                   src={flags[currentLanguage] || flags.en}
-                  alt={currentLanguage}
+                  alt=""
                   className="h-[16px] w-[24px] rounded-[2px] object-cover"
                 />
 
@@ -113,7 +124,7 @@ export default function Header() {
               </button>
 
               {languageOpen ? (
-                <div className="absolute right-0 top-full z-50 mt-2 flex min-w-[65px] flex-col gap-1 rounded-md border border-gray-200 bg-white p-2 shadow-lg">
+                <div className="absolute right-0 top-full z-50 mt-2 flex min-w-[65px] flex-col gap-1 rounded-md border border-border bg-white p-2 shadow-lg">
                   {LANGUAGES.map((lang) => (
                     <button
                       key={lang.code}
@@ -122,14 +133,15 @@ export default function Header() {
                         i18n.changeLanguage(lang.code)
                         setLanguageOpen(false)
                       }}
-                      aria-label={lang.code}
-                      className={`flex items-center justify-center rounded-md p-2 transition hover:bg-gray-100 ${
-                        currentLanguage === lang.code ? 'bg-gray-100' : ''
+                      aria-label={lang.label}
+                      aria-pressed={currentLanguage === lang.code}
+                      className={`flex items-center justify-center rounded-md p-2 transition hover:bg-brand-soft ${
+                        currentLanguage === lang.code ? 'bg-brand-soft' : ''
                       }`}
                     >
                       <img
                         src={flags[lang.code]}
-                        alt={lang.code}
+                        alt=""
                         className="h-[18px] w-[28px] rounded-[2px] object-cover"
                       />
                     </button>
@@ -190,7 +202,7 @@ export default function Header() {
       </div>
 
       {menuOpen ? (
-        <nav className="flex flex-col gap-1 border-t border-gray-100 bg-white px-5 py-3 lg:hidden">
+        <nav className="flex flex-col gap-1 border-t border-border bg-white px-5 py-3 lg:hidden">
           {NAV_ITEMS.map((item) => (
             <NavLink
               key={item.to}

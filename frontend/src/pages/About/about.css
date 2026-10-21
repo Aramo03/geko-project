@@ -1,5 +1,63 @@
 /* About — motion, layered backgrounds, and effects not covered by Tailwind utilities */
 
+.about-page {
+  overflow-x: clip;
+}
+
+/* Softer motion stays on this page. Shared tokens and other routes keep their own timing. */
+.about-page .animate-rise-in {
+  animation-duration: 900ms;
+}
+
+.about-page .about-hover-lift,
+.about-page .about-hover-lift-sm,
+.about-page .about-hover-lift-xs {
+  transition:
+    translate 480ms cubic-bezier(0.16, 0.7, 0.2, 1),
+    scale 480ms cubic-bezier(0.16, 0.7, 0.2, 1),
+    box-shadow 480ms ease,
+    border-color 320ms ease,
+    background-color 320ms ease,
+    color 320ms ease;
+}
+
+.about-page .about-hover-lift:hover {
+  transform: none;
+  translate: 0 -7px;
+  scale: 1.015;
+}
+
+.about-page .about-hover-lift-sm:hover {
+  transform: none;
+  translate: 0 -5px;
+  scale: 1.015;
+}
+
+.about-page .about-hover-lift-xs:hover {
+  transform: none;
+  translate: 0 -3px;
+  scale: 1.025;
+}
+
+@media (hover: none) {
+  .about-page .about-hover-lift:hover,
+  .about-page .about-hover-lift-sm:hover,
+  .about-page .about-hover-lift-xs:hover {
+    translate: none;
+    scale: none;
+  }
+}
+
+@media (max-width: 375px) {
+  .about-page :where(h1, h2, h3, p, span) {
+    overflow-wrap: anywhere;
+  }
+
+  .about-team-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .about-banner-bg {
   background-image:
     linear-gradient(
@@ -27,6 +85,19 @@
 
 .about-cta-bg:hover {
   background-position: center 43%;
+}
+
+.about-cta-bg .about-cta-primary,
+.about-cta-bg .about-cta-primary:hover {
+  color: var(--color-brand-dark);
+  background-color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.about-cta-bg .about-cta-primary:hover {
+  color: var(--color-white);
+  background-color: var(--color-brand-dark);
+  border-color: var(--color-brand-dark);
 }
 
 .about-eyebrow-line {
@@ -95,14 +166,14 @@
 }
 
 .about-stat-strong:hover {
-  transform: scale(1.08);
+  transform: scale(1.04);
   color: var(--color-brand);
 }
 
 .about-stat-strong {
   transition:
-    transform 220ms ease,
-    color 220ms ease;
+    transform 650ms var(--ease-smooth),
+    color 650ms var(--ease-smooth);
 }
 
 @media (hover: none) {
