@@ -128,10 +128,24 @@ class LessonInfoTranslationSerializer(serializers.ModelSerializer):
 
 class LessonInfoSerializer(serializers.ModelSerializer):
     translations = LessonInfoTranslationSerializer(many=True, read_only=True)
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = LessonInfo
-        fields = ["id", "order", "translations"]
+        fields = ["id", "order", "local_image", "image_url", "image", "translations"]
+
+    def get_image(self, obj):
+        """Uploaded file wins over image_url. Relative media paths become absolute."""
+        value = obj.get_image() or ""
+        if not value:
+            return ""
+        if value.startswith(("http://", "https://")):
+            return value
+        request = self.context.get("request")
+        path = value if value.startswith("/") else f"/{value}"
+        if request is not None:
+            return request.build_absolute_uri(path)
+        return path
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

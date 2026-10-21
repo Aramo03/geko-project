@@ -136,7 +136,9 @@
   },
   "home": {
     "reviews": "Отзывы",
+    "reviewsRating": "Оценка: {{rating}} из 5",
     "lessons": "О занятиях",
+    "lessonImageAlt": "Иллюстрация к «{{title}}»",
     "untitled": "Без названия",
     "hero": "Главный экран",
     "heroKicker": "GEKO Education",

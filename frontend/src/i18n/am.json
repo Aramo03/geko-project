@@ -136,7 +136,9 @@
   },
   "home": {
     "reviews": "Կարծիքներ",
+    "reviewsRating": "Գնահատական՝ {{rating}} / 5",
     "lessons": "Դասի մասին",
+    "lessonImageAlt": "Նկար՝ {{title}}",
     "untitled": "Անվերնագիր",
     "hero": "Գլխավոր բաժին",
     "heroKicker": "GEKO Education",
