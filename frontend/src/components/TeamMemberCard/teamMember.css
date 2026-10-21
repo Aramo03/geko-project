@@ -19,6 +19,17 @@
   transform: scale(1.04);
 }
 
+@media (max-width: 375px) {
+  .team-member-card {
+    grid-template-columns: minmax(0, 5.5rem) minmax(0, 1fr);
+  }
+
+  .team-member-card__image {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .team-member-card,
   .team-member-card__image {

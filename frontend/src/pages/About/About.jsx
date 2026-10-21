@@ -244,9 +244,13 @@ export default function About() {
         <div className={containerClass}>
           <SectionHeading eyebrow="about.teamEyebrow" title="about.team" text="about.teamIntro" />
           <div className="about-team" aria-busy={loading}>
-            {loading && <p className="my-4 text-center text-text-muted">{t('common.loading')}</p>}
+            {loading && (
+              <p className="my-4 text-center text-text-muted" role="status">
+                {t('common.loading')}
+              </p>
+            )}
             {error && (
-              <div className="grid grid-cols-4 gap-4 max-[760px]:grid-cols-2 max-[480px]:grid-cols-1 max-[480px]:gap-3.5">
+              <div className="about-team-grid grid grid-cols-4 gap-4 max-[760px]:grid-cols-2 max-[480px]:grid-cols-1 max-[480px]:gap-3.5">
                 {REFERENCE_INSTRUCTORS.map((instructor, index) => (
                   <ReferenceInstructorCard
                     key={instructor}
@@ -265,10 +269,12 @@ export default function About() {
               </div>
             )}
             {!loading && !error && teams.length === 0 && (
-              <p className="my-4 text-center text-text-muted">{t('about.empty')}</p>
+              <p className="my-4 text-center text-text-muted" role="status">
+                {t('about.empty')}
+              </p>
             )}
             {!loading && !error && teams.length > 0 && (
-              <div className="grid grid-cols-4 gap-4 max-[760px]:grid-cols-2 max-[480px]:grid-cols-1 max-[480px]:gap-3.5">
+              <div className="about-team-grid grid grid-cols-4 gap-4 max-[760px]:grid-cols-2 max-[480px]:grid-cols-1 max-[480px]:gap-3.5">
                 {teams.map((member, index) => (
                   <TeamMemberCard
                     key={member.id}

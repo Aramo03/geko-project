@@ -1,5 +1,63 @@
 /* About — motion, layered backgrounds, and effects not covered by Tailwind utilities */
 
+.about-page {
+  overflow-x: clip;
+}
+
+/* Softer motion stays on this page. Shared tokens and other routes keep their own timing. */
+.about-page .animate-rise-in {
+  animation-duration: 900ms;
+}
+
+.about-page .about-hover-lift,
+.about-page .about-hover-lift-sm,
+.about-page .about-hover-lift-xs {
+  transition:
+    translate 480ms cubic-bezier(0.16, 0.7, 0.2, 1),
+    scale 480ms cubic-bezier(0.16, 0.7, 0.2, 1),
+    box-shadow 480ms ease,
+    border-color 320ms ease,
+    background-color 320ms ease,
+    color 320ms ease;
+}
+
+.about-page .about-hover-lift:hover {
+  transform: none;
+  translate: 0 -7px;
+  scale: 1.015;
+}
+
+.about-page .about-hover-lift-sm:hover {
+  transform: none;
+  translate: 0 -5px;
+  scale: 1.015;
+}
+
+.about-page .about-hover-lift-xs:hover {
+  transform: none;
+  translate: 0 -3px;
+  scale: 1.025;
+}
+
+@media (hover: none) {
+  .about-page .about-hover-lift:hover,
+  .about-page .about-hover-lift-sm:hover,
+  .about-page .about-hover-lift-xs:hover {
+    translate: none;
+    scale: none;
+  }
+}
+
+@media (max-width: 375px) {
+  .about-page :where(h1, h2, h3, p, span) {
+    overflow-wrap: anywhere;
+  }
+
+  .about-team-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .about-banner-bg {
   background-image:
     linear-gradient(
