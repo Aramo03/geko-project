@@ -171,19 +171,7 @@ export default function CourseCategory() {
           </ul>
         )}
 
-        {!loading && !error && id && (
-  <div className="course-category-comments">
-    <CommentList
-      category={id}
-      refreshKey={refreshKey}
-    />
-
-    <CommentForm
-      category={id}
-      onCreated={() => setRefreshKey((key) => key + 1)}
-    />
-  </div>
-)}
+  
         
       </div>
     </main>
