@@ -1,35 +1,27 @@
-
 export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export function commentTarget(category, popularCourse) {
-  const hasCourse =
-    popularCourse !== undefined &&
-    popularCourse !== null &&
-    popularCourse !== ''
-
-  if (!hasCourse) return null
-
-  const courseId = Number(popularCourse)
-
-  if (!Number.isInteger(courseId) || courseId <= 0) {
-    return null
-  }
-
-  return {
-    popular_course: courseId,
-  }
+  const hasCategory = category !== undefined && category !== null && category !== ''
+  const hasCourse = popularCourse !== undefined && popularCourse !== null && popularCourse !== ''
+  if (hasCategory === hasCourse) return null
+  if (hasCategory) return { category: Number(category) }
+  return { popular_course: Number(popularCourse) }
 }
 
 export function getCommentPayload(data, category, popularCourse) {
   const target = commentTarget(category, popularCourse)
-
   if (!target) return null
-
   return {
-    full_name: data.full_name.trim(),
-    email: data.email.trim(),
-    whatsapp: data.whatsapp?.trim() || '',
-    text: data.text.trim(),
+    full_name: data.full_name,
+    email: data.email,
+    whatsapp: data.whatsapp || '',
+    text: data.text,
     ...target,
   }
+}
+
+export const COMMENT_FIELDS = ['full_name', 'email', 'whatsapp', 'text']
+
+export function invalidFieldName(errors, names) {
+  return names.find((name) => errors?.[name]) || ''
 }

@@ -1,4 +1,3 @@
-
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -79,12 +78,19 @@ class CommentViewSet(viewsets.ModelViewSet):
             parent__isnull=True,
         )
 
+        category_id = self.request.query_params.get("category")
         course_id = self.request.query_params.get("popular_course")
+
+        if category_id and course_id:
+            return queryset.none()
+
+        if category_id:
+            return queryset.filter(category_id=category_id)
 
         if course_id:
             return queryset.filter(popular_course_id=course_id)
 
-        return queryset.none()
+        return queryset
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -93,7 +99,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         comment = serializer.save(
             is_approved=False,
             parent=None,
-            category=None,
         )
 
         return Response(
@@ -127,7 +132,7 @@ class CommentViewSet(viewsets.ModelViewSet):
             full_name="GEKO",
             email=request.user.email,
             text=str(text).strip(),
-            category=None,
+            category=parent_comment.category,
             popular_course=parent_comment.popular_course,
             parent=parent_comment,
             is_approved=True,
