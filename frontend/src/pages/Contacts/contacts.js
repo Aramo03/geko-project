@@ -28,6 +28,19 @@ export function telHref(phone) {
   return `tel:${String(phone).replace(/[^\d+]/g, '')}`
 }
 
+export const CONTACT_FIELDS = [
+  'full_name',
+  'email',
+  'whatsapp',
+  'country',
+  'category',
+  'message',
+]
+
+export function invalidFieldName(errors, names) {
+  return names.find((name) => errors?.[name]) || ''
+}
+
 export function contactPayload(data) {
   const payload = {
     full_name: data.full_name,
