@@ -91,7 +91,7 @@ export default function CourseDetails() {
               ) : null}
             </header>
 
-            <section className="course-detail-comments" aria-labelledby="course-comments-title">
+            <section className="course-detail-comments" aria-label={t('comments.title')}>
               <CommentList popularCourse={id} refreshKey={commentRefreshKey} />
               <CommentForm
                 popularCourse={id}

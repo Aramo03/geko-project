@@ -89,3 +89,23 @@ class PopularCourseApiTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(response.data["error"], "Category not found")
+
+    def test_detail_without_current_language_is_not_404(self):
+        response = self.client.get(
+            f"/api/popular_courses/{self.python.id}/",
+            {"language": "ru"},
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["id"], self.python.id)
+        self.assertEqual(response.data["translations"][0]["language"], "en")
+        self.assertEqual(response.data["translations"][0]["title"], "Python")
+
+    def test_category_list_includes_course_without_current_language(self):
+        url = reverse("courses-by-category", args=[self.coding.id])
+        response = self.client.get(url, {"language": "ru"})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual([item["id"] for item in response.data], [self.python.id])
+        self.assertEqual(response.data[0]["translations"][0]["language"], "en")
+        self.assertEqual(response.data[0]["translations"][0]["title"], "Python")
