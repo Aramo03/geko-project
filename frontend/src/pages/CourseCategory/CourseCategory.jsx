@@ -86,9 +86,21 @@ export default function CourseCategory() {
           <h1>{title}</h1>
           {!id ? <p className="course-category-lead">{t('categories.lead')}</p> : null}
         </header>
-        {loading && <p className="course-category-state">{t('common.loading')}</p>}
-        {error && <p className="course-category-state course-category-state--error">{t('common.error')}</p>}
-        {!loading && !error && !id && categories.length === 0 && <p>{t('common.empty')}</p>}
+        {loading && (
+          <p className="course-category-state" role="status">
+            {t('common.loading')}
+          </p>
+        )}
+        {error && (
+          <p className="course-category-state course-category-state--error" role="alert">
+            {t('common.error')}
+          </p>
+        )}
+        {!loading && !error && !id && categories.length === 0 && (
+          <p className="course-category-state" role="status">
+            {t('common.empty')}
+          </p>
+        )}
         {!loading && !error && !id && categories.length > 0 && (
           <ul className="category-grid">
             {categories.map((item, index) => (
@@ -101,7 +113,11 @@ export default function CourseCategory() {
             ))}
           </ul>
         )}
-        {!loading && !error && id && courses.length === 0 && <p>{t('common.empty')}</p>}
+        {!loading && !error && id && courses.length === 0 && (
+          <p className="course-category-state" role="status">
+            {t('common.empty')}
+          </p>
+        )}
         {!loading && !error && id && courses.length > 0 && (
           <ul className="course-grid">
             {courses.map((course, index) => (

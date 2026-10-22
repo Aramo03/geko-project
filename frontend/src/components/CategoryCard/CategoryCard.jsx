@@ -35,11 +35,11 @@ export default function CategoryCard({ category, className = '' }) {
           {description || label}
         </p>
       </div>
-      <div className="mt-auto flex items-center justify-between border-t border-border pt-4">
-        <span className="text-xs text-copy-muted">{students}</span>
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4">
+        <span className="min-w-0 text-xs text-copy-muted">{students}</span>
         <Link
           to={`/course-category/${category.id}`}
-          className="rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white no-underline transition-colors hover:bg-brand-dark"
+          className="shrink-0 rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white no-underline transition-colors hover:bg-brand-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
         >
           {t('categories.learnMore')}
         </Link>

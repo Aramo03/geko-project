@@ -25,7 +25,7 @@
 ```bash
 # backend
 cd backend
-python -m venv venv 
+python -m venv venv
 venv\Scripts\activate          # Linux/macOS: source venv/bin/activate
 pip install -r requirements.txt
 copy .env.example .env         # Linux/macOS: cp .env.example .env
@@ -35,9 +35,7 @@ python manage.py createsuperuser   # superuser — см. docs/backend.md
 python manage.py create_admin      # role=admin — см. docs/backend.md
 python manage.py init_ui
 python manage.py runserver
- 
 
- 
 # frontend (другое окно)
 cd frontend
 npm install
