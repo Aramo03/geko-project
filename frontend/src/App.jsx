@@ -16,7 +16,7 @@ const Contacts = lazy(() => import('./pages/Contacts/Contacts.jsx'))
 const NotFound = lazy(() => import('./pages/NotFound/NotFound.jsx'))
 
 // Per-route <title> keys (SEO base, wave 6 zone 10). The static fallback
-// for crawlers / no-JS lives in index.html; Sv owns the final <html lang> pass.
+// for crawlers / no-JS lives in index.html.
 function pageTitleKey(pathname) {
   if (pathname === '/') return 'pageTitles.home'
   if (pathname === '/about-us') return 'pageTitles.about'
@@ -35,6 +35,13 @@ export default function App() {
   useEffect(() => {
     document.title = t(pageTitleKey(pathname))
   }, [pathname, t, i18n.language])
+
+  // <html lang> follows the active UI language (am/en/ru), so screen
+  // readers and crawlers never stay on the initial value after a switch.
+  useEffect(() => {
+    const code = (i18n.resolvedLanguage || i18n.language || 'en').split('-')[0]
+    document.documentElement.lang = code
+  }, [i18n.language, i18n.resolvedLanguage])
 
   return (
     <UiBlocksProvider>
