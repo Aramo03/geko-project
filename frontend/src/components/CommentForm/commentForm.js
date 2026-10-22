@@ -19,3 +19,9 @@ export function getCommentPayload(data, category, popularCourse) {
     ...target,
   }
 }
+
+export const COMMENT_FIELDS = ['full_name', 'email', 'whatsapp', 'text']
+
+export function invalidFieldName(errors, names) {
+  return names.find((name) => errors?.[name]) || ''
+}

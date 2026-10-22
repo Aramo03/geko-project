@@ -1,3 +1,6 @@
+import base64
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -76,3 +79,27 @@ class MissingTranslationListTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual([item["id"] for item in response.data], [self.event.id])
+
+    def test_lesson_image_comes_from_backend(self):
+        self.lesson.image_url = "https://cdn.example/lesson.webp"
+        self.lesson.save(update_fields=["image_url"])
+
+        remote = self.client.get(f"/api/lesson_info/{self.lesson.id}/")
+        self.assertEqual(remote.status_code, status.HTTP_200_OK)
+        self.assertEqual(remote.data["image"], "https://cdn.example/lesson.webp")
+        self.assertEqual(remote.data["image_url"], "https://cdn.example/lesson.webp")
+
+        png = base64.b64decode(
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+        )
+        uploaded = LessonInfo.objects.create(
+            order=2,
+            image_url="https://cdn.example/ignored.webp",
+            local_image=SimpleUploadedFile("dot.png", png, content_type="image/png"),
+        )
+
+        response = self.client.get(f"/api/lesson_info/{uploaded.id}/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("/lesson_images/", response.data["image"])
+        self.assertTrue(response.data["image"].startswith("http://"))
+        self.assertNotIn("ignored.webp", response.data["image"])

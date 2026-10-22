@@ -1,8 +1,9 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
 
+from apps.accounts.models import User
 from apps.courses.models import PopularCourse
-from apps.main.models import Category, ContactMessage
+from apps.main.models import Category, Comment, ContactMessage
 
 
 class ContactAPITest(TestCase):
@@ -110,3 +111,110 @@ class CommentAPITest(TestCase):
             format="json",
         )
         self.assertEqual(response.status_code, 400)
+
+    def test_guest_comment_stays_hidden_until_approved(self):
+        created = self.client.post(
+            "/api/comments/",
+            {
+                "full_name": "Guest",
+                "email": "guest@example.com",
+                "text": "Waiting",
+                "category": self.category.id,
+            },
+            format="json",
+        )
+        self.assertEqual(created.status_code, 201)
+        self.assertFalse(created.data["is_approved"])
+
+        hidden = self.client.get("/api/comments/", {"category": self.category.id})
+        self.assertEqual(hidden.status_code, 200)
+        self.assertNotIn(created.data["id"], [item["id"] for item in hidden.data])
+
+        Comment.objects.filter(pk=created.data["id"]).update(is_approved=True)
+        visible = self.client.get("/api/comments/", {"category": self.category.id})
+        self.assertIn(created.data["id"], [item["id"] for item in visible.data])
+
+    def test_guest_course_comment_is_hidden_and_xor_filters_stay_empty(self):
+        created = self.client.post(
+            "/api/comments/",
+            {
+                "full_name": "Guest",
+                "email": "guest@example.com",
+                "text": "About this course",
+                "popular_course": self.course.id,
+            },
+            format="json",
+        )
+        self.assertEqual(created.status_code, 201)
+        self.assertFalse(created.data["is_approved"])
+        self.assertEqual(created.data["popular_course"], self.course.id)
+
+        listing = self.client.get(
+            "/api/comments/",
+            {"popular_course": self.course.id},
+        )
+        self.assertNotIn(created.data["id"], [item["id"] for item in listing.data])
+
+        Comment.objects.filter(pk=created.data["id"]).update(is_approved=True)
+        both = self.client.get(
+            "/api/comments/",
+            {
+                "category": self.category.id,
+                "popular_course": self.course.id,
+            },
+        )
+        self.assertEqual(both.status_code, 200)
+        self.assertEqual(both.data, [])
+
+    def test_reply_without_jwt_is_forbidden(self):
+        parent = Comment.objects.create(
+            full_name="Guest",
+            email="guest@example.com",
+            text="Hello",
+            category=self.category,
+            is_approved=True,
+        )
+        response = self.client.post(
+            f"/api/comments/{parent.id}/reply/",
+            {"text": "Answer"},
+            format="json",
+        )
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(parent.replies.count(), 0)
+
+    def test_admin_reply_with_jwt_stays_out_of_the_public_list(self):
+        parent = Comment.objects.create(
+            full_name="Guest",
+            email="guest@example.com",
+            text="Hello",
+            category=self.category,
+            is_approved=True,
+        )
+        User.objects.create_user(
+            "admin@example.com",
+            "Admin-pass-123",
+            role="admin",
+        )
+        token = self.client.post(
+            "/api/auth/token/",
+            {"email": "admin@example.com", "password": "Admin-pass-123"},
+            format="json",
+        )
+        self.assertEqual(token.status_code, 200)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {token.data['access']}"
+        )
+        response = self.client.post(
+            f"/api/comments/{parent.id}/reply/",
+            {"text": "Answer"},
+            format="json",
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(response.data["is_approved"])
+        self.assertEqual(response.data["parent"], parent.id)
+        self.assertEqual(response.data["category"], self.category.id)
+
+        listing = self.client.get("/api/comments/", {"category": self.category.id})
+        ids = [item["id"] for item in listing.data]
+        self.assertIn(parent.id, ids)
+        self.assertNotIn(response.data["id"], ids)
