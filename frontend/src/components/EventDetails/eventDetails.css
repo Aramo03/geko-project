@@ -1,12 +1,13 @@
 .event-details {
   min-height: 60vh;
+  overflow-x: clip;
   background: var(--color-canvas);
   color: var(--color-brand-ink);
 }
 
 .event-details__hero {
   background: var(--color-brand);
-  color: #fff;
+  color: var(--color-white);
   text-align: center;
   padding: 3rem 1rem 2.75rem;
 }
@@ -25,7 +26,8 @@
   color: inherit;
 }
 
-.event-details__crumbs a:hover {
+.event-details__crumbs a:hover,
+.event-details__crumbs a:focus-visible {
   color: var(--color-accent);
 }
 
@@ -40,6 +42,7 @@
 
 .event-details__title {
   margin: 0;
+  overflow-wrap: anywhere;
   font-size: clamp(1.6rem, 3.4vw, 2.25rem);
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -47,6 +50,7 @@
 
 .event-details__date {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
@@ -63,6 +67,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  box-sizing: border-box;
 }
 
 .event-details__back {
@@ -72,25 +77,27 @@
   font-weight: 600;
 }
 
-.event-details__back:hover {
+.event-details__back:hover,
+.event-details__back:focus-visible {
   color: var(--color-accent);
 }
 
 .event-details__error {
-  color: #c24141;
+  color: var(--color-error);
 }
 
 .event-details__gallery {
   position: relative;
   overflow: hidden;
   border-radius: 16px;
-  background: #fff;
+  background: var(--color-surface);
   border: 1px solid var(--color-brand-soft);
 }
 
 .event-details__gallery img {
   display: block;
   width: 100%;
+  max-width: 100%;
   max-height: 28rem;
   object-fit: cover;
 }
@@ -106,12 +113,13 @@
   border: 0;
   border-radius: 999px;
   background: rgba(11, 57, 40, 0.72);
-  color: #fff;
+  color: var(--color-white);
   cursor: pointer;
   transform: translateY(-50%);
 }
 
-.event-details__arrow:hover {
+.event-details__arrow:hover,
+.event-details__arrow:focus-visible {
   background: var(--color-brand);
 }
 
@@ -130,7 +138,7 @@
   padding: 0.2rem 0.65rem;
   border-radius: 999px;
   background: rgba(11, 57, 40, 0.72);
-  color: #fff;
+  color: var(--color-white);
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -144,6 +152,7 @@
 
 .event-details__text {
   margin: 0;
+  overflow-wrap: anywhere;
   color: var(--color-copy-muted);
   font-size: 0.92rem;
   line-height: 1.75;
@@ -152,27 +161,38 @@
 
 .event-details__signup {
   width: fit-content;
+  max-width: 100%;
   min-height: 2.55rem;
   margin-top: 0.35rem;
   padding: 0.55rem 1.4rem;
   border-radius: 5px;
   background: var(--color-brand);
-  color: #fff;
+  color: var(--color-white);
   font-size: 0.78rem;
   font-weight: 700;
+  text-align: center;
   transition: background-color 0.2s ease;
 }
 
-.event-details__signup:hover {
+.event-details__signup:hover,
+.event-details__signup:focus-visible {
   background: var(--color-brand-hover);
 }
 
-@media (max-width: 375px) {
+@media (max-width: 480px) {
   .event-details__hero {
     padding: 2rem 0.75rem 1.75rem;
   }
 
   .event-details__content {
     padding: 1.25rem 0.75rem 2.5rem;
+  }
+
+  .event-details__gallery img {
+    max-height: 16rem;
+  }
+
+  .event-details__signup {
+    width: 100%;
   }
 }
