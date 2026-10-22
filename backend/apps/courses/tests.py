@@ -1,7 +1,10 @@
+from django.contrib import admin
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+from unfold.admin import ModelAdmin
 
+import apps.courses.admin  # noqa: F401  registers Unfold PopularCourse
 from apps.courses.models import PopularCourse, PopularCourseTranslation
 from apps.main.models import Category, CategoryTranslation, Language
 
@@ -89,3 +92,50 @@ class PopularCourseApiTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(response.data["error"], "Category not found")
+
+    def test_detail_without_current_language_is_not_404(self):
+        response = self.client.get(
+            f"/api/popular_courses/{self.python.id}/",
+            {"language": "ru"},
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["id"], self.python.id)
+        self.assertEqual(response.data["translations"][0]["language"], "en")
+        self.assertEqual(response.data["translations"][0]["title"], "Python")
+
+    def test_category_list_includes_course_without_current_language(self):
+        url = reverse("courses-by-category", args=[self.coding.id])
+        response = self.client.get(url, {"language": "ru"})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual([item["id"] for item in response.data], [self.python.id])
+        self.assertEqual(response.data[0]["translations"][0]["language"], "en")
+        self.assertEqual(response.data[0]["translations"][0]["title"], "Python")
+
+    def test_detail_without_english_translation_is_not_404(self):
+        armenian = Language.objects.create(code="am", name="Armenian")
+        armenian_only = PopularCourse.objects.create(category=self.design, order=3)
+        PopularCourseTranslation.objects.create(
+            popular_course=armenian_only,
+            language=armenian,
+            title="Դիզայն",
+            description="Նկարագրություն",
+        )
+
+        detail = self.client.get(
+            f"/api/popular_courses/{armenian_only.id}/",
+            {"language": "en"},
+        )
+        self.assertEqual(detail.status_code, status.HTTP_200_OK)
+        self.assertEqual(detail.data["id"], armenian_only.id)
+        self.assertEqual(detail.data["translations"][0]["language"], "am")
+        self.assertEqual(detail.data["translations"][0]["title"], "Դիզայն")
+
+    def test_popular_course_stays_registered_in_unfold(self):
+        model_admin = admin.site._registry[PopularCourse]
+
+        self.assertIsInstance(model_admin, ModelAdmin)
+        self.assertEqual(model_admin.ordering, ("order",))
+        self.assertTrue(model_admin.inlines)
+        self.assertEqual(model_admin.list_display, ("id", "category", "order"))

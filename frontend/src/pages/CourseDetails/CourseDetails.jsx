@@ -55,7 +55,7 @@ export default function CourseDetails() {
   return (
     <main className="course-detail-page">
       <div className="course-detail-shell ui-rise-in">
-        <nav className="course-detail-crumbs" aria-label="breadcrumb">
+        <nav className="course-detail-crumbs" aria-label={t('about.breadcrumb')}>
           <Link to="/">{t('nav.home')}</Link>
           <span aria-hidden="true">/</span>
           <Link to="/course-category">{t('nav.courses')}</Link>
@@ -69,8 +69,21 @@ export default function CourseDetails() {
           <span>{title}</span>
         </nav>
 
-        {loading && <p className="course-detail-state">{t('common.loading')}</p>}
-        {error && <p className="course-detail-state course-detail-state--error">{t('common.error')}</p>}
+        {loading && (
+          <p className="course-detail-state" role="status">
+            {t('common.loading')}
+          </p>
+        )}
+        {error && (
+          <p className="course-detail-state course-detail-state--error" role="alert">
+            {t('common.error')}
+          </p>
+        )}
+        {!loading && !error && !course && (
+          <p className="course-detail-state" role="status">
+            {t('common.empty')}
+          </p>
+        )}
 
         {!loading && !error && course && (
           <>
@@ -91,7 +104,7 @@ export default function CourseDetails() {
               ) : null}
             </header>
 
-            <section className="course-detail-comments" aria-labelledby="course-comments-title">
+            <section className="course-detail-comments" aria-label={t('comments.title')}>
               <CommentList popularCourse={id} refreshKey={commentRefreshKey} />
               <CommentForm
                 popularCourse={id}
