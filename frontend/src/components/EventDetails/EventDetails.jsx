@@ -52,7 +52,9 @@ export default function EventDetails() {
     return (
       <main className="event-details">
         <div className="event-details__content">
-          <p>{t('common.loading')}</p>
+          <p className="events-state" role="status">
+            {t('common.loading')}
+          </p>
         </div>
       </main>
     )
@@ -63,7 +65,9 @@ export default function EventDetails() {
       <main className="event-details">
         <div className="event-details__content">
           {back}
-          <p className="event-details__error">{t('common.error')}</p>
+          <p className="events-state events-state--error event-details__error" role="alert">
+            {t('common.error')}
+          </p>
         </div>
       </main>
     )
@@ -76,7 +80,7 @@ export default function EventDetails() {
   return (
     <main className="event-details">
       <section className="event-details__hero">
-        <nav className="event-details__crumbs" aria-label="breadcrumb">
+        <nav className="event-details__crumbs" aria-label={t('about.breadcrumb')}>
           <Link to="/">{t('nav.home')}</Link>
           <span aria-hidden="true">/</span>
           <Link to={backTo}>{t('events.title')}</Link>

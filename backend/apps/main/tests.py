@@ -9,6 +9,7 @@ from apps.main.models import (
     Category,
     CategoryTranslation,
     Event,
+    EventGallery,
     EventTranslation,
     Language,
     LessonInfo,
@@ -298,3 +299,103 @@ class CategoryZoneApiTests(APITestCase):
         )
         self.assertEqual(empty.status_code, status.HTTP_200_OK)
         self.assertEqual(empty.data, [])
+
+
+class EventZoneApiTests(APITestCase):
+    def setUp(self):
+        self.english = Language.objects.create(code="en", name="English")
+        self.armenian = Language.objects.create(code="am", name="Armenian")
+
+        self.upcoming = Event.objects.create(status="upcoming")
+        EventTranslation.objects.create(
+            event=self.upcoming,
+            language=self.english,
+            title="Upcoming Workshop",
+            description="Upcoming description",
+        )
+
+        self.happening = Event.objects.create(status="happening")
+        EventTranslation.objects.create(
+            event=self.happening,
+            language=self.english,
+            title="Happening Hackathon",
+            description="Happening description",
+        )
+
+        # Completed event without an English translation (Sv language rule).
+        self.completed = Event.objects.create(status="completed")
+        EventTranslation.objects.create(
+            event=self.completed,
+            language=self.armenian,
+            title="Ավարտված միջոցառում",
+            description="Նկարագրություն",
+        )
+
+    def test_status_filter_covers_all_three_statuses(self):
+        for status_code, expected in (
+            ("upcoming", self.upcoming.id),
+            ("happening", self.happening.id),
+            ("completed", self.completed.id),
+        ):
+            response = self.client.get(
+                "/api/events/",
+                {"status": status_code, "language": "en"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self.assertEqual([item["id"] for item in response.data], [expected])
+
+    def test_event_without_translation_stays_in_list_and_detail(self):
+        listing = self.client.get(
+            "/api/events/",
+            {"status": "completed", "language": "en"},
+        )
+        self.assertEqual(listing.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(listing.data), 1)
+        self.assertEqual(listing.data[0]["id"], self.completed.id)
+        self.assertEqual(
+            listing.data[0]["translations"],
+            [
+                {
+                    "language": "am",
+                    "title": "Ավարտված միջոցառում",
+                    "description": "Նկարագրություն",
+                }
+            ],
+        )
+
+        detail = self.client.get(
+            f"/api/events/{self.completed.id}/",
+            {"language": "en"},
+        )
+        self.assertEqual(detail.status_code, status.HTTP_200_OK)
+        self.assertEqual(detail.data["id"], self.completed.id)
+        self.assertEqual(
+            detail.data["translations"][0]["title"],
+            "Ավարտված միջոցառում",
+        )
+
+    def test_event_detail_returns_gallery(self):
+        png = base64.b64decode(
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+        )
+        first = EventGallery.objects.create(
+            event=self.completed,
+            image=SimpleUploadedFile("slide1.png", png, content_type="image/png"),
+        )
+        second = EventGallery.objects.create(
+            event=self.completed,
+            image=SimpleUploadedFile("slide2.png", png, content_type="image/png"),
+        )
+
+        detail = self.client.get(
+            f"/api/events/{self.completed.id}/",
+            {"language": "en"},
+        )
+        self.assertEqual(detail.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            [item["id"] for item in detail.data["gallery"]],
+            [first.id, second.id],
+        )
+        self.assertTrue(
+            all("/event_gallery/" in item["image"] for item in detail.data["gallery"])
+        )

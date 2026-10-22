@@ -57,7 +57,7 @@ export default function Events() {
   return (
     <main className="events-page">
       <section className="events-hero">
-        <nav className="events-hero__crumbs" aria-label="breadcrumb">
+        <nav className="events-hero__crumbs" aria-label={t('about.breadcrumb')}>
           <Link to="/">{t('nav.home')}</Link>
           <span aria-hidden="true">/</span>
           <span>{t(`events.${tab}`)}</span>
@@ -95,16 +95,33 @@ export default function Events() {
               }
 
               return (
-                <Link key={status} to={`/events/${status}`} className={className}>
+                <Link
+                  key={status}
+                  to={`/events/${status}`}
+                  className={className}
+                  aria-current={isActive ? 'page' : undefined}
+                >
                   {label}
                 </Link>
               )
             })}
           </nav>
 
-          {loading ? <p className="events-state">{t('common.loading')}</p> : null}
-          {error ? <p className="events-state events-state--error">{t('common.error')}</p> : null}
-          {ready && list.length === 0 ? <p className="events-state">{t('common.empty')}</p> : null}
+          {loading ? (
+            <p className="events-state" role="status">
+              {t('common.loading')}
+            </p>
+          ) : null}
+          {error ? (
+            <p className="events-state events-state--error" role="alert">
+              {t('common.error')}
+            </p>
+          ) : null}
+          {ready && list.length === 0 ? (
+            <p className="events-state" role="status">
+              {t('common.empty')}
+            </p>
+          ) : null}
 
           {ready && list.length > 0 ? (
             <>

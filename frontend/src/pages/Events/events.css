@@ -12,7 +12,7 @@
 
 .events-hero {
   background: var(--color-brand);
-  color: #fff;
+  color: var(--color-white);
   text-align: center;
   padding: 3rem 1rem 2.75rem;
 }
@@ -31,7 +31,8 @@
   color: inherit;
 }
 
-.events-hero__crumbs a:hover {
+.events-hero__crumbs a:hover,
+.events-hero__crumbs a:focus-visible {
   color: var(--color-accent);
 }
 
@@ -46,6 +47,7 @@
 
 .events-hero__title {
   margin: 0;
+  overflow-wrap: anywhere;
   font-size: clamp(1.7rem, 3.4vw, 2.4rem);
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -68,23 +70,25 @@
   padding: 0.45rem 1.15rem;
   border: 1px solid var(--color-brand-soft);
   border-radius: 999px;
-  background: #fff;
+  background: var(--color-surface);
   color: var(--color-brand-muted);
   font-size: 0.82rem;
   font-weight: 600;
   line-height: 1.4;
 }
 
-a.events-tab:hover {
+a.events-tab:hover,
+a.events-tab:focus-visible {
   border-color: var(--color-brand);
   color: var(--color-brand);
 }
 
 .events-tab--active,
-a.events-tab--active:hover {
+a.events-tab--active:hover,
+a.events-tab--active:focus-visible {
   background: var(--color-brand);
   border-color: var(--color-brand);
-  color: #fff;
+  color: var(--color-white);
 }
 
 .events-tab--disabled {
@@ -108,13 +112,17 @@ a.events-tab--active:hover {
 }
 
 .events-state--error {
-  color: #c24141;
+  color: var(--color-error);
 }
 
 .events-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.35rem;
+}
+
+.events-grid > * {
+  min-width: 0;
 }
 
 @media (min-width: 640px) {
@@ -137,7 +145,7 @@ a.events-tab--active:hover {
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 480px) {
   .events-hero {
     padding: 2rem 0.75rem 1.75rem;
   }

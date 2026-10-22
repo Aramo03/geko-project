@@ -1,15 +1,31 @@
 .event-card {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   overflow: hidden;
-  background: #fff;
+  background: var(--color-surface);
   border: 1px solid var(--color-brand-soft);
   border-radius: 16px;
   box-shadow: 0 12px 28px rgba(11, 57, 40, 0.05);
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.event-card:has(a:focus-visible) {
+  border-color: var(--color-focus);
+  box-shadow:
+    0 0 0 2px var(--color-focus),
+    0 12px 28px rgba(11, 57, 40, 0.05);
 }
 
 .event-card__media {
   display: block;
+}
+
+.event-card__media:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
 }
 
 .event-card__image,
@@ -49,13 +65,15 @@
 
 .event-card__title {
   margin: 0;
+  overflow-wrap: anywhere;
   color: var(--color-brand);
   font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.35;
 }
 
-.event-card__title a:hover {
+.event-card__title a:hover,
+.event-card__title a:focus-visible {
   color: var(--color-brand-hover);
 }
 
@@ -79,18 +97,19 @@
   padding: 0.45rem 1rem;
   border-radius: 5px;
   background: var(--color-brand);
-  color: #fff;
+  color: var(--color-white);
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.03em;
   transition: background-color 0.2s ease;
 }
 
-.event-card__btn:hover {
+.event-card__btn:hover,
+.event-card__btn:focus-visible {
   background: var(--color-brand-hover);
 }
 
-@media (max-width: 375px) {
+@media (max-width: 480px) {
   .event-card__body {
     padding: 0.9rem 0.85rem 1rem;
   }
