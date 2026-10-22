@@ -8,6 +8,7 @@ import HomePhilosophy from '../../components/HomePhilosophy/HomePhilosophy.jsx'
 import PopularCourses from '../../components/PopularCourses/PopularCourses.jsx'
 import WhyGeko from '../../components/WhyGeko/WhyGeko.jsx'
 import Reviews from '../../components/Reviews/Reviews.jsx'
+import Lessons from '../../components/Lessons/Lessons.jsx'
 import { asList } from './home.js'
 import './home.css'
 
@@ -70,6 +71,10 @@ export default function Home() {
       <HomePhilosophy />
       <PopularCourses />
       <WhyGeko />
+
+      <section className="home-shell">
+        <Lessons />
+      </section>
 
       <section className="home-section home-shell home-success">
         <Reviews

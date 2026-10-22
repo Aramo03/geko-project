@@ -16,7 +16,9 @@ export default function TeamMemberCard({ member, riseDelayClass = '' }) {
         <OptimizedImage
           className="team-member-card__image block h-[180px] w-full object-cover bg-brand-soft max-[480px]:min-h-[136px] max-[480px]:h-full"
           src={image}
-          alt={translation?.name ? t('about.memberImageAlt', { name: translation.name }) : ''}
+          alt={t('about.memberImageAlt', {
+            name: translation?.name || t('about.team'),
+          })}
           width={320}
           height={360}
           sizes="(max-width: 480px) 104px, 25vw"
