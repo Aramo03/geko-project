@@ -14,7 +14,7 @@ function SectionHeading({ eyebrow, title, text }) {
   const { t } = useTranslation()
   return (
     <header className="group mx-auto mb-10 max-w-[440px] text-center">
-      <span className="about-eyebrow-line mb-1 block text-[0.66rem] font-extrabold uppercase tracking-[0.045em] text-brand">
+      <span className="about-eyebrow-line mx-auto mb-1 block text-[0.66rem] font-extrabold uppercase tracking-[0.045em] text-brand">
         {t(eyebrow)}
       </span>
       <h2 className="my-2 text-[clamp(1.55rem,3vw,2rem)] font-[750] leading-tight text-text">
@@ -244,9 +244,13 @@ export default function About() {
         <div className={containerClass}>
           <SectionHeading eyebrow="about.teamEyebrow" title="about.team" text="about.teamIntro" />
           <div className="about-team" aria-busy={loading}>
-            {loading && <p className="my-4 text-center text-text-muted">{t('common.loading')}</p>}
+            {loading && (
+              <p className="my-4 text-center text-text-muted" role="status">
+                {t('common.loading')}
+              </p>
+            )}
             {error && (
-              <div className="grid grid-cols-4 gap-4 max-[760px]:grid-cols-2 max-[480px]:grid-cols-1 max-[480px]:gap-3.5">
+              <div className="about-team-grid grid grid-cols-4 gap-4 max-[760px]:grid-cols-2 max-[480px]:grid-cols-1 max-[480px]:gap-3.5">
                 {REFERENCE_INSTRUCTORS.map((instructor, index) => (
                   <ReferenceInstructorCard
                     key={instructor}
@@ -265,10 +269,12 @@ export default function About() {
               </div>
             )}
             {!loading && !error && teams.length === 0 && (
-              <p className="my-4 text-center text-text-muted">{t('about.empty')}</p>
+              <p className="my-4 text-center text-text-muted" role="status">
+                {t('about.empty')}
+              </p>
             )}
             {!loading && !error && teams.length > 0 && (
-              <div className="grid grid-cols-4 gap-4 max-[760px]:grid-cols-2 max-[480px]:grid-cols-1 max-[480px]:gap-3.5">
+              <div className="about-team-grid grid grid-cols-4 gap-4 max-[760px]:grid-cols-2 max-[480px]:grid-cols-1 max-[480px]:gap-3.5">
                 {teams.map((member, index) => (
                   <TeamMemberCard
                     key={member.id}
@@ -299,7 +305,7 @@ export default function About() {
           <p className="mx-auto mb-5 max-w-[400px] text-[0.88rem] leading-relaxed text-white/78">{t('about.ctaText')}</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link
-              className={`${btnPrimary} border-white bg-white text-brand-dark hover:text-white`}
+              className={`${btnPrimary} about-cta-primary border-white bg-white`}
               to="/course-category"
             >
               {t('about.exploreCourses')} <span aria-hidden="true">→</span>

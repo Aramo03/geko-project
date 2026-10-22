@@ -7,9 +7,9 @@ export const NAV_ITEMS = [
 ]
 
 export const LANGUAGES = [
-  { code: 'am', flag: '/images/flags/Armenia-flag.webp' },
-  { code: 'en', flag: '/images/flags/USA-flag.webp' },
-  { code: 'ru', flag: '/images/flags/Russia-flag.webp' },
+  { code: 'am', label: 'Հայերեն', flag: '/images/flags/Armenia-flag.webp' },
+  { code: 'en', label: 'English', flag: '/images/flags/USA-flag.webp' },
+  { code: 'ru', label: 'Русский', flag: '/images/flags/Russia-flag.webp' },
 ]
 
 export function findBlock(blocks, key) {

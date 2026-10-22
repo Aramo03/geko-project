@@ -21,6 +21,7 @@ jobs:
       - run: python manage.py migrate --noinput
       - run: python manage.py init_ui
       - run: python manage.py check
+      - run: python manage.py test apps.team apps.leads apps.main --noinput
 
   frontend:
     runs-on: ubuntu-latest

@@ -6,6 +6,16 @@
     "events": "Իրադարձություններ",
     "contacts": "Կոնտակտներ"
   },
+  "pageTitles": {
+    "home": "GEKO | Դասընթացներ, թիմ և իրադարձություններ",
+    "about": "Մեր մասին | GEKO",
+    "categories": "Դասընթացներ | GEKO",
+    "category": "Դասընթացի կատեգորիա | GEKO",
+    "course": "Դասընթաց | GEKO",
+    "events": "Իրադարձություններ | GEKO",
+    "contacts": "Կոնտակտներ | GEKO",
+    "notFound": "Էջը չի գտնվել | GEKO"
+  },
   "common": {
     "loading": "Բեռնվում է…",
     "error": "Սխալ է տեղի ունեցել։ Փորձեք ավելի ուշ։",
@@ -126,7 +136,9 @@
   },
   "home": {
     "reviews": "Կարծիքներ",
+    "reviewsRating": "Գնահատական՝ {{rating}} / 5",
     "lessons": "Դասի մասին",
+    "lessonImageAlt": "Նկար՝ {{title}}",
     "untitled": "Անվերնագիր",
     "hero": "Գլխավոր բաժին",
     "heroKicker": "GEKO Education",
