@@ -1,35 +1,29 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import OptimizedImage from '../OptimizedMedia/OptimizedImage.jsx'
-import { courseCategoryLabel, courseDescription, courseImage, courseMark, courseTitle } from './courseCard.js'
+import { courseDescription, courseImage, courseTitle } from './courseCard.js'
 import './courseCard.css'
 
 export default function CourseCard({ course, className = '' }) {
   const { t } = useTranslation()
   const title = courseTitle(course) || t('course.untitled')
   const description = courseDescription(course)
-  const category = courseCategoryLabel(course)
   const image = courseImage(course)
 
   return (
-    <article className={`course-card ${className}`}>
+    <article className={`course-card ui-rise-in about-hover-lift-sm ${className}`}>
       <Link to={`/courses/${course.id}`} className="course-card__link">
-        <div className="course-card__media">
-          {image ? (
-            <OptimizedImage
-              src={image}
-              alt={title}
-              className="course-card__image animate-media-in"
-              sizes="(max-width: 768px) 100vw, 380px"
-            />
-          ) : (
-            <div className="course-card__image course-card__image--empty" aria-hidden="true">
-              <span className="course-card__mark">{courseMark(title)}</span>
-            </div>
-          )}
-        </div>
+        {image ? (
+          <OptimizedImage
+            src={image}
+            alt={title}
+            className="course-card__image animate-media-in"
+            sizes="(max-width: 768px) 100vw, 360px"
+          />
+        ) : (
+          <div className="course-card__image course-card__image--empty" aria-hidden="true" />
+        )}
         <div className="course-card__body">
-          {category ? <p className="course-card__category">{category}</p> : null}
           <h3 className="course-card__title">{title}</h3>
           {description ? <p className="course-card__desc">{description}</p> : null}
           <span className="course-card__more">
