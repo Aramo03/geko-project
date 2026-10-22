@@ -1,6 +1,8 @@
 from datetime import timedelta
 from pathlib import Path
+
 import environ
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -16,6 +18,27 @@ if env_file.exists():
 SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])  # type: ignore[arg-type]
+
+# Production must never boot with a placeholder secret or a wildcard host.
+# Local development is unaffected: these checks only run with DEBUG=False.
+_PLACEHOLDER_SECRETS = {
+    "",
+    "dev-only-change-me",
+    "change-me",
+    "change_me",
+    "replace-with-a-long-random-secret-at-least-32-chars",
+}
+if not DEBUG:
+    if SECRET_KEY in _PLACEHOLDER_SECRETS or len(SECRET_KEY) < 32:
+        raise ImproperlyConfigured(
+            "Set a real SECRET_KEY (at least 32 characters) in the environment "
+            "before running with DEBUG=False. See .env.example."
+        )
+    if not ALLOWED_HOSTS or "*" in ALLOWED_HOSTS:
+        raise ImproperlyConfigured(
+            "Set ALLOWED_HOSTS to your domain(s) before running with "
+            "DEBUG=False. See .env.example."
+        )
 
 INSTALLED_APPS = [
     "unfold",
@@ -39,6 +62,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # Serves collectstatic output through gunicorn (DEBUG=False has no
+    # runserver static/media helpers).
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -89,6 +115,16 @@ else:
             "PORT": env("DB_PORT"),
         }
     }
+    if not DEBUG and DATABASES["default"]["PASSWORD"] in {
+        "",
+        "change_me",
+        "change-me",
+        "replace-with-a-strong-database-password",
+    }:
+        raise ImproperlyConfigured(
+            "Set a real DB_PASSWORD in the environment before running with "
+            "DEBUG=False. See .env.example."
+        )
 
 AUTH_USER_MODEL = "accounts.User"
 
@@ -106,21 +142,26 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOWED_ORIGINS = [
+# Origins are env-driven so the production domain is config, not code.
+# Comma-separated in .env; the defaults keep local development working.
+_DEFAULT_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:5173",
 ]
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:5173",
-]
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=_DEFAULT_ORIGINS)
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=_DEFAULT_ORIGINS)
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
