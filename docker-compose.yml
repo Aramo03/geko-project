@@ -34,8 +34,8 @@ services:
       DEBUG: ${DEBUG:-False}
       SECRET_KEY: ${SECRET_KEY:-}
       ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1}
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
-      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001}
+      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001}
       DB_ENGINE: django.db.backends.postgresql
       DB_NAME: ${POSTGRES_DB:-geko_db}
       DB_USER: ${POSTGRES_USER:-postgres}
@@ -53,9 +53,16 @@ services:
     build:
       context: ./frontend
       args:
-        VITE_BASE_URL: ${VITE_BASE_URL:-http://127.0.0.1:8000}
+        # Empty: the bundle calls /api on the site host. Nginx proxies that
+        # to the backend. Set VITE_BASE_URL only for a split API origin.
+        VITE_BASE_URL: ${VITE_BASE_URL:-}
     ports:
       - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_started
+    volumes:
+      - mediafiles:/usr/share/nginx/media:ro
 
 volumes:
   pgdata:

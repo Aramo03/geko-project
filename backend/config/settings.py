@@ -161,10 +161,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 _DEFAULT_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
     "http://localhost:5173",
 ]
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=_DEFAULT_ORIGINS)
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=_DEFAULT_ORIGINS)
+
+# Caddy (or any TLS proxy) terminates HTTPS and forwards plain HTTP.
+# Django then still sees the original https scheme for admin and CSRF.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (

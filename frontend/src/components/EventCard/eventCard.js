@@ -1,10 +1,11 @@
+import { mediaUrl } from '../../api/client.js'
+
 const LOCALES = { am: 'hy-AM', en: 'en-GB', ru: 'ru-RU' }
 
 export function resolveImage(url) {
   if (!url) return ''
   if (url.startsWith('https://') || url.startsWith('http://')) return url
-  const base = (import.meta.env.VITE_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
-  return `${base}${url.startsWith('/') ? '' : '/'}${url}`
+  return mediaUrl(url)
 }
 
 export function eventCover(event) {

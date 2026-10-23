@@ -1,6 +1,7 @@
 import base64
 
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.management import call_command
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -14,6 +15,7 @@ from apps.main.models import (
     Language,
     LessonInfo,
     LessonInfoTranslation,
+    UIBlock,
 )
 
 
@@ -399,3 +401,35 @@ class EventZoneApiTests(APITestCase):
         self.assertTrue(
             all("/event_gallery/" in item["image"] for item in detail.data["gallery"])
         )
+
+
+class InitUiShellTests(APITestCase):
+    def test_init_ui_restores_header_footer_and_contacts(self):
+        call_command("init_ui")
+        response = self.client.get("/api/ui-blocks/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        blocks = {item["key"]: item["payload"] for item in response.data}
+        phone = "(+374) 98 03 33 94"
+        email = "gekoeducation1@gmail.com"
+
+        for key in ("header", "footer", "contacts_bar"):
+            self.assertEqual(blocks[key]["phone"], phone)
+            self.assertEqual(blocks[key]["email"], email)
+
+        self.assertEqual(
+            blocks["footer"]["address"]["en"],
+            "Yerevan, Armenia — GEKO Education campus",
+        )
+        self.assertTrue(blocks["footer"]["map"].startswith("https://"))
+        self.assertTrue(blocks["footer"]["facebook"])
+        self.assertTrue(blocks["footer"]["instagram"])
+        self.assertTrue(blocks["footer"]["linkedin"])
+        self.assertEqual(blocks["hero"]["title"]["en"], "GEKO")
+
+        UIBlock.objects.filter(key="header").update(payload={})
+        call_command("init_ui")
+        again = self.client.get("/api/ui-blocks/")
+        restored = {item["key"]: item["payload"] for item in again.data}
+        self.assertEqual(restored["header"]["phone"], phone)
+        self.assertEqual(restored["footer"]["email"], email)

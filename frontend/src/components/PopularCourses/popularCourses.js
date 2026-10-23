@@ -1,4 +1,4 @@
-import { pickTranslation } from '../../api/client.js'
+import { mediaUrl, pickTranslation } from '../../api/client.js'
 
 export function asCourseList(data) {
   if (Array.isArray(data)) return data
@@ -35,6 +35,5 @@ export function courseImage(course) {
   const url = course?.local_image || course?.image_url || ''
   if (!url) return ''
   if (url.startsWith('http://') || url.startsWith('https://')) return url
-  const base = (import.meta.env.VITE_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
-  return `${base}${url.startsWith('/') ? url : `/${url}`}`
+  return mediaUrl(url)
 }

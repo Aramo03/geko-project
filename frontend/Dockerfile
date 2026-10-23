@@ -10,8 +10,9 @@ RUN npm ci
 
 COPY . .
 
-# Baked into the static bundle at build time; override with --build-arg.
-ARG VITE_BASE_URL=http://127.0.0.1:8000
+# Empty means same-origin /api (nginx or the Vite proxy). Set an absolute
+# URL only when the API really lives on another host.
+ARG VITE_BASE_URL=
 ENV VITE_BASE_URL=$VITE_BASE_URL
 RUN npm run build
 

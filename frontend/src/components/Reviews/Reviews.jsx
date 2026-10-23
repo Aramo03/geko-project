@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import axios from 'axios'
+import { api } from '../../api/client.js'
 import { asReviewList } from './reviews.js'
 import './reviews.css'
-
-const reviewsApi = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL || 'http://127.0.0.1:8000',
-})
 
 export default function Reviews({
   reviews: suppliedReviews,
@@ -33,7 +29,7 @@ export default function Reviews({
     setFetchedError(false)
     setFetchedReviews([])
 
-    reviewsApi
+    api
       .get('/api/reviews/')
       .then((res) => {
         if (cancelled) return
