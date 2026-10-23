@@ -25,6 +25,7 @@ _PLACEHOLDER_SECRETS = {
     "",
     "dev-only-change-me",
     "change-me",
+    "change-me-in-production",
     "change_me",
     "replace-with-a-long-random-secret-at-least-32-chars",
 }
@@ -94,8 +95,10 @@ TEMPLATES = [
     }
 ]
 
-db_engine = env.str("DB_ENGINE", default="django.db.backends.sqlite3")
-db_name = env.str("DB_NAME", default="db.sqlite3")
+# PostgreSQL is the default so a fresh checkout connects to Postgres,
+# not a leftover SQLite file. SQLite is used only when DB_ENGINE says so.
+db_engine = env.str("DB_ENGINE", default="django.db.backends.postgresql")
+db_name = env.str("DB_NAME", default="geko_db")
 assert db_engine is not None
 if db_engine.endswith("sqlite3"):
     DATABASES = {
@@ -109,10 +112,10 @@ else:
         "default": {
             "ENGINE": db_engine,
             "NAME": db_name,
-            "USER": env("DB_USER"),
-            "PASSWORD": env("DB_PASSWORD"),
-            "HOST": env("DB_HOST"),
-            "PORT": env("DB_PORT"),
+            "USER": env.str("DB_USER", default="postgres"),
+            "PASSWORD": env.str("DB_PASSWORD", default=""),
+            "HOST": env.str("DB_HOST", default="localhost"),
+            "PORT": env.str("DB_PORT", default="5432"),
         }
     }
     if not DEBUG and DATABASES["default"]["PASSWORD"] in {

@@ -6,24 +6,25 @@
 
 ---
 
-## Волна 6 — QA, production, polish **(сейчас)**
+## Архив — волна 6 (QA, production, polish, закрыта)
 
-Шаги и DoD — в **[task-advanced.md](task-advanced.md)** (раздел «Волна 6»). Ошибки и долг волны 5 — [fix.md](fix.md).
+**Дата закрытия:** 2026-10-23 · **Ветка:** `dev`  
+Шаги — в **[task-advanced.md](task-advanced.md)**. Аудит — [fix.md](fix.md). Запуск — [docs/deploy.md](docs/deploy.md).
 
-Три трека: **QA/тесты**, **production/deploy**, **polish/UX**. Новых функций нет: только долг волны 5 и доведение текущего сайта до прод-вида. Данные и API не меняем.
+Три трека закрыты: **QA/тесты**, **production/deploy**, **polish/UX**. Новых функций нет. База — пустой PostgreSQL, демо-строки и лишние картинки в media не сидируются.
 
-| # | Имя | Фокус волны 6 |
-|---|-----|----------------|
-| 1 | Lead | CI: тесты + `docker compose up` smoke, порядок PR, финальный QA |
-| 2 | Daniel | Production backend: gunicorn, `collectstatic`, env-секреты; hero media perf |
-| 3 | Sv | Тесты правила языка и queryset; SEO `lang` |
-| 4 | Karen | Тесты и polish категорий на 375px |
-| 5 | Vach | Тесты и polish `/courses/:id` |
-| 6 | Ashot | Тесты событий: редирект, вкладки, деталь |
-| 7 | Hayk | Тесты и polish секций Home, code-splitting |
-| 8 | Suren | Тесты и polish `/about-us` |
-| 9 | Mariam | Тесты контакта и комментариев; a11y форм |
-| 10 | UI / QA | Production frontend, чеклист 375px / a11y / perf, токены |
+| # | Имя | Фокус волны 6 | Итог |
+|---|-----|----------------|--------|
+| 1 | Lead | CI: тесты + `docker compose up` smoke | тесты и smoke в CI |
+| 2 | Daniel | gunicorn, `collectstatic`, env-секреты, hero | gunicorn + WhiteNoise |
+| 3 | Sv | тесты языка, SEO `lang` | detail без перевода, `html lang` |
+| 4 | Karen | тесты и polish категорий | API категорий, 375px |
+| 5 | Vach | тесты и polish `/courses/:id` | detail не 404 |
+| 6 | Ashot | тесты событий | три статуса, gallery |
+| 7 | Hayk | Home polish, code-splitting | маршруты кроме Home ленивые |
+| 8 | Suren | тесты и polish About | команда без перевода на `en` остаётся |
+| 9 | Mariam | тесты форм, a11y | гость скрыт, reply без JWT запрещён |
+| 10 | UI / QA | prod-фронт, чеклист | nginx-сборка, чеклист в docs/frontend.md |
 
 **Правила:** ветка `feat/<имя>-<зона>` от `dev`; один PR = одна зона; в `main` не пушить; модели не удалять; не мержить `origin/feat/ui` и `origin/feature/events`.
 
@@ -33,13 +34,13 @@
 
 ## English
 
-Wave **6** (QA/tests, production, polish) is **active**. Steps: [task-advanced.md](task-advanced.md). Wave 5 debt: [fix.md](fix.md). No new features — CI tests and docker smoke, gunicorn and production frontend build, responsive/a11y/perf pass. PRs to `dev` only.
+Wave **6** (QA/tests, production, polish) is **closed** on `dev` (2026-10-23). Audit: [fix.md](fix.md). Deploy: [docs/deploy.md](docs/deploy.md). Empty PostgreSQL, no demo rows. Do not push to `main`.
 
 Wave **5** (UI from Figma) closed 2026-10-19. Wave **4** closed 2026-10-10. Wave **3** closed 2026-10-04. Wave **2** closed 2026-09-29 — archives below.
 
 ## Հայերեն
 
-**Ալիք 6** (QA/թեստեր, production, polish) — **ակտիվ**։ Քայլեր՝ [task-advanced.md](task-advanced.md)։ Ալիք 5-ի պարտքը՝ [fix.md](fix.md)։ Նոր ֆունկցիաներ չկան՝ միայն թեստեր CI-ում, gunicorn և production build, 375px/a11y/perf անցում։ PR միայն `dev`։
+**Ալիք 6** (QA/թեստեր, production, polish) — **փակված է** `dev`-ի վրա (2026-10-23)։ Աուդիտ՝ [fix.md](fix.md)։ Deploy՝ [docs/deploy.md](docs/deploy.md)։ Դատարկ PostgreSQL, demo տողեր չկան։ `main` չենք push անում։
 
 **Ալիք 5** փակված է (2026-10-19)։ **Ալիք 4** փակված է (2026-10-10)։ **Ալիք 3** փակված է (2026-10-04)։ **Ալիք 2** փակված է (2026-09-29) — արխիվը ստորև։
 

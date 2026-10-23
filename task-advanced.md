@@ -1,10 +1,10 @@
 # Task advanced — карта зон и шаги
 
-Короткое задание: [TASK.md](TASK.md). **Сначала читай волну 6**; волны 5, 4, 3 и 2 — архив ниже.
+Короткое задание: [TASK.md](TASK.md). **Волна 6 закрыта** (2026-10-23); волны 5, 4, 3 и 2 — архив ниже. Запуск пустого PostgreSQL — [docs/deploy.md](docs/deploy.md).
 
 Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md). Фронт: [docs/frontend.md](docs/frontend.md). Ошибки и долг волны 5: [fix.md](fix.md).
 
-**Волна 6 (сейчас)** — QA/тесты, production/deploy и polish/UX. Новых функций нет: доводим текущий сайт (экраны по [Figma волны 5](https://www.figma.com/design/dhh8j2e9rBeYrdPmzKz02I/Untitled?node-id=0-1&p=f&t=zLfOBIPA8bKF4Onc-0), данные с API) до прода. **Волна 5 закрыта** (2026-10-19). **Волна 4 закрыта** (2026-10-10). **Волна 3 закрыта** (2026-10-04). **Волна 2 закрыта** (2026-09-29).
+**Волна 6 закрыта** (2026-10-23) — QA/тесты, production/deploy и polish/UX на `dev`. Новых функций нет. База после `migrate` пустая (PostgreSQL), `init_ui` создаёт только языки и UI-слоты. **Волна 5 закрыта** (2026-10-19). **Волна 4 закрыта** (2026-10-10). **Волна 3 закрыта** (2026-10-04). **Волна 2 закрыта** (2026-09-29).
 
 ---
 
@@ -18,11 +18,11 @@ Git: [CONTRIBUTING.md](CONTRIBUTING.md). API: [docs/backend.md](docs/backend.md)
 | **UI-слоты (бэк)** | JSON-блоки шапки, hero, футера | `UIBlock` + `init_ui` | **2 ✓** |
 | **Back — API** | `/api/…`, `?language=`, JWT, Swagger | serializers, views, urls | **3 ✓** |
 | **Back — admin** | Unfold, inlines, inbox заявок | `admin.py` | **3 ✓** |
-| **Serv** | Docker Compose, Postgres, CI, `.env.example` | корень репо, `.github/` | **4 ✓** каркас, **5 ✓** migrate, **6** production |
-| **Front — shell** | роутер, Header, Footer, Redux, axios | `frontend/src/` | **4 ✓** каркас, **5 ✓** вид, **6** prod-build |
-| **Front — страницы** | Home, About, Courses, Events, Contacts | `frontend/src/pages/` | **4 ✓** данные, **5 ✓** макет, **6** polish |
-| **Translation B (UI)** | подписи кнопок и меню | `frontend/src/i18n/am.json` `en.json` `ru.json` | **4 ✓**, **5 ✓**, **6** SEO `lang` |
-| **UI / Design / QA** | токены, адаптив, Figma | CSS, Tailwind, чеклисты | **5 ✓**, **6 (сейчас)** QA и polish |
+| **Serv** | Docker Compose, Postgres, CI, `.env.example` | корень репо, `.github/` | **4 ✓** каркас, **5 ✓** migrate, **6 ✓** production |
+| **Front — shell** | роутер, Header, Footer, Redux, axios | `frontend/src/` | **4 ✓** каркас, **5 ✓** вид, **6 ✓** prod-build |
+| **Front — страницы** | Home, About, Courses, Events, Contacts | `frontend/src/pages/` | **4 ✓** данные, **5 ✓** макет, **6 ✓** polish |
+| **Translation B (UI)** | подписи кнопок и меню | `frontend/src/i18n/am.json` `en.json` `ru.json` | **4 ✓**, **5 ✓**, **6 ✓** SEO `lang` |
+| **UI / Design / QA** | токены, адаптив, Figma | CSS, Tailwind, чеклисты | **5 ✓**, **6 ✓** QA и polish |
 
 Два разных «перевода»:
 
@@ -83,9 +83,9 @@ git checkout -b feat/<имя>-<зона>
 
 ---
 
-## Волна 6 — активные задания
+## Волна 6 — закрыта (2026-10-23)
 
-Долг и контекст — [fix.md](fix.md), раздел «Долг после волны 5». Поведение страниц не меняем: только тесты, прод-режим и polish.
+Шаги ниже — архив того, что вошло в `dev`. Поведение страниц волны 5 не откатывалось: тесты, прод-режим и polish. Пустая Postgres и deploy — [docs/deploy.md](docs/deploy.md). Аудит — [fix.md](fix.md).
 
 ### 1 — Lead
 
@@ -1290,7 +1290,7 @@ python manage.py makemigrations accounts
 
 Short assignment: [TASK.md](TASK.md). **Read wave 6 first.** Waves 5, 4, 3, and 2 are archives below.
 
-**Wave 6 (now):** QA/tests, production, polish. No new features. Merge: Lead (CI tests + docker smoke) → Daniel (prod backend) → UI/QA (prod frontend + checklist) → Karen → Vach → Ashot → Hayk → Suren → Mariam → Sv. Wave 5 debt: [fix.md](fix.md). PR **only to `dev`**.
+**Wave 6 closed** (2026-10-23) on `dev`: QA/tests, production, polish. Empty PostgreSQL, deploy notes in [docs/deploy.md](docs/deploy.md). Do not push to `main`.
 
 Zones: Lead — CI `manage.py test`, docker `up` smoke, final QA; Daniel — gunicorn, `collectstatic`, env secrets, hero media perf; Sv — language regression tests, SEO `lang`; Karen / Vach / Ashot / Hayk / Suren — zone tests + 375px polish (Hayk also code-splitting, chunk was 532.90 kB); Mariam — leads/comments tests, form a11y; UI/QA — production frontend build, polish checklist.
 
@@ -1316,7 +1316,7 @@ Merge order: **User → Language → Category → Courses → Events → Content
 
 Կարճ առաջադրանք՝ [TASK.md](TASK.md)։ **Նախ կարդա ալիք 6**։ Ալիք 5, 4, 3 և 2 — արխիվ ստորև։
 
-**Ալիք 6 (հիմա)** — QA/թեստեր, production, polish։ Նոր ֆունկցիաներ չկան։ Merge՝ Lead (CI թեստեր + docker smoke) → Daniel (prod backend) → UI/QA (prod frontend) → Karen → Vach → Ashot → Hayk → Suren → Mariam → Sv։ Ալիք 5-ի պարտքը՝ [fix.md](fix.md)։ PR միայն `dev`։
+**Ալիք 6 փակված է** (2026-10-23) `dev`-ի վրա՝ QA/թեստեր, production, polish։ Դատարկ PostgreSQL, deploy՝ [docs/deploy.md](docs/deploy.md)։ `main` չենք push անում։
 
 Գոտիներ՝ Lead (CI, վերջնական QA), Daniel (gunicorn, `collectstatic`, hero media), Sv (լեզվի թեստեր, SEO `lang`), Karen / Vach / Ashot / Hayk / Suren (գոտու թեստեր + 375px polish), Mariam (ձևերի թեստեր և a11y), UI/QA (production build, polish չեկլիստ)։
 

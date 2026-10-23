@@ -13,7 +13,7 @@ Django API + админка. Задания: [TASK.md](../TASK.md), детали
 | Unfold | вид Django Admin |
 | docker + compose | db / backend / frontend |
 | Pillow | картинки |
-| PostgreSQL | база в Docker; локально можно SQLite из `.env.example` |
+| PostgreSQL | единственная база по умолчанию (Docker и локальный `runserver`) |
 
 ## URL (контракт)
 
@@ -61,7 +61,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-На **чистой** SQLite: удалите локальный `db.sqlite3` или задайте другой `DB_NAME` в `.env`, затем снова `migrate`.
+На **чистой** PostgreSQL: `docker compose down -v`, затем снова `up` и `migrate`. Локальный `db.sqlite3` больше не используется, пока `DB_ENGINE` явно не указывает на SQLite.
 
 Перед PR всегда проверяйте `makemigrations` / `migrate` на чистой БД.
 
@@ -120,19 +120,9 @@ python manage.py runserver
 
 ## Docker
 
-Из корня: `docker compose up --build`.
+Из корня, после копии `.env.example` → `.env` и замены `SECRET_KEY` / `POSTGRES_PASSWORD`: `docker compose up --build`.
 
-Сервисы: `db` (Postgres), `backend`, `frontend`. Переменные — `.env.example`.
-
-**Первый запуск backend в Docker** (в контейнере или локально с Postgres из compose):
-
-```bash
-python manage.py migrate
-python manage.py init_ui
-python manage.py create_admin
-```
-
-Сейчас compose запускает только `runserver` — это незакрытый пункт волны 4. Волна 5, зона Lead: команда `migrate && runserver`. Пока PR Lead не влит, миграции в контейнере по-прежнему вручную один раз.
+Сервисы: `db` (Postgres, порт `5432`), `backend` (gunicorn, порт `8000`), `frontend` (собранный nginx, порт `3000`). Команда backend: `migrate`, `collectstatic`, gunicorn. `init_ui` и `create_admin` по-прежнему вручную один раз. Пошагово — [deploy.md](deploy.md).
 
 ## English
 

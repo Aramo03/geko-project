@@ -11,6 +11,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
     en: { translation: en },
     ru: { translation: ru }
   },
+  lng: 'en',
   fallbackLng: 'en',
   supportedLngs: ['am', 'en', 'ru'],
   nonExplicitSupportedLngs: true,
@@ -22,5 +23,13 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
   },
   interpolation: { escapeValue: false },
 })
+
+function applyDocumentLang(lng) {
+  if (typeof document === 'undefined') return
+  document.documentElement.lang = (lng || 'en').split('-')[0]
+}
+
+applyDocumentLang(i18n.resolvedLanguage || i18n.language)
+i18n.on('languageChanged', applyDocumentLang)
 
 export default i18n

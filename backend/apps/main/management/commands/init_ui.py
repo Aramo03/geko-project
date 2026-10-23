@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 
-from apps.main.management.commands.seed_home_demo import seed_home_demo
 from apps.main.models import Language, UIBlock
 
 LANGUAGES = (
@@ -55,10 +54,7 @@ def is_empty_payload(payload):
 
 
 class Command(BaseCommand):
-    help = (
-        "Seed languages, UI blocks, and demo content "
-        "(courses, reviews, completed event, free lesson)."
-    )
+    help = "Seed languages am/en/ru and the four UI slots. Does not insert content rows."
 
     def handle(self, *args, **options):
         for code, name in LANGUAGES:
@@ -92,5 +88,3 @@ class Command(BaseCommand):
                 self.stdout.write(f"Filled empty UI block {key}")
             else:
                 self.stdout.write(f"UI block {key} already exists")
-
-        seed_home_demo(self.stdout)

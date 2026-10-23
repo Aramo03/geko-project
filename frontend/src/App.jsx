@@ -4,10 +4,9 @@ import { useTranslation } from 'react-i18next'
 import Header from './components/Header/Header.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import { UiBlocksProvider } from './lib/uiBlocks.jsx'
+import Home from './pages/Home/Home.jsx'
 
-// Each route is its own chunk, so About/Courses/Events/Contacts
-// are not downloaded with Home (wave 6 chunk budget).
-const Home = lazy(() => import('./pages/Home/Home.jsx'))
+// Routes other than Home load on demand, so they stay out of the Home chunk.
 const About = lazy(() => import('./pages/About/About.jsx'))
 const CourseCategory = lazy(() => import('./pages/CourseCategory/CourseCategory.jsx'))
 const CourseDetails = lazy(() => import('./pages/CourseDetails/CourseDetails.jsx'))

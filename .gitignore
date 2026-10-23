@@ -18,6 +18,7 @@ dist/
 .DS_Store
 *.log
 media/uploads/
+backend/media/
 backend/staticfiles/
 .idea/
 

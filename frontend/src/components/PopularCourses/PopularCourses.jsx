@@ -78,7 +78,7 @@ export default function PopularCourses() {
               <li key={course.id} className="popular-courses__card ui-rise-in about-hover-lift-sm">
                 <div className="popular-courses__media">
                   {image ? (
-                    <img src={image} alt="" />
+                    <img src={image} alt={title} />
                   ) : (
                     <div className="popular-courses__media-fallback" aria-hidden="true" />
                   )}

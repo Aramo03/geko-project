@@ -37,9 +37,9 @@
 
 ## Медиа
 
-Только файлы из backup. Они уже лежат в `frontend/public/` (скопированы из старого сайта) и в `backup/geko-front-main/public/`, `backup/media/`.
+Оболочка берёт файлы из `frontend/public/`: `logo.webp`, `mainLoad.webp`, `mer_masin.webp`, флаги `am`/`en`/`ru`, `videos/main.webm`, `videos/main2.mp4`, `favicon.ico`, шрифт Roboto.
 
-Можно: `/images/logo.webp`, `/images/flags/...`, `/videos/main.webm`, картинки галереи из `backup/media/event_gallery_images.zip`.
+Не используются и убраны из `public`: `books.webp`, `images/about_info/`, `faviconLogo.ico`. Загрузки курсов, событий и команды живут в Django `media` и в пустой базе отсутствуют — их добавляют в админке. Папку `backup/` не копировать в `public`.
 
 Нельзя: Unsplash, скачанные с интернета картинки, свои фото «на время».
 
@@ -79,6 +79,20 @@ import { useForm } from 'react-hook-form'
 ## Оболочка
 
 Header (телефон, email, языки, меню) → страница → Footer (контакты, навигация, карта, соцсети). **Из API `UIBlock`** (после `python manage.py init_ui`): `contacts_bar` / `footer` — phone, email, map URL, соцсети; `header` — logo, `button_link`. **Из i18n:** подписи меню и форм, адрес текстом (`contacts.addressLine`), тексты hero на Home (`home.hero*`), footer description. Хелперы — `frontend/src/lib/uiBlocks.jsx`.
+
+## Чеклист polish (волна 6)
+
+Проверять на desktop и на ширине 375px:
+
+- нет горизонтального скролла (`overflow-x: clip` на `body`, сетки через `minmax(0, 1fr)`)
+- у содержательных картинок есть `alt`, декоративные иконки — `aria-hidden`
+- фокус виден (`:focus-visible`, токен `--color-focus`)
+- цвета только из переменных `index.css`, новые hex в компонентах не добавлять
+- loading / error / empty на страницах используют `common.loading`, `common.error`, `common.empty`
+- `document.title` меняется по маршруту (`pageTitles` в i18n), в `index.html` есть title и meta description
+- `<html lang>` равен `am`, `en` или `ru` после переключения языка
+- у полей форм есть подпись, ошибка связана через `aria-describedby` и `aria-invalid`, после отправки фокус остаётся на статусе
+- `npm run build` не предупреждает о чанке больше 500 kB
 
 ## English
 
