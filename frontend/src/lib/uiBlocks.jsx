@@ -21,6 +21,16 @@ function stringField(value) {
   return typeof value === 'string' ? value.trim() : ''
 }
 
+export function localizedText(value, language) {
+  if (typeof value === 'string') return value.trim()
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return ''
+  const code = String(language || 'en').split('-')[0]
+  const picked = [value[code], value.en, value.ru, value.am].find(
+    (item) => typeof item === 'string' && item.trim(),
+  )
+  return picked ? picked.trim() : ''
+}
+
 export function contactChannels(blocks) {
   const contacts = payloadOf(blocks, 'contacts_bar')
   const header = payloadOf(blocks, 'header')
