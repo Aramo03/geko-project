@@ -37,9 +37,9 @@ class TeamTranslation(models.Model):
         "main.Language",
         on_delete=models.CASCADE,
     )
-    desc = models.TextField(default="Default desc")
-    name = models.CharField(max_length=255, default="Default name")
-    role = models.CharField(max_length=255, default="Default role")
+    desc = models.TextField(blank=True, default="")
+    name = models.CharField(max_length=255, blank=True, default="")
+    role = models.CharField(max_length=255, blank=True, default="")
 
     class Meta:
         db_table = "main_teamtranslation"

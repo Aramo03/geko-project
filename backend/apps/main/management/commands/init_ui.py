@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 
-from apps.main.management.commands.seed_home_demo import seed_home_demo
 from apps.main.models import Language, UIBlock
 
 LANGUAGES = (
@@ -16,7 +15,9 @@ UI_BLOCKS = (
     ("contacts_bar", "contacts_bar", 3),
 )
 
-# Factual contact data and URLs only (no UI copy). Translatable strings live in frontend i18n.
+# Default shell. Every `init_ui` run writes header, hero, footer, and the
+# contacts bar back to these payloads. Courses, team, reviews, and events
+# are not created.
 CONTACT_PHONE = "(+374) 98 03 33 94"
 CONTACT_EMAIL = "gekoeducation1@gmail.com"
 MAP_URL = "https://www.google.com/maps/search/?api=1&query=40.189774,44.522213"
@@ -25,11 +26,30 @@ DEFAULT_PAYLOADS = {
     "header": {
         "logo": "/images/logo.webp",
         "button_link": "/contacts",
+        "phone": CONTACT_PHONE,
+        "email": CONTACT_EMAIL,
     },
-    # Hero copy is UI translation (frontend i18n `home.hero*`), not content
-    # translation, so it is not duplicated here. The payload seeds only the
-    # media/CTA slot data that HeroMedia renders on Home.
     "hero": {
+        "kicker": {
+            "am": "GEKO Education",
+            "en": "GEKO Education",
+            "ru": "GEKO Education",
+        },
+        "title": {
+            "am": "GEKO",
+            "en": "GEKO",
+            "ru": "GEKO",
+        },
+        "text": {
+            "am": "Ժամանակակից տեխնիկական գիտությունների և վերլուծության գործնական ուղիներ։",
+            "en": "Practical pathways for modern technical sciences and analytics.",
+            "ru": "Практические направления современных технических наук и аналитики.",
+        },
+        "cta": {
+            "am": "Գրանցվել",
+            "en": "Enroll now",
+            "ru": "Записаться",
+        },
         "poster": "/images/mainLoad.webp",
         "video_webm": "/videos/main.webm",
         "video_mp4": "/videos/main2.mp4",
@@ -38,6 +58,16 @@ DEFAULT_PAYLOADS = {
     "footer": {
         "phone": CONTACT_PHONE,
         "email": CONTACT_EMAIL,
+        "address": {
+            "am": "Երևան, Հայաստան — GEKO Education",
+            "en": "Yerevan, Armenia — GEKO Education campus",
+            "ru": "Ереван, Армения — кампус GEKO Education",
+        },
+        "description": {
+            "am": "Ժամանակակից տեխնիկական գիտությունների և վերլուծության հիմքերի գործնական թվային ուղիներ։",
+            "en": "Providing holistic and practical digital pathways for modern technical sciences and analytics foundations.",
+            "ru": "Практические цифровые направления для современных технических наук и основ аналитики.",
+        },
         "map": MAP_URL,
         "facebook": "https://www.facebook.com/GekoOnlineEducation/",
         "instagram": "https://www.instagram.com/geko_education",
@@ -50,14 +80,10 @@ DEFAULT_PAYLOADS = {
 }
 
 
-def is_empty_payload(payload):
-    return payload in (None, {}, [])
-
-
 class Command(BaseCommand):
     help = (
-        "Seed languages, UI blocks, and demo content "
-        "(courses, reviews, completed event, free lesson)."
+        "Seed languages am/en/ru and restore the default header, hero, "
+        "footer, and contacts bar. Does not insert content rows."
     )
 
     def handle(self, *args, **options):
@@ -86,11 +112,9 @@ class Command(BaseCommand):
                 self.stdout.write(f"Created UI block {key}")
                 continue
 
-            if is_empty_payload(block.payload):
-                block.payload = payload
-                block.save(update_fields=["payload"])
-                self.stdout.write(f"Filled empty UI block {key}")
-            else:
-                self.stdout.write(f"UI block {key} already exists")
-
-        seed_home_demo(self.stdout)
+            block.section = section
+            block.order = order
+            block.is_visible = True
+            block.payload = payload
+            block.save(update_fields=["section", "order", "is_visible", "payload"])
+            self.stdout.write(f"Restored default UI block {key}")

@@ -8,7 +8,7 @@ import {
   FaMapMarkerAlt,
   FaPhoneAlt,
 } from 'react-icons/fa'
-import { useUiBlocks } from '../../lib/uiBlocks.jsx'
+import { localizedText, useUiBlocks } from '../../lib/uiBlocks.jsx'
 import { FOOTER_LEGAL_LINKS, NAV_ITEMS } from './footer.js'
 import './footer.css'
 
@@ -19,16 +19,23 @@ const SOCIAL_ICONS = {
 }
 
 export default function Footer() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { channels, socials } = useUiBlocks()
 
-  const { phone, email, map, logo } = channels
-  const addressLine = t('contacts.addressLine')
+  const { phone, email, map, logo, footerPayload } = channels
+  const language = i18n.resolvedLanguage || i18n.language
+  const addressLine =
+    localizedText(footerPayload?.address, language) || t('contacts.addressLine')
+  const description =
+    localizedText(footerPayload?.description, language) || t('footer.description')
 
-  const socialLinks = socials.map((item) => ({
-    ...item,
-    Icon: SOCIAL_ICONS[item.name],
-  }))
+  // An API social without a known icon must not crash the shell.
+  const socialLinks = socials
+    .map((item) => ({
+      ...item,
+      Icon: SOCIAL_ICONS[item.name],
+    }))
+    .filter((item) => item.Icon)
 
   return (
     <footer className="footer-shell w-full bg-brand font-sans text-white">
@@ -46,7 +53,7 @@ export default function Footer() {
             <h3 className="mb-5 text-[13px] font-bold text-white">{t('nav.about')}</h3>
 
             <p className="max-w-[280px] text-[12px] leading-[1.8] text-white/65">
-              {t('footer.description')}
+              {description}
             </p>
 
             {socialLinks.length > 0 ? (

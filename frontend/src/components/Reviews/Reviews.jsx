@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import axios from 'axios'
+import { api } from '../../api/client.js'
 import { asReviewList } from './reviews.js'
 import './reviews.css'
-
-const reviewsApi = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL || 'http://127.0.0.1:8000',
-})
 
 export default function Reviews({
   reviews: suppliedReviews,
@@ -19,7 +15,8 @@ export default function Reviews({
   const [fetchedLoading, setFetchedLoading] = useState(true)
   const [fetchedError, setFetchedError] = useState(false)
   const controlled = suppliedReviews !== undefined
-  const reviews = controlled ? suppliedReviews : fetchedReviews
+  const reviewsData = controlled ? suppliedReviews : fetchedReviews
+  const reviews = Array.isArray(reviewsData) ? reviewsData : []
   const loading = controlled ? suppliedLoading : fetchedLoading
   const error = controlled ? suppliedError : fetchedError
   const isSuccess = variant === 'success'
@@ -32,7 +29,7 @@ export default function Reviews({
     setFetchedError(false)
     setFetchedReviews([])
 
-    reviewsApi
+    api
       .get('/api/reviews/')
       .then((res) => {
         if (cancelled) return
@@ -73,9 +70,9 @@ export default function Reviews({
       <h2 id="home-reviews-title">{t(titleKey)}</h2>
       {leadKey ? <p className="home-reviews__lead">{t(leadKey)}</p> : null}
 
-      {loading && <p>{t('common.loading')}</p>}
+      {loading && <p role="status">{t('common.loading')}</p>}
 
-      {error && <p className="error">{t('common.error')}</p>}
+      {error && <p className="error" role="alert">{t('common.error')}</p>}
 
       {!loading && !error && reviews.length === 0 && <p>{t('common.empty')}</p>}
 
@@ -86,7 +83,13 @@ export default function Reviews({
               <div className="home-reviews__header">
                 <h3>{review.full_name}</h3>
 
-                <span className="home-reviews__rating" aria-label={`${review.rating} / 5`}>
+                <span
+                  className="home-reviews__rating"
+                  role="img"
+                  aria-label={t('home.reviewsRating', {
+                    rating: Number(review.rating) || 0,
+                  })}
+                >
                   {'★'.repeat(Math.max(0, Math.min(5, Number(review.rating) || 0)))}
                   <span className="home-reviews__rating-value"> {review.rating}/5</span>
                 </span>

@@ -1,3 +1,4 @@
+import { mediaUrl } from '../../api/client.js'
 import i18n from '../../i18n'
 
 export function getTeamTranslation(translations) {
@@ -10,6 +11,5 @@ export function getTeamImage(member) {
   const image = member?.local_image || member?.image_url
   if (!image) return ''
   if (/^https?:\/\//i.test(image)) return image
-  const baseUrl = (import.meta.env.VITE_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
-  return `${baseUrl}${image.startsWith('/') ? '' : '/'}${image}`
+  return mediaUrl(image)
 }
