@@ -42,7 +42,7 @@ DEFAULT_PAYLOADS = {
         },
         "text": {
             "am": "Ժամանակակից տեխնիկական գիտությունների և վերլուծության գործնական ուղիներ։",
-            "en": "Practical pathways for modern technical sciences and analytics.",
+            "en": "Practical pathways for modern technical sciences and analytics",
             "ru": "Практические направления современных технических наук и аналитики.",
         },
         "cta": {
